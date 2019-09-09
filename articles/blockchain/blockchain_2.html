@@ -1,0 +1,31 @@
+<h1>The blockchain to store all the transactions</h1>
+
+<h2>Transactions storage</h2>
+
+<p>The blockchain is a data structure containing all bitcoin transactions in the chronological order.</p>
+ 
+<p>Several transactions are stored together into a data structure called merkle tree, a binary tree with hash pointers.  In this tree, every leaf node contains a transaction. Every non-leaf node contains the hash of its childs.</p>
+
+<div class="text-center">
+<img src="../../img/blockchain/merkle_tree.png" class="img-fluid" alt="merkle_tree">
+</div>
+
+<p>Then the merkle trees are linked together into a block chain, a linked list built with hash pointers. Every block is linked with the previous block by using a hash of the previous block. The nonce part of a block will be presented at the next section.</p>
+
+<div class="text-center">
+<img src="../../img/blockchain/block_chain.png" style="max-width:30%;" class="img-fluid" alt="block_chain">
+</div>
+
+<p>The blockchain is like an account book, in which each page is a merkle tree and each line is a transaction.</p>
+
+<h2>Cryptographic hash function</h2>
+
+<p>A cryptographic hash function is a mapping from data of arbitrary size to data of fixed size \(f: \{ 0, 1 \} ^* \mapsto \{0 ,1 \} ^n\) with the following properties:
+<ul>
+	<li> Preimage resistance: given the value \(y\), it is difficult to find a value \(x\) such as \(y=f(x)\)</li>
+	<li> Second pre-image resistance: given \(x\) and \(h(x)\), it is difficult to find a value \(y\) not equal to \(x\) such as \(h(y)=h(x)\)</li>
+	<li> Collision resistance: given a cryptographic hash function \(h\), it is difficult to find two values \(x\) and \(y\) such as \(h(x) = h(y)\)</li>
+</ul>
+</p>
+
+<p>Generally cryptographic hash functions are quick to evaluate (quicker than symmetric cryptographic operations). The most famous cryptographic hash functions are <strong>SHA-1</strong> and <strong>SHA-2</strong>. Today these functions are widely used in various areas such as secure password storage or data integrity verification.</p>

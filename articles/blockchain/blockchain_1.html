@@ -1,0 +1,43 @@
+<h1>Client site: How to receive and send a transaction</h1>
+
+<h2>Transaction description</h2>
+
+<p>Alice wants to send some bitcoins to Bob. The requirements to send a transaction are:
+<ul>
+	<li>to know Bob's address (his public key)</li>
+	<li>to have a pair of keys (public + private keys)</li>
+</ul>
+</p>
+
+<p>To activate the transaction, Alice will broadcast a message with the transaction information (the ID of a previous transaction proving Alice's bitcoins ownership, Bob's public key and the amount of the transaction) to the bitcoin network. To prove her identity, Alice will sign the message with her private key. If Alice has enough bitcoins in the previous transaction, a miner will validate the transaction (see Section <u><a href="?page=3">Miner side</a></u>) and add this transaction into the blockchain (a cryptographic book containing all valid bitcoin transactions). The bitcoins now belong to Bob. 
+</p>
+
+<div class="text-center">
+<img src="../../img/blockchain/transaction.png" class="img-fluid" alt="transaction">
+</div>
+
+<p>If Alice would like to give N bitcoins to Bob, it is quite unlikely that a previous transaction gives exactly N bitcoins to Alice. But a transaction can contain multiple inputs and multiple outputs. For instance, Alice will combine in inputs three transactions in which she had received respectively \(I_0\), \(I_1\) and \(I_2\) bitcoins (\(I_0 + I_1 + I_2 > N\)). And the outputs contain two transactions: the first to give N bitcoins to Bob (with Bob's public key) and the second to give \(I_0+I_1+I_2-N=T\) bitcoins to Alice. 
+</p>
+
+<div class="text-center">
+<img src="../../img/blockchain/new_transaction.png" class="img-fluid" alt="new_transaction">
+</div>
+
+<h2>Asymmetric cryptography</h2>
+
+<p>This bitcoin transaction is based on asymmetric cryptography. Each individual has a pair of keys:
+<ul>
+	<li> a public key, which can be widely distributed to all participants without compromising security</li>
+	<li> a private key, which must be kept secret (only the owner of this pair of keys must know it)</li>
+</ul>
+</p>
+
+<p>The two main applications of asymmetric cryptography are:
+<ul>
+	<li> encrypting communication: Alice sends a message to Bob and encrypts the message with Bob's public key. To decrypt the message, Bob's private key is required. Thus, only Bob can decrypt this message.</li>
+	<li> authentication/signature: Alice signs a message with her private key. By using Alice's public key, everybody can prove that this message has been signed by Alice.</li>
+</ul>
+
+<div class="text-center">
+<img src="../../img/blockchain/crypto.png" class="img-fluid" alt="crypto">
+</div>
