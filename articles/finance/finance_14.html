@@ -1,0 +1,157 @@
+<h1>Les grecques</h1>
+
+<p>Les lettres grecques sont des indicateurs de risques sur les positions en options. Les traders les utilisent pour couvrir les risques d'un protefeuille d'options. Chaque lettre grecque mesure une dimension différente (prix du sous-jacent, volatilité, temps, ...) du risque d'une position en option.</p>
+
+<h4>Le delta</h4>
+
+<p>Le <b>delta</b> d'une option mesure la sensibilité du prix de l'option à une variation donée du cours du sous-jacent.</p>
+
+<p>
+$$ \delta = \frac{\partial P}{\partial S}$$
+avec \(P\) le prix de l'option et \(S\) le cours du sous-jacent.</p>
+
+<p>Pour se couvrir de la vente d'une option, le trader doit acheter \(\delta\) actions. Lorsque le \(\delta\) d'un portefeuille est nul, le trader est couvert contre une variation du cours du sous-jacent. Cette position est appelée <b>delta-neutre</b> (\(\delta = 0\). Le trader doit régulièrement réajuster son portefeuille car le \(\delta\) varie au cours du temps.</p>
+
+<p><b>Delta d'une option européenne sur action ne versant pas de dividende:</b>
+
+$$\delta(call) = N(d_1) > 0 $$
+
+$$\delta(put) = N(d_1) - 1 < 0$$
+</p>
+
+<div class="text-center">
+<img src="../../img/finance/delta.png" class="img-fluid" alt="delta">
+</div>
+
+<p><b>Delta d'une option européenne sur action versant un dividende de taux \(q\):</b>
+
+$$\delta(call) = e^{-qT} N(d_1)$$
+
+$$\delta(put) = e^{-qT} (N(d_1) - 1)$$
+</p>
+
+<p>Le <b>delta d'un portefeuille d'options</b> est la somme des deltas des options qui le composent.</p>
+
+<h4>Le gamma</h4>
+
+<p>Le <b>gamma</b> d'une option représente la courbure  de la fonction liant le prix de l'option au cours du sous-jacent c'est-à-dire si le prix de l'option a tendance à évoluer rapidement ou pas par rapport à l'évolution du prix du sous-jacent.</p>
+
+<p>
+$$\gamma = \frac{\partial^2 P}{\partial S^2}$$
+avec \(P\) le prix de l'option et $$S$$ le cours du sous-jacent.</p>
+
+<p>Si le gamma est faible, le delta varie lentement. Il n'est donc pas nécessaire d'ajuster fréquemment le portefeuille pour maintenir une position delta-neutre.</p>
+
+<p>Le trader peut adopter une position <b>gamma-neutre</b> afin de se protéger contre l'impact de cette courbure. Pour cela, il est nécessaire de prendre des positions sur des options (et non sur des actifs ou des forwards) car une option n'est pas linéairement liée à l'actif sous-jacent.</p>
+
+<p><b>Gamma d'une option européenne sur action ne versant pas de dividende:</b>
+
+$$\gamma(call) = \gamma(put) = \frac{N'(d_1)}{S \sigma \sqrt{T}} \ge 0 $$
+
+avec \(N'(x) = \frac{1}{\sqrt{2 \Pi}} e^{-x^2/2}\)
+</p>
+
+<div class="text-center">
+<img src="../../img/finance/gamma.png" class="img-fluid" alt="gamma">
+</div>
+
+<p><b>Gamma d'une option européenne sur action versant un dividende de taux \(q\):</b>
+
+$$\gamma(call) = \gamma(put) = \frac{N'(d_1) e^{-qT}}{S \sigma \sqrt{T}} \ge 0 $$
+</p>
+
+<p>Pour avoir un portefeuille delta-neutre et gamma-neutre, il faut d'abord prendre des positions sur des options pour rendre le portefeuille gamma-neutre (cela modifie le delta du portefeuille). Puis il faut prendre des positions sur l'actif sous-jacent pour rendre le portefeuille delta-neutre (cela ne modifie pas le gamma du portefeuille car l'actif sous-jacent est linéairement lié à l'option).</p>
+
+<h4>Le thêta </h4>
+
+<p>Le <b>thêta</b> d'une option mesure la sensibilité du prix de l'option à la variation de la durée de vie de l'option.</p>
+
+<p>
+$$\theta = - \frac{\partial P}{\partial T}$$
+avec \(P\) le prix de l'option et \(T\) la durée de vie de l'option.
+</p>
+
+<p><b>Thêta d'une option européenne sur action ne versant pas de dividende:</b>
+
+$$\theta(call) = - \frac{S N'(d_1) \sigma}{2 \sqrt{T}} - r K e^{-rT} N(d_2)$$
+
+$$\theta(put) = - \frac{S N'(d_1) \sigma}{2 \sqrt{T}} + r K e^{-rT} N(-d_2)$$
+</p>
+
+<div class="text-center">
+<img src="../../img/finance/theta.png" class="img-fluid" alt="theta">
+</div>
+
+<p>Thêta d'une option européenne sur action versant un dividende de taux \(q\):
+
+$$\theta(call) = - \frac{S N'(d_1) \sigma e^{-qT}}{2 \sqrt{T}} + q S N(d_1) e^{-qT} - r K e^{-rT} N(d_2)$$
+
+$$\theta(put) = - \frac{S N'(d_1) \sigma e^{-qT}}{2 \sqrt{T}} - q S N(-d_1) e^{-qT} + r K e^{-rT} N(-d_2)$$
+</p>
+
+<p>Pour rappel, l'EDP de Black-Scholes-Merton pour un produit dérivé sur une action ne versant pas de dividende est
+
+$$ r f = \frac{\partial f}{\partial t}  + r S \frac{\partial f}{\partial S} \frac{1}{2} \sigma^2 S^2 \frac{\partial^2 f}{\partial S^2}$$
+</p>
+
+<p>Nous pouvons en déduire une relation liant \(\delta\), \(\theta\) et \(\gamma\):
+
+$$r f = \theta + rS \delta + \frac{1}{2} \sigma^2 S^2 \gamma$$
+</p>
+
+<h4>Le véga</h4>
+
+<p>Le <b>véga</b> mesure la sensibilité du prix de l'option à la volatilité implicite.
+
+$$\nu = \frac{\partial P}{\partial \sigma}$$
+avec \(P\) le prix de l'option et \(\sigma\) sa volatilité implicite.
+</p>
+
+<p>Pour obtenir une position <b>véga-neutre</b>, il est nécessaire de prendre des positions sur des options (comme pour obtenir une position gamma-neutre). Si nous voulons obtenir une position véga-neutre et gamma-neutre, il est nécessaire de prendre des positions sur au moins deux options différentes.</p>
+
+<p><b>Véga d'une option européenne sur action ne versant pas de dividende:</b>
+
+$$\nu(call) = \nu(put) = S \sqrt{T} N'(d_1)$$
+</p>
+
+<div class="text-center">
+<img src="../../img/finance/vega.png" class="img-fluid" alt="vega">
+</div>
+
+<p><b>Véga d'une option européenne sur action versant un dividende de taux \(q\):</b>
+
+$$\nu(call) = \nu(put) = S \sqrt{T}N'(d_1) e^{-qT}$$
+</p>
+
+<h4>Le rhô</h4>
+
+<p>Le <b>rhô</b> mesure la sensibilité du prix d'une option au taux d'intérêt sans risque.
+
+$$\rho = \frac{\partial P}{\partial r}$$
+avec \(P\) le prix de l'option et \(\rho\) sa volatilité implicite.
+</p>
+
+<p><b>Rhô d'une option européenne sur action ne versant pas de dividende:</b>
+
+$$\rho(call) = K T e^{-rT} N(d_2)$$
+
+$$\rho(put) = - K T e^{-rT} N(-d_2)$$
+</p>
+
+<p><b>Rhô d'une option européenne sur action versant un dividende de taux \(q\):</b>
+
+$$\rho(call) = K T e^{-rT} N(d_2)$$
+
+$$\rho(put) = - K T e^{-rT} N(-d_2)$$
+</p>
+
+<h4>Les grecques pour les options sur indices, devises, contrats futures</h4>
+
+<p>Il suffit de réutiliser les formules des grecques sur option européenne sur action versant un dividende de taux \(q\) en remplaçant:
+<ul>
+	<li>\(q\) par le taux de versement de dividendes de l'indice, pour les <b>options sur indices</b></li>
+	<li>\(q\) par le taux sans risque étranger, pour les <b>options sur devises</b></li>
+	<li>\(q\) par le taux sans risque \(r\), pour les <b>options sur contrats futures</b></li>
+</ul>
+</p>
+   

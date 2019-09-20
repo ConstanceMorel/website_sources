@@ -1,0 +1,53 @@
+<h1>Les contrats forwards</h1>
+
+<p>Un <b>contrat</b> forward a les caractéristiques suivantes:
+<ul>
+	<li>engagement ferme</li>
+	<li>d'achat (position longue) ou de vente (position courte) d'une certaine quantité (appelée quotité) d'un actif (appelé sous-jacent)</li>
+	<li>à une date future donnée  \(T\)</li>
+	<li>à un prix convenu \(K\)</li>
+	<li>sur un marché de gré à gré (OTC).</li>
+</ul>
+</p>
+
+<p><b>Objectif</b>: se protéger contre les variations du taux de change en fixant dès maintenant un taux de change futur
+</p>
+
+<p><b>Vocabulaire</b>:
+<ul>
+	<li>\(S_T\) est le prix au comptant (spot) de l'actif à la date</li>
+	<li>\(K\) est le prix de livraison de l'actif (prix forward ou strike)</li>
+	<li>le flux du contrat forward (payoff) est</li>
+	<ul>
+		<li>\(S_T-K\) pour une position longue (achat)</li>
+		<li>\(K-S_T\) pour une position courte (vente)</li>
+	</ul>
+</ul>
+Ce flux représente le gain ou la perte du trader sur ce contrat.
+</p>
+
+<h1>Les stratégies de couverture</h1>
+
+<p><b>Couverture courte (short hedge)</b>: le hedger détient l'actif sous-jacent au contrat (ou va le recevoir) et prévoit de le vendre dans un futur proche. Il doit donc prendre une position courte pour se protéger des risques de variation de prix de ce sous-jacent.
+</p>
+
+<p><b>Couverture longue (long hedger)</b>: symétrique de la position courte. Elle sert à se protéger des risques de variation de prix du sous-jacent lorsque que le hedger veut acheter l'actif dans le futur.
+</p>
+
+<p>Malheureusement, la courverture n'est pas aussi simple car:
+<ul>
+	<li>l'actif à couvrir n'est pas forcément le même que le sous-jacent du contrat futur. Il faut alors prendre en compte la corrélation entre l'actif à couvrir et le sous-jacent du contrat futur. Cela est appelée la <b>couvertue croisée</b>.</li>
+	<li>la date de livraison de l'actif à couvrir n'appartient pas forcément aux échéances des contrats futurs. Il faut alors prendre un contrat futur avec une échéance plus éloignée et dénouer sa position lors de la livraison. Il faut donc prendre en compte la différence des prix des contrats futurs entre les contrats lors de la couverture et les contrats lors de la livraison afin de calculer les gains/pertes sur cette couverture.</li>
+	<li>la durée de la couverture souhaitée peut être plus grande que la maturité des contrats disponibles. Le hedger doit alors faire glisser sa couverture d'une échéance à l'autre en prenant des positions successives sur des contrats à maturité plus courte.</li>
+</ul>
+</p>
+
+<h1>Les Forward Rate Agreement FRA</h1>
+
+<p>Le <b>FRA</b> est un contrat à terme de gré à gré par lequel le vendeur du FRA garantit à l'acheteur, au terme d'une période donnée (la période de couverture), un taux négocié (le taux garanti) pour un emprunt d'un montant et d'une durée négociés.</p>
+
+<p>Au terme de la période de couverture, le vendeur verse à l'acheteur le différentiel d'intérêts entre le taux de marché (souvent le taux LIBOR) et le taux négocié, appliqués au montant et à la durée de l'emprunt sous-jacent. Si cette différence est négative, c’est-à-dire que les taux de marché ont baissé, c’est l'acheteur du FRA qui paie la différence au vendeur.</p>
+
+<p>On voit que l'opérateur qui cherche à se couvrir contre une hausse des taux (position emprunteuse à terme) se portera acheteur d'un FRA. A l'inverse celui qui cherche à se couvrir contre une baisse de taux (position prêteuse) se portera vendeur.</p>
+
+<p>Exemple: négociation d'un FRA d'un montant notionnel 1MEURO pour une période garantie de 3 mois, au taux garanti de 5%. A l'échéance, le taux à 3 mois du marché vaut 5.5%. Le vendeur verse à l'acheteur le différentiel d'intérêts, soit: \(1\,000\,000 \times (5.5 - 5) / 100 \) EURO L'acheteur emprunte sur le marché à 5.5% mais la différence payée par le vendeur lui assure les conditions souhaitées, soit 5%.</p>

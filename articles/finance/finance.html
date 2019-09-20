@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Finance vovabulary</title>
+    <title>Finance vocabulary</title>
 
     <!-- Bootstrap CSS CDN -->
     <!-- Our Custom CSS -->
@@ -25,25 +25,68 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Finance vocabulary</h3>
+                <h3>Vocalulaire financier</h3>
             </div>
 
-            <ul class="list-unstyled components">
+            <ul class="list-unstyled    ">
                 <p>by Constance Béguier</p>
-                <li id="0">
-                    <a href="?page=0">Financial markets</a>
-                </li>
-                <li id="1">
-                    <a href="?page=1">Client Side</a>
-                </li>
-                <li id="2">
-                    <a href="?page=2">Transaction</a>
-                </li>
-                <li id="3">
-                    <a href="?page=3">Miner Side</a>
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Fonctionnement des marchés financiers</a>
+                    <ul class="collapse list-unstyled homeSubmenu" id="homeSubmenu">
+                        <li id="0">
+                            <a href="?page=0">Organisation et participants</a>
+                        </li>
+                        <li id="1">
+                            <a href="?page=1">Marché monétaire</a>
+                        </li>
+                        <li id="2">
+                            <a href="?page=2">Marché obligataire</a>
+                        </li>
+                        <li id="3">
+                            <a href="?page=3">Marché des actions</a>
+                        </li>
+                        <li id="4">
+                            <a href="?page=4">Marché des changes</a>
+                        </li>
+                        <li id="5">
+                            <a href="?page=5">Contrats forwards</a>
+                        </li>
+                        <li id="6">
+                            <a href="?page=6">Contrats futures</a>
+                        </li>
+                        <li id="7">
+                            <a href="?page=7">Swaps</a>
+                        </li>
+                        <li id="8">
+                            <a href="?page=8">Options</a>
+                        </li>
+                        <li id="9">
+                            <a href="?page=9">Options exotiques</a>
+                        </li>
+                        <li id="10">
+                            <a href="?page=10">Stratégies sur options</a>
+                        </li>
+                        <li id="11">
+                            <a href="?page=11">Crise de 2007</a>
+                        </li>
+                    </ul>
+                    <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Un peu de maths</a>
+                    <ul class="collapse list-unstyled homeSubmenu2" id="homeSubmenu2">
+                        <li id="12">
+                            <a href="?page=12">Statistiques</a>
+                        </li>
+                        <li id="13">
+                            <a href="?page=13">Itô et Black-Scholes</a>
+                        </li>
+                        <li id="14">
+                            <a href="?page=14">Grecques</a>
+                        </li>
+                        <li id="15">
+                            <a href="?page=15">VaR</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
-
             <ul class="list-unstyled CTAs">
                 <li>
                     <a href="../../index.html" class="home">Back to articles</a>
@@ -92,12 +135,22 @@
     <script src="../../js/jquery-3.4.1.min.js"></script>
     <script> 
         $(function(){
+            var nbPages = 16;
+            var homeSubmenu2FirstPage = 12;
+
             var urlParams = new URLSearchParams(location.search);
             var subpage = urlParams.get("page");
             if (subpage == null) {
                 subpage = 0;
             } else {
                 subpage = parseInt(subpage);
+            }
+            if (subpage < homeSubmenu2FirstPage) {
+                $(".homeSubmenu").collapse('show');
+                $(".homeSubmenu2").collapse('hide');
+            } else {
+                $(".homeSubmenu").collapse('hide');
+                $(".homeSubmenu2").collapse('show');
             }
 
             var sidebarButton = document.getElementById(subpage);
@@ -108,7 +161,6 @@
             }
 
             var previousPageNumber = subpage - 1;
-            var nbPages = 4;
             var previousBtnUp = document.getElementById("previous-btn-up");
             var previousBtnDown = document.getElementById("previous-btn-down");
             var nextBtnUp = document.getElementById("next-btn-up");
