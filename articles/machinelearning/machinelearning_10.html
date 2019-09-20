@@ -1,5 +1,7 @@
 <h1>Hidden Markov Models</h1>
 
+<br>
+
 <h4>Définitions</h4>
 
 <p><b>Modèle de Markov:</b>
@@ -14,12 +16,14 @@
 
 <p>Trois problème pour les HMMs:
 <ul>
-	<li><b>Problème 1</b>:Quelle est la proba d'une séquence d'observations donnée ?</li>
+	<li><b>Problème 1</b>: Quelle est la probabilité d'une séquence d'observations donnée ?</li>
 	<li><b>Problème 2</b>: Quelle est la séquence d'états la plus probable étant donné une séquence d'observations ?</li>
 	<li><b>Problème 3</b>: Comment estimer la matrice de transition \(A\) et la matrice d'émission \(B\) à partir de plusieurs séquences d'observations ?</li>
 </ul></p>
 
 <p>Dans les problèmes 1 et 2, nous connaissons \(A\) et \(B\).</p>
+
+<br>
 
 <h4>Forward and backward algorithm (problème 1)</h4>
 
@@ -40,7 +44,9 @@
 
 <p>\(\beta _{s,t}\): probabilité d'être dans l'état \(s\) à \(t\) et d'observer par la suite \(o_{t+1}, o_{t+2},..., o_{T}\)</p>
 
- <h4>Viterbi algorithm (problème 2)</h4>
+<br>
+
+<h4>Viterbi algorithm (problème 2)</h4>
 
 <p><ul>
 	<li><b>Idée</b>: calculer \(v_{s,t}\): probabilité du chemin le plus probable qui se termine à l'état \(s\) à \(t\)</li>
@@ -51,6 +57,8 @@
 		<li>Backward calculs: Suivre le chemin ayant le plus grand \(v_{s,T}\)</li>
 	</ul>
 </ul></p>
+
+<br>
 
 <h4>Baum Welch Algorithm (problème 3)</h4>
 

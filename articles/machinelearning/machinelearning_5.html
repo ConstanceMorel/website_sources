@@ -1,12 +1,12 @@
 <h1>Support Vector Machine SVM</h1>
 
-<p>SVM consiste à trouver l'<b>hyperplan</b> qui sépare l'espace tout en respectant les deux catégories des données en entrée: toutes les données de la première catégorie sont du même côté de l'hyperplan et toutes les données de la deuxième catégorie sont de l'autre côté de l'hyperplan. Le meilleur hyperplan est celui avec la <b>marge maximale</b> (la distance entre l'hyperplan et la donée la plus proche de l'hyperplan est maximale). Si c'est donnée ne sont pas linéairement séparables, nous pouvons soit utiliser des <b>noyaux</b> pour les projeter dans un espace à grande dimension, soit <b>autoriser quelques erreurs</b>.</p>
+<p>SVM consiste à trouver l'<b>hyperplan</b> qui sépare l'espace tout en respectant les deux catégories des données en entrée: toutes les données de la première catégorie sont du même côté de l'hyperplan et toutes les données de la deuxième catégorie sont de l'autre côté de l'hyperplan. Le meilleur hyperplan est celui avec la <b>marge maximale</b> (la distance entre l'hyperplan et la donée la plus proche de l'hyperplan est maximale). Si ces données ne sont pas linéairement séparables, nous pouvons soit utiliser des <b>noyaux</b> pour les projeter dans un espace à grande dimension, soit <b>autoriser quelques erreurs</b>.</p>
 
 <p><ul>
 	<li><b>Problème à résoudre</b>: \(\min_{\theta} \frac{1}{2} \parallel \theta \parallel ^2\) tel que \(y_i (\theta ^T X_i + b) \geq 1\)</li>
 	<li><b>Avec erreurs possibles</b>: \(\min_{\theta} \frac{1}{2} \parallel \theta \parallel ^2 + C \sum_k \zeta_k\) tel que \(y_i (\theta ^T X_i + b) \geq 1 - \zeta_i \) et \(\forall k, \zeta_k \geq 0\)</li>
 	<li><b>Méthode</b>: optimisation quadratique (en temps polynomial)</li>
-	<li><b>Dual</b>: \(\max_{\alpha} \sum_k \alpha_k - \frac{1}{2} \sum _{i,j} \alpha_i \alpha_j y_i y_j X_i^T X_j\) tel que \(\alpha_k \geq 0\) et \(\sum_k \alpha_k y_k = 0\). Notons \(\alpha^*\) les \[\alpha\) qui maximisent cette équation. L'équation de l'hyperplan séparateur est \(h(X) = \sum _k \alpha_k^* y_k (X^T X_k)+ b\)</li>
+	<li><b>Dual</b>: \(\max_{\alpha} \sum_k \alpha_k - \frac{1}{2} \sum _{i,j} \alpha_i \alpha_j y_i y_j X_i^T X_j\) tel que \(\alpha_k \geq 0\) et \(\sum_k \alpha_k y_k = 0\). Notons \(\alpha^*\) les \(\alpha\) qui maximisent cette équation. L'équation de l'hyperplan séparateur est \(h(X) = \sum _k \alpha_k^* y_k (X^T X_k)+ b\)</li>
 	<li><b>Kernels</b>: \(K(X,Y) = \Phi(X)^T \Phi(Y) = X^T Y\)</li>
 	<ul>
 		<li>Noyau linéaire: \(K(X,Y) = X ^T Y\)</li>
@@ -19,6 +19,8 @@
 <p>Le kernel polynomial correspond à transformer une entrée \(X=(x_1, x_2, x_3)\) en une entrée \(\phi(X) = (1,\) \(\sqrt{2} x_1,\) \(\sqrt{2} x_2,\) \(\sqrt{2} x_3,\) \(x_1 ^2,\) \(x_2 ^2,\) \(x_3 ^2,\) \(\sqrt{2} x_1 x_2,\) \(\sqrt{2} x_1 x_3,\) \(\sqrt{2} x_2 x_3)\). Nous avons alors \(\phi(X)^T \phi(Y) = K(X,Y) = (1 + X ^T Y)^2\). Dans les calculs, nous évaluons jamais \(\phi(X)\) seul mais toujours \(\phi(X) ^T \phi(Y)\), ce qui est beaucoup moins couteux (kernel trick).</p>
 
 <p>Si nous voulons faire une \(N\)-classification, il suffit de faire \(N\) SVM dont chacun classifie une classe contre toutes les autres. Puis lors de la classification d'un nouvel élément, nous prenons la classe qui donne le meilleur résultat (pour laquelle l'élément à classifier est le plus loin de l'hyperplan séparateur).</p>
+
+<br>
 
 <h4>SVM régression</h4>
 

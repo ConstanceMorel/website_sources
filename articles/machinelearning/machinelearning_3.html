@@ -6,10 +6,12 @@
 
 <p>Dans la suite, X est une matrice contenant l'ensemble des données dont chaque ligne correspond à une donnée.</p>
 
+<br>
+
 <h4>Linear Discriminant Analysis  LDA</h4>
 
 <p><ul>
-	<li>Calculer le vecteur moyen pour chacune des classes noté \(\mu_c\) et le vecteur moyen pour toutes les classes noté \(\mu\)</li>
+	<li>Sur notre base de données, calculer le vecteur moyen pour chacune des classes noté \(\mu_c\) et le vecteur moyen pour toutes les classes noté \(\mu\)</li>
 	<li>Mesurer l'éparpillement (scatter) des données:</li>
 	<ul>
 		<li>scatter  matrix pour la classe \(i\): \(S_i = \sum_{x \in C_i} (x-\mu_i)(x-\mu_i)^T\)</li>
@@ -23,14 +25,16 @@
 		<li>Calculer les vecteurs propres et valeurs propres de \(S_W^{-1} S_B\)</li>
 		<li>Conserver uniquement les vecteurs propres des valeurs propres les plus grandes pour construire la matrice de projection \(W\) (chaque ligne est un vecteur propre)</li>
 	</ul>
-	<li>Appliquer la réduction à un vecteur \(X\): \(T = W x\)</li>
+	<li>Appliquer la réduction à un vecteur \(x\): \(T = W x\)</li>
 </ul></p>
+
+<br>
 
 <h4>Principal Component  Analysis  PCA</h4>
 
 <p>Similaire à LDA mais pour des données non labellisées
 <ul>
-	<li>Centrer et réduire les entrées (moyenne à 0 et variance à 1)</li>
+	<li>Initialisation: centrer et réduire les entrées (moyenne à 0 et variance à 1)</li>
 	<li>Objectif: trouver la projection \(W\) qui permet de maximiser l'éparpillement des données: scatter  matrix  \(S = \sum_{x} W^T x^T x W\)</li>
 	<li>Méthode:</li>
 	<ul>
@@ -41,6 +45,8 @@
 </ul></p>
 
 <p>Afin d'effectuer une transformation non linéaire lors de la réduction de dimension, un kernel peut être utilisé (similaire à l'utilisation de kernels pour les SVM).</p>
+
+<br>
 
 <h4>Independent  Component  Analysis  ICA</h4>
 

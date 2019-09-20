@@ -1,6 +1,8 @@
 <h1>Apprentissage avec des arbres</h1>
 
-<h4>Un arbre de décision</h4>
+<br>
+
+<h4>Arbre de décision</h4>
 
 <p><b>Construction de l'arbre</b>
 <ul>
@@ -11,9 +13,11 @@
 
 <p><b>Méthode pour sélectionner l'attribut</b>
 <ul>
-	<li>Indice de diversité de Gini (CART): fréquence qu'un élément aléatoire de l'ensemble soit mal classé si son étiquette était sélectionnée aléatoirement depuis la distribution des étiquettes dans le sous-ensemble. Mathématiquement si la classe prend une valeur aléatoire dans \(1, ..., m\) et si \(p_i\) est la probabilité qu'un item avec le label \(i\) soit choisi alors \(I_G(f)=\sum_{i=1}^m p_i (1 - p_i) = 1 - \sum_i p_i^2\)</li>
+	<li>Indice de diversité de Gini (CART): probrabilité qu'un élément aléatoire de l'ensemble soit mal classé si son étiquette était sélectionnée aléatoirement depuis la distribution des étiquettes dans le sous-ensemble. Mathématiquement si la classe prend une valeur aléatoire dans \(1, ..., m\) et si \(p_i\) est la probabilité qu'un item avec le label \(i\) soit choisi alors \(I_G(f)=\sum_{i=1}^m p_i (1 - p_i) = 1 - \sum_i p_i^2\)</li>
 	<li>Gain d'information (ID3, C4.5): basé sur le concept d'entropie de Shanon: \(I_E(p) = - \sum_{i \in E} p_i \log_2 p_i\)</li>
 </ul></p>
+
+<br>
 
 <h4>Ensemble learning</h4>
 

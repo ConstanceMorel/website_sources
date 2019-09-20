@@ -1,5 +1,7 @@
 <h1>Introduction</h1>
 
+<br>
+
 <h4>Types de machine learning</h4>
 
 <p><b>Apprentissage supervisé (classification et régression):</b> à partir d'une BDD d'apprentissage avec des données et leurs labels, il faut généraliser afin de donner un label à des données jamais vues
@@ -23,13 +25,13 @@
 
 <p><b>Apprentissage évolutionniste:</b> le principe s'inspire de la théorie de l'évolution pour résoudre des problèmes diverses. La théorie de l'évolution repose sur le fait que les organismes s'adaptent pour améliorer leur taux de survie et celui de leurs descendants
 <ul>
-	<li>algorithmes génétiques</li>
+	<li>algorithmes génétiques, PBIL</li>
 </ul>
 </p>
 
 <p><b>Réduction de dimension (compression):</b> réduire la dimension des entrées afin de réduire le stockage toute en gardant un maximum d'information
 <ul>
-	<li>Stratégies d'évolution, Programmation évolutionnaire, Algorithmes génétiques</li>
+	<li>LDA, PCA, ICA</li>
 </ul>
 </p>
 
@@ -38,6 +40,8 @@
 	<li>collaborative filtering, content-based filtering, hybrid algorithm</li>
 </ul>
 </p>
+
+<br>
 
 <h4>Machine learning process</h4>
 
@@ -52,6 +56,8 @@
 </ul>
 </p>
 
+<br>
+
 <h4>Séparation de la base de données</h4>
 
 <p><ul>
@@ -60,10 +66,12 @@
 	<li>Base de test : 20%</li>
 </ul></p>
 
-<p>Méthode de cross-validation : séparer la base d’apprentissage \(80%\) en K
+<p>Méthode de cross-validation : séparer la base d’apprentissage \(80\%\) en K
 sous-ensembles : prendre le 1er sous-ensemble pour la validation et apprendre
 avec les autres sous-ensembles, puis prendre le 2e sous-ensemble pour la validation et apprendre avec les autres sous-ensembles, répéter cette étape K
 fois et conserver l’apprentissage qui a obtenu le meilleur score de validation</p>
+
+<br>
 
 <h4>Quelques métriques</h4>
 
@@ -90,8 +98,9 @@ fois et conserver l’apprentissage qui a obtenu le meilleur score de validation
 <ul>
 	<li>k = 1 : distance de Manhattan</li>
 	<li>k = 2 : distance Euclidienne</li>
-	<li>Si \(average(X_1 , ..., X_n ) = argmin_Y \sum_i dist(X_i,Y)\), alors cette valeur est la médiane pour k = 1 et la moyenne pour k = 2.</li>
 </ul></p>
+
+<br>
 
 <h4>Quelques rappels de probabilité</h4>
 
@@ -106,6 +115,8 @@ fois et conserver l’apprentissage qui a obtenu le meilleur score de validation
 <p><b>Maximum a posteriori (MAP):</b> \(argmax_i P(C_i |X)\) : quelle est la classe la plus probable pour une entrée donnée (vecteur de features)</p>
 
 <p><b>Naive Bayes’ Classifier:</b> MAP en suppossant que les features sont indépendantes entre elles. Donc \(P(X|C_i ) = \prod_j P(X_j |C_i )\). Et donc \(argmax_i P(C_i | X) = argmax_i P(C_i)\) et \(\prod_j P(X_j | C_i) / P(X) = argmax_i  P(C_i) \prod_j P(X_j | C_i)\)</p>
+
+<br>
 
 <h4>Quelques rappels de statistiques</h4>
 
