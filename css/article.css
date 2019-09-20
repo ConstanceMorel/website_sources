@@ -14,7 +14,7 @@ p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: #5C5D6A;
 }
 
 ul li {
@@ -22,7 +22,7 @@ ul li {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: #5C5D6A;
 }
 
 ol li {
@@ -30,13 +30,18 @@ ol li {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
+    color: #5C5D6A;
 }
 
 a, a:hover, a:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
+    color: #ddd;
+}
+
+b {
+    color: #212529;
 }
 
 .navbar {
@@ -72,6 +77,9 @@ a, a:hover, a:focus {
     perspective: 1500px;
 }
 
+.sidebarColor {
+    color: #fff;
+}
 
 #sidebar {
     min-width: 250px;
@@ -94,7 +102,7 @@ a, a:hover, a:focus {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+    border-bottom: 1px solid #7386D5;
 }
 
 #sidebar ul p {
@@ -158,8 +166,19 @@ a.article, a.article:hover {
     color: #fff !important;
 }
 
-
-
+.btn-primary {
+    background-color: #7386D5;
+    border-color: #7386D5;
+    text-align: center;
+    font-size: 0.9em !important;
+}
+.btn-primary:hover {
+    background-color: #fff;
+    border-color: #7386D5;
+    color: #7386D5;
+    text-align: center;
+    font-size: 0.9em !important;
+}
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
