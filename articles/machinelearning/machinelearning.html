@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Machine learning article</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/article.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Machine learning</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <p>by Constance Béguier</p>
+                <li id="0">
+                    <a href="?page=0">Introduction</a>
+                </li>
+                <li id="1">
+                    <a href="?page=1">Analyse discréminante linéaire</a>
+                </li>
+                <li id="2">
+                    <a href="?page=2">Réseau de neuronnes</a>
+                </li>
+                <li id="3">
+                    <a href="?page=3">Réduction de dimension</a>
+                </li>
+                <li id="4">
+                    <a href="?page=4">Apprentissage probabilistique</a>
+                </li>
+                <li id="5">
+                    <a href="?page=5">Support Vector Machine</a>
+                </li>
+                <li id="6">
+                    <a href="?page=6">Algorithmes évolutionnistes</a>
+                </li>
+                <li id="7">
+                    <a href="?page=7">Apprentissage par renforcement</a>
+                </li>
+                <li id="8">
+                    <a href="?page=8">Apprentissage avec des arbres</a>
+                </li>
+                <li id="9">
+                    <a href="?page=9">Apprentissage non supervisé</a>
+                </li>
+                <li id="10">
+                    <a href="?page=10">Hidden Markov Models</a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="../../index.html" class="home">Back to articles</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div>
+                        <a id="previous-btn-up" role="button" class="btn btn-secondary">Previous</a>
+                        <a id="next-btn-up" role="button" class="btn btn-secondary">Next</a>
+                    </div>
+
+                </div>
+            </nav>
+
+        <div id="includedContent"></div>
+
+<!-- Footer -->
+        <div>
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light float-right">
+                <div>
+                    <a id="previous-btn-down" role="button" class="btn btn-secondary">Previous</a>
+                    <a id="next-btn-down" role="button" class="btn btn-secondary">Next</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script> 
+        $(function(){
+            var nbPages = 11;
+
+            var urlParams = new URLSearchParams(location.search);
+            var subpage = urlParams.get("page");
+            if (subpage == null) {
+                subpage = 0;
+            } else {
+                subpage = parseInt(subpage);
+            }
+
+            var sidebarButton = document.getElementById(subpage);
+            sidebarButton.className = "active";
+
+            if (/^([0-9]+)$/.test(subpage)) {
+                $("#includedContent").load("./machinelearning_"+subpage+".html");
+            }
+
+            var previousPageNumber = subpage - 1;
+            var previousBtnUp = document.getElementById("previous-btn-up");
+            var previousBtnDown = document.getElementById("previous-btn-down");
+            var nextBtnUp = document.getElementById("next-btn-up");
+            var nextBtnDown = document.getElementById("next-btn-down");
+            if (previousPageNumber < 0) {
+                previousBtnUp.style.visibility = "hidden";
+                previousBtnDown.style.visibility = "hidden";
+            }
+            previousBtnUp.href = "?page="+previousPageNumber;
+            previousBtnDown.href = "?page="+previousPageNumber;
+
+            var nextPageNumber = subpage + 1;
+            if (nextPageNumber >= nbPages) {
+                nextBtnUp.style.visibility = "hidden";
+                nextBtnDown.style.visibility = "hidden";
+            }
+            nextBtnUp.href = "?page="+nextPageNumber;
+            nextBtnDown.href = "?page="+nextPageNumber;
+        });
+    </script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="../../js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
+
+
+</body>
+
+</html>

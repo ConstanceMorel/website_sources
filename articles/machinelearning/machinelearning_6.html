@@ -1,0 +1,31 @@
+<h1>Algorithmes évolutionnistes</h1>
+
+<h4>Algorithme génétique</h4>
+
+<p>Voici les principales étapes des algorithmes génétiques:
+<ul>
+	<li><b>Initialisation:</b> population d'individus aléatoires</li>
+	<li><b>Variations</b> pour créer des nouveaux individus</li>
+	<ul>
+		<li>Croisements: mélanger le contenu de plusieurs individus</li>
+		<li>Mutations: quelques modifications aléatoires</li>
+	</ul>
+	<li><b>Sélection</b> des survivants</li>
+	<ul>
+		<li>Roulette: probabilité de survivre proportionnelle à un score</li>
+		<li>Classement: avec une fonction de score par exemple soft-max</li>
+		<li>Tournois: des pairs aléatoires d'individus sont créées et le meilleur de chaque pair est conservé</li>
+	</ul>
+	<li><b>Nouvelles générations</b> créées de manière itérative</li>
+</ul></p>
+
+<h4>Population-Based Incremental Learning (PBIL)</h4>
+
+<p>Similaire à l'algorithme génétique mais la population d'individus est remplacée par un vecteur de probabilité représentant l'individu idéal (un individu est représenté par un vecteur binaire)
+<ul>
+	<li>Vecteur de probabilité représentant l'individu idéal</li>
+	<li>Création d'une population à l'aide du vecteur de probabilités</li>
+	<li>Appliquer une étape de l'algorithme génétique pour créer une nouvelle population</li>
+	<li>Mise à jour du vecteur de probabilités avec un learning rate de \(\eta\)
+$$p = p \times (1 - \eta) + \eta \times mean (population)$$</li>
+</ul></p>

@@ -1,0 +1,39 @@
+<h1>Apprentissage probabilistique</h1>
+
+<h4>Modèle de mélange Gaussiens (Gaussian Mixture Models GMM)</h4>
+
+<p><ul>
+	<li><b>Entrées:</b> données non labellisées</li>
+	<li><b>Objectif:</b> séparer les données en différentes classes en supposant que chaque classe peut être représentée par une gaussienne. L'objectif est de trouver les paramètres de ces gaussiennes. Si nous ne connaissons pas le nombre de classes, il faut tester différentes valeurs et voir ce qui donne le meilleur résultat.</li>
+	<li><b>Sortie</b> pour une entrée \(x\): \(f(x) = \sum_c \alpha_c \phi(x; \mu_c, \sigma_c)\) avec \(\sum_c \alpha_c = 1\)</li>
+	<li><b>Probabilité d'appartenir à une classe:</b> \(P(x \in c) = \alpha_c \phi(x; \mu_c, \sigma_c) / f(x)\)</li>
+	<li><b>Méthode:</b> utiliser l'algorithme EM</li>
+	<ul>
+		<li>Initialisation: choisir aléatoirement \(\alpha_c, \mu_c, \sigma_c\)</li>
+		<li>E-step: calculer l'espérance: \(P(x \in c)\)</li>
+		<li>M-step: trouver les paramètres qui maximisent l'espérance en la différenciant</li>
+		<li>Répéter E-step et M-step jusqu'à convergence</li>
+	</ul>
+</ul></p>
+
+<h4>Recherche de plus proches voisins</h4>
+
+<p><ul>
+	<li><b>Entrées:</b> données labellisées \((x_i, t_i)\)</li>
+	<li><b>Objectif:</b> donner une classe à une donnée inconnue \(y\)</li>
+	<li><b>Méthode:</b> trouver les \(k\) plus proches voisins de \(y\) parmi les \(x_i\). Faire un vote majoritaire parmi ces voisins pour déterminer la classe de \(y\)</li>
+	<li><b>Astuce:</b> KD-tree est un algorithme efficace pour calculer les \(k\) plus proches voisins</li>
+</ul></p>
+
+<h4>KD-tree</h4>
+
+<p><ul>
+	<li><b>Objectif:</b> créer une structure de données de partitionnement de l'espace qui permet de stocker des points et de faire des recherches efficaces de plus proches voisins</li>
+	<li><b>Construction</b> (par exemple en dimension 2):</li>
+	<ul>
+		<li>trouver l'hyperplan orthogonal à (Ox) passant par une entrée (non encore incluse dans l'arbre) qui sépare l'ensemble des entrées en deux groupes équilibrés</li>
+		<li>mettre l'entrée sélectionnée à la racine de l'arbre</li>
+		<li>construire récursivement les deux sous-arbres avec les deux groupes créés et en prenant des hyperplans orthogonaux à (Oy)</li>
+		<li>continuer de manière récursive jusqu'à ce que chaque entrée appartienne à un noeud de l'arbre</li>
+	</ul>
+</ul></p>        

@@ -1,0 +1,28 @@
+<h1>Analyse discriminante linéaire</h1>
+
+<p>Uniquement pour résoudre les problèmes linéairement séparables: possibilité de trouver un hyperplan qui sépare les deux classes de sorties.</p>
+
+<p><b>Perceptron</b> (réseau de neurones basique): il permet uniquement de classifier des données linéairement séparables:
+<ul>
+	<li><b>Entrées</b>: couples \((X,y)\) avec \(y \in \{0,1\}\)</li>
+	<li><b>Objectif</b>: Trouver \(W\) et \(b\) tel que \(h_{W,b}(X) = W^T X + b \geq 0\) si \(y=1\) et \(h_{W,b}(X) = W^T X + b < 0\) si \(y=0\)</li>
+	<li><b>Solution</b> basée sur une descente de gradient: \(w_i = w_i - \alpha(s - y)x_i\) avec 
+$$s = \begin{cases} 0 & \text{ si } h_{W,b}(X)<0 \\ 1 & \text{ si } h_{W,b}(X) \geq 0 \end{cases}$$ et $$h_{W,b}(X) = W^T X + b$$</li>
+	<li><b>Astuces</b> pour améliorer ou accélérer l'apprentissage</li>
+	<ul>
+		<li>Learning rate: \(0.1 < \alpha < 0.4\)</li>
+		<li>Ajout d'un biais: ajout d'une coordonnée égale à -1 à chaque vecteur d'entrées X (et de son poids associés \(w_0\)). Cela permet de faire varier le seuil.</li>
+		<li>Normaliser les entrées (avant la séparation de la BDD en apprentissage, validation, test) afin d'avoir une moyenne à zéro et une variance à 1 sur chaque coordonnée</li>
+		<li>Sélection des features: en apprenant sur toutes les features sauf 1 et en comparant les performances du classifieur ou en faisant une réduction de dimension (par exemple, PCA)</li>
+	</ul>
+</ul></p>
+
+<p><b>Régression linéaire</b> La grande différence par rapport au perceptron est le format de la sortie. Avec le perceptron, la sortie est une catégorie appartenant à un espace fini et dans le cas de la régression, la sortie est un réel.
+<ul>
+	<li><b>Entrées</b>: couples \((X,y)\) avec \(y \in \mathbb{R}\)</li>
+	<li><b>Objectif</b>: Trouver \(\beta\) tel que pour une nouvelle donnée \(X\), nous avons la sortie \(y=X \beta\)</li>
+	<li><b>Erreur</b>: least square error: \(E = (y-X\beta)(y-X\beta)^T\)</li>
+	<li><b>Solution</b>: \(\frac{\partial E}{\partial \beta} = X^T(y-X\beta)=0\) soit \(\beta = (X^T X)^{-1} X^T y\)</li>
+</ul></p>
+
+<p>Pour résoudre des problèmes non linéairement séparables avec une analyse discriminante linaire, il faut soit projeter les entrées dans un autre espace (similaire à l'utilisation de kernels pour les SVM), soit ajouter des variables non linéaires (par exemple, \(x_1 \times x_2\)).</p>

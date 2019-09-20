@@ -1,0 +1,122 @@
+<h1>Introduction</h1>
+
+<h4>Types de machine learning</h4>
+
+<p><b>Apprentissage supervisé (classification et régression):</b> à partir d'une BDD d'apprentissage avec des données et leurs labels, il faut généraliser afin de donner un label à des données jamais vues
+<ul>
+	<li>CNN, SVM, arbres de décision (ID3, C5, CART), régression linéaire</li>
+	<li>AdaBoost, Bagging</li>
+</ul>
+</p>
+
+<p><b>Apprentissage non supervisé (clustering):</b> partitionner les données afin que les données dans une même partition soient proches entre elles (aient quelque chose en commun) et les données provenant de deux partitions différentes soient éloignées
+<ul>
+	<li>k-means, algorithme EM, regroupement hiérarchique (arbre)</li>
+</ul>
+</p>
+
+<p><b>Apprentissage par renforcement:</b> apprentissage d'un bon comportement à partir d'observations/récompenses. A chaque étape, l'algorithme propose une action et le système donne un score à cette action (indiquant si l'action est bénéfique ou pas) sans indiquer comment améliorer ce score.
+<ul>
+	<li>Q-learning, Hidden Markov Model (Viterbi et Baum Welch)</li>
+</ul>
+</p>
+
+<p><b>Apprentissage évolutionniste:</b> le principe s'inspire de la théorie de l'évolution pour résoudre des problèmes diverses. La théorie de l'évolution repose sur le fait que les organismes s'adaptent pour améliorer leur taux de survie et celui de leurs descendants
+<ul>
+	<li>algorithmes génétiques</li>
+</ul>
+</p>
+
+<p><b>Réduction de dimension (compression):</b> réduire la dimension des entrées afin de réduire le stockage toute en gardant un maximum d'information
+<ul>
+	<li>Stratégies d'évolution, Programmation évolutionnaire, Algorithmes génétiques</li>
+</ul>
+</p>
+
+<p><b>Système de recommandations:</b> filtrage de l'information visant à présenter les éléments d'information (films, musique, livres, news, images, pages Web, etc) qui sont susceptibles d'intéresser l'utilisateur
+<ul>
+	<li>collaborative filtering, content-based filtering, hybrid algorithm</li>
+</ul>
+</p>
+
+<h4>Machine learning process</h4>
+
+<p>
+<ul>
+	<li>Récupération et nettoyage des données</li>
+	<li>Création des features</li>
+	<li>Choix de l’algorithme</li>
+	<li>Détermination des paramètres de l’algorithme</li>
+	<li>Apprentissage</li>
+	<li>Evaluation</li>
+</ul>
+</p>
+
+<h4>Séparation de la base de données</h4>
+
+<p><ul>
+	<li>Base d’apprentissage : 60%</li>
+	<li>Base de validation : 20%</li>
+	<li>Base de test : 20%</li>
+</ul></p>
+
+<p>Méthode de cross-validation : séparer la base d’apprentissage \(80%\) en K
+sous-ensembles : prendre le 1er sous-ensemble pour la validation et apprendre
+avec les autres sous-ensembles, puis prendre le 2e sous-ensemble pour la validation et apprendre avec les autres sous-ensembles, répéter cette étape K
+fois et conserver l’apprentissage qui a obtenu le meilleur score de validation</p>
+
+<h4>Quelques métriques</h4>
+
+<p><b>Accuracy :</b> nombre d’entrées correctement classifiées sur le nombre total d’entrées</p>
+
+<p><b>Matrice de confusion:</b> l’élément en position (i, j) de la matrice est égal au   nombre d’entrées que l’algorithme place dans la catégorie j alors qu’ils appartiennent à la catégorie i. Par conséquent, les valeurs au niveau de la diagonale de la matrice représentent le nombre d’éléments correctement classifiés. L’accuracy est donc égale à la somme des valeurs de la diagonale divisée par la somme de tous les éléments.</p>
+
+ <p><b>Sensibilité (recall), Spécificité, Précision :</b>
+  $$recall = TP/(TP + FN )$$
+  $$specificity = TN/(TN + FP )$$
+  $$precision = TP/(TP + FP )$$
+  avec \(TP\) (resp. \(TN\) ) le nombre de vrais positifs (resp. négatifs), \(FP\) (resp. \(FN\)) le nombre de faux positifs (resp. négatifs)
+</p>
+
+<div class="text-center">
+<img src="../../img/machinelearning/F1score_new.png" class="img-fluid" alt="F1score">
+</div>
+
+<p><b>F1-score :</b> \(2 \cdot precision \cdot recall/(precision + recall)\)</p>
+
+<p><b>Courbe de ROC (Receiver Operator Characteristic):</b> courbe du pourcentage de vrais positifs (sur l’axe y) par rapport au pourcentage de faux positifs (sur l’axe x). Cette courbe permet de comparer différents paramétrages d’un même classifieur ou de comparer différents classifieurs. L’aire sous la courbe ROC (area under the curve AUC) est une bonne métrique représentant le classifieur.</p>
+
+<p><b>Minkowski metric:</b> \(L_k(x,y)=\sum _i (|x_i - y_i |^k)^{1/k}\)
+<ul>
+	<li>k = 1 : distance de Manhattan</li>
+	<li>k = 2 : distance Euclidienne</li>
+	<li>Si \(average(X_1 , ..., X_n ) = argmin_Y \sum_i dist(X_i,Y)\), alors cette valeur est la médiane pour k = 1 et la moyenne pour k = 2.</li>
+</ul></p>
+
+<h4>Quelques rappels de probabilité</h4>
+
+<p><b>Bayes’ rule :</b> \(P (C_i |X_j ) = \frac{P(X_j | C_i) \cdot P(C_i)}{P(X_j)}\) car \(P(X_j |C_i ) = P (X_j , C_i )/P (C_i )\)</p>
+
+<p><b>Posterior probability:</b> \(P (C_i |X_j )\)</p>
+
+<p><b>Prior probability:</b> \(P (C_i )\)</p>
+
+<p><b>Class conditionnal probability:</b> \(P (X_j |C_i )\)</p>
+
+<p><b>Maximum a posteriori (MAP):</b> \(argmax_i P(C_i |X)\) : quelle est la classe la plus probable pour une entrée donnée (vecteur de features)</p>
+
+<p><b>Naive Bayes’ Classifier:</b> MAP en suppossant que les features sont indépendantes entre elles. Donc \(P(X|C_i ) = \prod_j P(X_j |C_i )\). Et donc \(argmax_i P(C_i | X) = argmax_i P(C_i)\) et \(\prod_j P(X_j | C_i) / P(X) = argmax_i  P(C_i) \prod_j P(X_j | C_i)\)</p>
+
+<h4>Quelques rappels de statistiques</h4>
+
+<p><b>Espérance (expectation) :</b> similaire à une moyenne en prenant en compte les probabilités : \(E[f (X)] = \sum_i f (X_i ) \cdot P (X_i )\)</p>
+
+<p><b>Variance :</b> mesure de dispersion : \(var(X) = E[X-E[X]]^2 = E[X - \mu]^2\) où \(\mu\) est la moyenne/espérance de \(X\)</p>
+
+<p><b>Ecart type (standard deviation std) :</b> \(\sigma = \sqrt{var(X)}\)</p>
+
+<p><b>Covariance :</b> \(cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(cov(X, Y ) = 0\).</p>
+
+<p><b>Gaussienne ou distribution normale :</b> \(p(x) = \frac{1}{\sqrt{2 \pi \sigma}} exp( \frac{-(x-\mu)^2}{2 \sigma^2})\)</p>
+
+<p><b>Central Limit Theorem :</b> convergence en loi de la somme d’une suite de variables aléatoires vers la loi normale</p>
