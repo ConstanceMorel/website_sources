@@ -2,27 +2,27 @@
 
 <h4>Les statistiques</h4>
 
-<p><b>Variable discrète:</b> \(X(\Omega) = \{x_1, x_2, ..., x_k, ... \}\)
+<p><b>Variable discrète</b>: \(X(\Omega) = \{x_1, x_2, ..., x_k, ... \}\)
 <ul>
 	<li> \(P(a \le X \le b) = \sum_{a \le x_k \le b} P(X=x_k)\)</li>
-	<li><b>Fonction de répartition:</b> \(F(x) = P(X \le x) = \sum_{x_k \le b} P(X = x_k)\)</li>
-	<li><b>Espérance (expectation):</b> \(E[X] = \sum x_k P(X=x_k)\) (similaire à une moyenne pondérée par les probabilités)</li>
+	<li>Fonction de répartition: \(F(x) = P(X \le x) = \sum_{x_k \le b} P(X = x_k)\)</li>
+	<li>Espérance (expectation): \(E[X] = \sum x_k P(X=x_k)\) (similaire à une moyenne pondérée par les probabilités)</li>
 	<li>\(E[g(X)] = \sum g(X_k) P(X=x_k)\)</li>
-	<li><b>Variance:</b> \(Var(X) = E[X - E[X]]^2\) (mesure de dispersion)</li>
-	<li><b>Ecart type (standard deviation std):</b> \(\sigma = \sqrt{Var(X)}\)</li>
-	<li><b>Covariance:</b> \(Cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(Cov(X, Y) = 0\).</li>
+	<li>Variance: \(Var(X) = E[X - E[X]]^2\) (mesure de dispersion)</li>
+	<li>Ecart type (standard deviation std): \(\sigma = \sqrt{Var(X)}\)</li>
+	<li>Covariance: \(Cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(Cov(X, Y) = 0\).</li>
 </ul>
 </p>
 
 <p><b>Variable continue à densité \(f\):</b> \(X(\Omega) \in \mathbb{R}\)
 <ul>
 	<li>\(P(a \le X \le b) = \int_{a}^{b} f(t) dt\)</li>
-	<li><b>Fonction de répartition:</b> \(F(x) = P(X \le x) = \int_{-\infty}^{x} f(t) dt\)</li>
-	<li><b>Espérance (expectation):</b> \(E[X] = \int_{-\infty}^{\infty} t \cdot f(t) dt\) (similaire à une moyenne pondérée par les probabilités)</li>
-	<li>\(E[g(X)] = \int{-\infty}^{\infty} g(t) f(t) dt\)</li>
-	<li><b>Variance:</b> \(Var(X) = E[X - E[X]]^2\) (mesure de dispersion)</li>
-	<li><b>Ecart type (standard deviation std):</b> \(\sigma = \sqrt{Var(X)}\)</li>
-	<li><b>Covariance:</b> \(Cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(Cov(X, Y) = 0\).</li>
+	<li>Fonction de répartition: \(F(x) = P(X \le x) = \int_{-\infty}^{x} f(t) dt\)</li>
+	<li>Espérance (expectation): \(E[X] = \int_{-\infty}^{\infty} t \cdot f(t) dt\) (similaire à une moyenne pondérée par les probabilités)</li>
+	<li>\(E[g(X)] = \int_{-\infty}^{\infty} g(t) f(t) dt\)</li>
+	<li>Variance: \(Var(X) = E[X - E[X]]^2\) (mesure de dispersion)</li>
+	<li>Ecart type (standard deviation std): \(\sigma = \sqrt{Var(X)}\)</li>
+	<li>Covariance: \(Cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(Cov(X, Y) = 0\).</li>
 </ul>
 </p>
 

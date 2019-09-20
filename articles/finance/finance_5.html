@@ -15,7 +15,7 @@
 
 <p><b>Vocabulaire</b>:
 <ul>
-	<li>\(S_T\) est le prix au comptant (spot) de l'actif à la date</li>
+	<li>\(S_T\) est le prix au comptant (spot) de l'actif à la date \(T\)</li>
 	<li>\(K\) est le prix de livraison de l'actif (prix forward ou strike)</li>
 	<li>le flux du contrat forward (payoff) est</li>
 	<ul>
@@ -26,7 +26,7 @@
 Ce flux représente le gain ou la perte du trader sur ce contrat.
 </p>
 
-<h1>Les stratégies de couverture</h1>
+<h4>Les stratégies de couverture</h4>
 
 <p><b>Couverture courte (short hedge)</b>: le hedger détient l'actif sous-jacent au contrat (ou va le recevoir) et prévoit de le vendre dans un futur proche. Il doit donc prendre une position courte pour se protéger des risques de variation de prix de ce sous-jacent.
 </p>
@@ -42,7 +42,7 @@ Ce flux représente le gain ou la perte du trader sur ce contrat.
 </ul>
 </p>
 
-<h1>Les Forward Rate Agreement FRA</h1>
+<h4>Les Forward Rate Agreement FRA</h4>
 
 <p>Le <b>FRA</b> est un contrat à terme de gré à gré par lequel le vendeur du FRA garantit à l'acheteur, au terme d'une période donnée (la période de couverture), un taux négocié (le taux garanti) pour un emprunt d'un montant et d'une durée négociés.</p>
 
@@ -50,4 +50,3 @@ Ce flux représente le gain ou la perte du trader sur ce contrat.
 
 <p>On voit que l'opérateur qui cherche à se couvrir contre une hausse des taux (position emprunteuse à terme) se portera acheteur d'un FRA. A l'inverse celui qui cherche à se couvrir contre une baisse de taux (position prêteuse) se portera vendeur.</p>
 
-<p>Exemple: négociation d'un FRA d'un montant notionnel 1MEURO pour une période garantie de 3 mois, au taux garanti de 5%. A l'échéance, le taux à 3 mois du marché vaut 5.5%. Le vendeur verse à l'acheteur le différentiel d'intérêts, soit: \(1\,000\,000 \times (5.5 - 5) / 100 \) EURO L'acheteur emprunte sur le marché à 5.5% mais la différence payée par le vendeur lui assure les conditions souhaitées, soit 5%.</p>
