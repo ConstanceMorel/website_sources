@@ -1,25 +1,28 @@
 <h1>Côté mineur: La validation des transaction</h1>
 
+<br>
+
 <h4>Un réseau pair-à-pair (peer-to-peer)</h4>
 
-<p>Un réseau pair-à-pair P2P est un réseau distribué dans lequel chaque noeur a le même rôle. Pour envoyer un message dans un réseau P2P, un noeud envoie le message à tous ses voisins qui eux mêmes renvoient le message à tous leurs voisins et ainsi de suite.</p>
+<p>Un réseau pair-à-pair P2P est un réseau distribué dans lequel chaque noeud a le même rôle. Pour envoyer un message dans un réseau P2P, un noeud envoie le message à tous ses voisins qui eux mêmes renvoient le message à tous leurs voisins et ainsi de suite.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/p2p.png" style="max-width:50%;" class="img-fluid" alt="p2p">
 </div>
 
-<p>Nakamoto décire le réseau blockcahin <cite>[Nak08]</cite> comme suit:</p>
+<p>Nakamoto décrit le réseau blockcahin <cite>[Nak08]</cite> comme suit:</p>
 <ol>
 	<li> Les nouvelles transactions sont envoyées à tous les noeuds.</li>
 	<li> Chaque noeud regroupe les transactions dans un bloc.</li>
 	<li> Chaque noeud essaie de résoudre une preuve-de-travail (proof-of-work) difficile pour ses blocs.</li>
 	<li> Quand un noeud résoud une preuve-de-travail, il envoie son bloc à tous les autre noeuds.</li>
-	<li> Les noeuds acceptent le bloc uniquement si toutes les transactions sont valuides and ne sont déjà dépensées.</li>
+	<li> Les noeuds acceptent le bloc uniquement si toutes les transactions sont valides et ne sont pas déjà dépensées.</li>
 	<li> Les noeuds expriment leur acceptation du bloc en travaillant à la création du prochain bloc dans la chaine, en utilisant le hash du bloc accepté en tant que hash du bloc précédent.</li>
-</ol>
-</p>
+</ol></p>
 
-<p>Les noeuds qui crée et envoie les nouveaux blocs sont appelés des mineurs (en référence aux chercheurs d'or). Ils doivent travailler pour construire un nouveau bloc valide en résolvant un puzzle appelé preuve-de-travail (proof-of-work) et ils sont rémunérés pour faire cela (ils reçoivent un montant en bitcoins pour chaque bloc créé).</p>
+<p>Les noeuds qui créent et envoient les nouveaux blocs sont appelés des mineurs (en référence aux chercheurs d'or). Ils doivent travailler pour construire un nouveau bloc valide en résolvant un puzzle appelé preuve-de-travail (proof-of-work) et ils sont rémunérés pour faire cela (ils reçoivent un montant en bitcoins pour chaque bloc créé).</p>
+
+<br>
 
 <h4>Preuve-de-travail (proof-of-work)</h4>
 
@@ -29,7 +32,7 @@
 	<li> il est facile de vérifier qu'une solution est valide</li>
 </ul>
 
-<p>Dans Bitcoin, la preuve-de-travail est Hashcash. Ce puzzle consiste à trouver un nonce tel que les premiers k bits du hachage du bloc sont égaux à 0.</p>
+<p>Dans Bitcoin, la preuve-de-travail est Hashcash. Ce puzzle consiste à trouver un nonce tel que les premiers k bits du hash du bloc sont égaux à 0.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/PoW.png" style="max-width:50%;" class="img-fluid" alt="PoW">
@@ -41,15 +44,19 @@
 
 <p>Il est facile de vérifier qu'une solution est valide car un hash est facile est caculé. Mais ce puzzle est difficile à cause de la résistance des fonctions de hachage à la pré-image partielle. </p>
 
+<br>
+
 <h4>Fork</h4>
 
-<p>Parfois deux blocs sont créés quasiment en même temps par deux mineurs différents. Chaque mineur va envoyer son nouveau bloc au réseau. Chaque noeud va choisir l'un de ces deux blocs et essayer miner à partir de ce bloc. C'est un fork, la blockchain a maintenant deux branches.</p>
+<p>Parfois deux blocs sont créés quasiment en même temps par deux mineurs différents. Chaque mineur va envoyer son nouveau bloc au réseau. Chaque noeud va choisir l'un de ces deux blocs et essayer de miner à partir de ce bloc. C'est un fork, la blockchain a maintenant deux branches.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/fork.png" class="img-fluid" alt="fork">
 </div>
 
-<p>Le protocole blockchain détermine que la branche légitime est la branche la plus longue. Rapidement, une branche va devenir plus longue que l'autre de plusieurs blocs. Tous les mineurs vont alors abandonner la branche la plus courte car le minage sur une orpheline branche n'est pas valide. Il y a un fork en moyenne tous les 50 blocs dans la blockchain. La plupart des forks se résolvent en seulement un bloc.</p>
+<p>Le protocole blockchain détermine que la branche légitime est la branche la plus longue (et donc que tous les blocs dans l'autre branche sont invalides). Rapidement, une branche va devenir plus longue que l'autre de plusieurs blocs. Tous les mineurs vont alors abandonner la branche la plus courte car le minage sur une branche orpheline n'est pas valide. Il y a un fork en moyenne tous les 50 blocs dans la blockchain. La plupart des forks se résolvent en seulement un bloc.</p>
+
+<br>
 
 <h3>Références</h3>
 
