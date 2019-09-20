@@ -1,31 +1,34 @@
-<h1>The blockchain to store all the transactions</h1>
+<h1>La blockchain pour stoquer toutes les transactions</h1>
 
-<h2>Transactions storage</h2>
+Les fonctions de hachage sont au coeur du stoquage des transactions au sein de la blockchain.
 
-<p>The blockchain is a data structure containing all bitcoin transactions in the chronological order.</p>
+<h4>Fonction de hachage cryptographique</h4>
+
+<p>Une fonction de hachaque cryptographique est une fonction transformant une entrée de taille arbitraire en une donnée de taille fixe \(f: \{ 0, 1 \} ^* \mapsto \{0 ,1 \} ^n\) avec les propriétés suivantes:
+<ul>
+	<li> Résistance à la pré-image: étant donné une valeur \(y\), il est difficile de trouver une valeur \(x\) tel que \(y=f(x)\)</li>
+	<li> Résistance à une deuxième pré-image: étant donnée \(x\) et \(h(x)\), il est difficile de trouver une valeur \(y\) différente de  \(x\) tel que \(h(y)=h(x)\)</li>
+	<li> Résistance aux collisions: étant donnée une fonction de hachage \(h\), il est difficile de trouver deux valeurs \(x\) et \(y\) tels que \(h(x) = h(y)\)</li>
+</ul></p>
+
+<p>Générallement, les fonctions de hachage sont rapide à évaluer (plus rapide que les opérations cryptographiques symétriques). Les fonctions de hachage les plus célèbres sont <strong>SHA-1</strong> et <strong>SHA-2</strong>. Aujourd'hui ces fonctions sont largement utilisées dans des domaines variés comme le stoquage sécurisé des mots de passe et la vérification de l'intégrité de données.</p>
+
+<h4>Le stoquage des transactions</h4>
+
+<p>La blockchain est une structure de données contenant toutes les transactions en bitcoins dans l'ordre chronologique.</p>
  
-<p>Several transactions are stored together into a data structure called merkle tree, a binary tree with hash pointers.  In this tree, every leaf node contains a transaction. Every non-leaf node contains the hash of its childs.</p>
+<p>Plusieurs transactions sont stoquées ensemble au sein d'une structure de données appelée merkle tree, un arbre binaire avec des pointeurs de hachage. Dans cet arbre, chaque feuille contient une transaction. Les autres noeuds contiennent un hash de leurs enfants.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/merkle_tree.png" class="img-fluid" alt="merkle_tree">
 </div>
 
-<p>Then the merkle trees are linked together into a block chain, a linked list built with hash pointers. Every block is linked with the previous block by using a hash of the previous block. The nonce part of a block will be presented at the next section.</p>
+<p>Puis les merkle trees sont liés ensemble dans la blockahin en une liste chainée construite à l'aide de pointeurs de hachage. Chaque bloc est lié au bloc précédent à l'aide d'un hash du bloc précédent. Le bloc contient aussi une partie appelée Nonce. Cette partie sera présentée dans la section suivante.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/block_chain.png" style="max-width:30%;" class="img-fluid" alt="block_chain">
 </div>
 
-<p>The blockchain is like an account book, in which each page is a merkle tree and each line is a transaction.</p>
+<p>La blockchain est similaire à un livre de comptes, dont chaque page est un merkle tree et chaque ligne est une transaction.</p>
 
-<h2>Cryptographic hash function</h2>
 
-<p>A cryptographic hash function is a mapping from data of arbitrary size to data of fixed size \(f: \{ 0, 1 \} ^* \mapsto \{0 ,1 \} ^n\) with the following properties:
-<ul>
-	<li> Preimage resistance: given the value \(y\), it is difficult to find a value \(x\) such as \(y=f(x)\)</li>
-	<li> Second pre-image resistance: given \(x\) and \(h(x)\), it is difficult to find a value \(y\) not equal to \(x\) such as \(h(y)=h(x)\)</li>
-	<li> Collision resistance: given a cryptographic hash function \(h\), it is difficult to find two values \(x\) and \(y\) such as \(h(x) = h(y)\)</li>
-</ul>
-</p>
-
-<p>Generally cryptographic hash functions are quick to evaluate (quicker than symmetric cryptographic operations). The most famous cryptographic hash functions are <strong>SHA-1</strong> and <strong>SHA-2</strong>. Today these functions are widely used in various areas such as secure password storage or data integrity verification.</p>

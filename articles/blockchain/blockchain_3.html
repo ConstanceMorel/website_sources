@@ -1,57 +1,57 @@
-<h1>Miner side: The validation of transactions</h1>
+<h1>Côté mineur: La validation des transaction</h1>
 
-<h2>The peer-to-peer blockchain network</h2>
+<h4>Un réseau pair-à-pair (peer-to-peer)</h4>
 
-<p>A peer-to-peer P2P network is a distributed network in which each node has the same role. To broadcast data into a P2P network, a node sends data to all its neighbor nodes and they will then send data to all their neighbor nodes and so on.</p>
+<p>Un réseau pair-à-pair P2P est un réseau distribué dans lequel chaque noeur a le même rôle. Pour envoyer un message dans un réseau P2P, un noeud envoie le message à tous ses voisins qui eux mêmes renvoient le message à tous leurs voisins et ainsi de suite.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/p2p.png" style="max-width:50%;" class="img-fluid" alt="p2p">
 </div>
 
-<p>Nakamoto describes the blockchain network <cite>[Nak08]</cite> as following:</p>
+<p>Nakamoto décire le réseau blockcahin <cite>[Nak08]</cite> comme suit:</p>
 <ol>
-	<li> New transactions are broadcast to all nodes.</li>
-	<li> Each node collects new transactions into a block.</li>
-	<li> Each node works on finding a difficult proof-of-work for its block.</li>
-	<li> When a node finds a proof-of-work, it broadcasts the block to all nodes.</li>
-	<li> Nodes accept the block only if all transactions in it are valid and not already spent.</li>
-	<li> Nodes express their acceptance of the block by working on creating the next block in the chain, using the hash of the accepted block as the previous hash.</li>
+	<li> Les nouvelles transactions sont envoyées à tous les noeuds.</li>
+	<li> Chaque noeud regroupe les transactions dans un bloc.</li>
+	<li> Chaque noeud essaie de résoudre une preuve-de-travail (proof-of-work) difficile pour ses blocs.</li>
+	<li> Quand un noeud résoud une preuve-de-travail, il envoie son bloc à tous les autre noeuds.</li>
+	<li> Les noeuds acceptent le bloc uniquement si toutes les transactions sont valuides and ne sont déjà dépensées.</li>
+	<li> Les noeuds expriment leur acceptation du bloc en travaillant à la création du prochain bloc dans la chaine, en utilisant le hash du bloc accepté en tant que hash du bloc précédent.</li>
 </ol>
 </p>
 
-<p>The nodes who create and broadcast the new blocks are called miner (in reference to gold digger). They have to work to build a valid new block by resolving a puzzle called proof-of-work and they are rewarded to do that (they receive a small amount of cryptocurrencies for each created valid new block).</p>
+<p>Les noeuds qui crée et envoie les nouveaux blocs sont appelés des mineurs (en référence aux chercheurs d'or). Ils doivent travailler pour construire un nouveau bloc valide en résolvant un puzzle appelé preuve-de-travail (proof-of-work) et ils sont rémunérés pour faire cela (ils reçoivent un montant en bitcoins pour chaque bloc créé).</p>
 
-<h2>Proof-of-work</h2>
+<h4>Preuve-de-travail (proof-of-work)</h4>
 
-<p>Proof-of-work is a consensus algorithm used in most blockchains. It is a puzzle with the following properties:
+<p>La preuve-de-travail est un algorithme de consensus utilisé dans la plupart des blockchains. C'est un puzzle ayant les propriétés suivantes:
 <ul>
-	<li> it is difficult to find a solution to this puzzle</li>
-	<li> it is easy to check that a solution is valid</li>
+	<li> il est difficile de trouver une solution à ce puzzle</li>
+	<li> il est facile de vérifier qu'une solution est valide</li>
 </ul>
 
-<p>In Bitcoin, the proof-of-work puzzle is Hashcash. This puzzle consists of finding a nonce such as the first k bits of the block hash are 0.</p>
+<p>Dans Bitcoin, la preuve-de-travail est Hashcash. Ce puzzle consiste à trouver un nonce tel que les premiers k bits du hachage du bloc sont égaux à 0.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/PoW.png" style="max-width:50%;" class="img-fluid" alt="PoW">
 </div>
 
-<p>The miner will try successively random nonces until he finds one which solves this puzzle. He will then send the new block containing this nonce.</p>
+<p>Le mineur va essayer successivement des nonces aléatoires jusqu'à ce qu'il trouve un nonce qui résoud ce puzzle. Il va alors envoyer le nouveau bloc contenant ce nonce.</p>
 
-<p>In bitcoin, the difficulties of this proof-of-work puzzle is periodically adjusted to have a new block every ten minutes. To do that, they modified the number of 0 targeted at the beginning of the block hash.</p>
+<p>Dans bitcoin, la difficulté de cette preuve-de-travail est ré-ajustée périodiquement afin d'avoir en moyenne un bloc toutes les dix minutes. Pour cela, le nombre de 0 demandés au début du hash du bloc est modifié.</p>
 
-<p>It is easy to check that a solution is valid because a hash is easy to compute. But this puzzle is hard to solve because of partial pre-image resistance of hash functions. </p>
+<p>Il est facile de vérifier qu'une solution est valide car un hash est facile est caculé. Mais ce puzzle est difficile à cause de la résistance des fonctions de hachage à la pré-image partielle. </p>
 
-<h2>Fork</h2>
+<h4>Fork</h4>
 
-<p>Sometimes two blocks are created almost simultaneously by two different miners. Each miner will broadcast his new block to the network. Each node will choose one of these two blocks and try to mine from this selected block. It is called a fork, the blockchain has now two branches.</p>
+<p>Parfois deux blocs sont créés quasiment en même temps par deux mineurs différents. Chaque mineur va envoyer son nouveau bloc au réseau. Chaque noeud va choisir l'un de ces deux blocs et essayer miner à partir de ce bloc. C'est un fork, la blockchain a maintenant deux branches.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/fork.png" class="img-fluid" alt="fork">
 </div>
 
-<p>The blockchain protocol determines that the legitimate branch is the longest one. Quickly, one branch will be longer of several blocks than the other. All miners will discard the smallest branch because the mining rewards on an orphean branch are not valid. There is a fork on average every 50 blocks in the blockchain. Most forks are resolved in just one block.</p>
+<p>Le protocole blockchain détermine que la branche légitime est la branche la plus longue. Rapidement, une branche va devenir plus longue que l'autre de plusieurs blocs. Tous les mineurs vont alors abandonner la branche la plus courte car le minage sur une orpheline branche n'est pas valide. Il y a un fork en moyenne tous les 50 blocs dans la blockchain. La plupart des forks se résolvent en seulement un bloc.</p>
 
-<h3>References</h3>
+<h3>Références</h3>
 
 <p>
 [Nak08] Satoshi Nakamoto. Bitcoin: A peer-to-peer electronic cash system. 2008.

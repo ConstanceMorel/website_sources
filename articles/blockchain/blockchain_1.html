@@ -1,43 +1,44 @@
-<h1>Client site: How to receive and send a transaction</h1>
+<h1>Côté client: Comment recevoir et envoyer des transactions</h1>
 
-<h2>Transaction description</h2>
+L'identification sécurisée des participants d'une transaction dans la blockchain est basée sur la cryptographie asymétrique.
 
-<p>Alice wants to send some bitcoins to Bob. The requirements to send a transaction are:
+<h4>Cryptographie asymétrique</h4>
+
+<p>Les transactions bitcoins sont basées sur de la cryptographie asymétrique. Chaque individu a une paire de clés:
 <ul>
-	<li>to know Bob's address (his public key)</li>
-	<li>to have a pair of keys (public + private keys)</li>
-</ul>
-</p>
+	<li> une clé publique qui peut être largement distribuée à tous les autres participants sans compromettre la sécurité</li>
+	<li> une clé privée qui doit être gardée secrère (seulement le propriétaire de la paire de clés doit connaitre la clé privée)</li>
+</ul></p>
 
-<p>To activate the transaction, Alice will broadcast a message with the transaction information (the ID of a previous transaction proving Alice's bitcoins ownership, Bob's public key and the amount of the transaction) to the bitcoin network. To prove her identity, Alice will sign the message with her private key. If Alice has enough bitcoins in the previous transaction, a miner will validate the transaction (see Section <u><a href="?page=3">Miner side</a></u>) and add this transaction into the blockchain (a cryptographic book containing all valid bitcoin transactions). The bitcoins now belong to Bob. 
+<p>Les deux principales applications de la cryptographie asymétriques sont les suivantes:
+<ul>
+	<li> communications chiffrées: Alice envoie un message à Bob et chiffre le message avec la clé publique de Bob. Pour déchiffrer le message, la clé privée de Bob est nécessaire. Donc uniquement Bob peut déchiffrer le message.</li>
+	<li> authentification/signature: Alice signe un message avec sa clé privée. En utilisant la clé publique d'Alice, tout le monde peut vérifier que le message a bien été signé par Alice.</li>
+</ul>
+
+<div class="text-center">
+<img src="../../img/blockchain/crypto.png" class="img-fluid" alt="crypto">
+</div>
+
+<h4>Description d'une transaction</h4>
+
+<p>Alice veut envoyer des bitcoins à Bob. Les pré-requis pour envoyer une transaction sont:
+<ul>
+	<li>connaitre l'adresse de Bob (sa clé publique)</li>
+	<li>avoir une paire de clés (clé publique + clé privée)</li>
+</ul></p>
+
+<p>Pour activer la transaction, Alice va broadcaster un message contenant les informations de la transaction (l'identifiant ID de la transaction précédente prouvant qu'Alice détient des bitcoins, la clé publique de Bob et le montant de la transaction) au réseau bitcoin. Pour prouver son identité, Alice va signer le message avec sa clé privée. Si Alice a assez de bitcoins dans la transaction précédente, alors le mineur va valider la transaction (voir Section <u><a href="?page=3">Mineur</a></u>) et ajouter la transaction dans la blockchain (un livre cryptographique contenant toutes les transactions valides de bitcoins). Les bitcoins sont maintenus détenus par Bob. 
 </p>
 
 <div class="text-center">
 <img src="../../img/blockchain/transaction.png" class="img-fluid" alt="transaction">
 </div>
 
-<p>If Alice would like to give N bitcoins to Bob, it is quite unlikely that a previous transaction gives exactly N bitcoins to Alice. But a transaction can contain multiple inputs and multiple outputs. For instance, Alice will combine in inputs three transactions in which she had received respectively \(I_0\), \(I_1\) and \(I_2\) bitcoins (\(I_0 + I_1 + I_2 > N\)). And the outputs contain two transactions: the first to give N bitcoins to Bob (with Bob's public key) and the second to give \(I_0+I_1+I_2-N=T\) bitcoins to Alice. 
-</p>
+<p>Si Alice veut donner N bitcoins à Bob, il est très peu probable qu'une transaction précédente donne exactement N bitcoins à Alice. Mais une transaction peut contenir plusieurs entrées et sorties. Par exemple, Alice va combiner trois anciennes transactions dans lesquelles elle a reçu respectivement \(I_0\), \(I_1\) and \(I_2\) bitcoins (\(I_0 + I_1 + I_2 > N\)). Et la sortie va contenir deux transactions: la première donnant N bitcoins à Bob (en utilisant la clé publique de Bob) et la deuxième donnance \(I_0+I_1+I_2-N=T\) bitcoins à Alice.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/new_transaction.png" class="img-fluid" alt="new_transaction">
 </div>
 
-<h2>Asymmetric cryptography</h2>
 
-<p>This bitcoin transaction is based on asymmetric cryptography. Each individual has a pair of keys:
-<ul>
-	<li> a public key, which can be widely distributed to all participants without compromising security</li>
-	<li> a private key, which must be kept secret (only the owner of this pair of keys must know it)</li>
-</ul>
-</p>
-
-<p>The two main applications of asymmetric cryptography are:
-<ul>
-	<li> encrypting communication: Alice sends a message to Bob and encrypts the message with Bob's public key. To decrypt the message, Bob's private key is required. Thus, only Bob can decrypt this message.</li>
-	<li> authentication/signature: Alice signs a message with her private key. By using Alice's public key, everybody can prove that this message has been signed by Alice.</li>
-</ul>
-
-<div class="text-center">
-<img src="../../img/blockchain/crypto.png" class="img-fluid" alt="crypto">
-</div>
