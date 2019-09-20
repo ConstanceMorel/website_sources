@@ -92,6 +92,8 @@
     <script src="../../js/jquery-3.4.1.min.js"></script>
     <script> 
         $(function(){
+            var nbPages = 4;
+
             var urlParams = new URLSearchParams(location.search);
             var subpage = urlParams.get("page");
             if (subpage == null) {
@@ -108,7 +110,6 @@
             }
 
             var previousPageNumber = subpage - 1;
-            var nbPages = 4;
             var previousBtnUp = document.getElementById("previous-btn-up");
             var previousBtnDown = document.getElementById("previous-btn-down");
             var nextBtnUp = document.getElementById("next-btn-up");
