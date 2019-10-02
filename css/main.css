@@ -1,0 +1,89 @@
+a {
+	-webkit-transition: .3s all ease;
+	-o-transition: .3s all ease;
+	transition: .3s all ease;
+	text-decoration: none
+}
+
+a:hover {
+	text-decoration: none
+}
+
+h2 {
+	color: #000;
+	font-family: josefin sans, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, helvetica neue, Arial, sans-serif, apple color emoji, segoe ui emoji, segoe ui symbol, noto color emoji
+}
+
+.blog-entries .blog-entry {
+	display: block;
+	-webkit-transition: .3s all ease;
+	-o-transition: .3s all ease;
+	transition: .3s all ease;
+	margin-bottom: 30px;
+	position: relative
+}
+
+.blog-entries .blog-entry:hover,
+.blog-entries .blog-entry:focus {
+	opacity: .7;
+	top: -1px;
+	-webkit-box-shadow: 0 3px 50px -2px rgba(0, 0, 0, .2)!important;
+	box-shadow: 0 3px 50px -2px rgba(0, 0, 0, .2)!important
+}
+
+.blog-entries .blog-entry .blog-content-body {
+	padding: 20px;
+	border: 1px solid #efefef;
+	border-top: none
+}
+
+.blog-entries .blog-entry img {
+	max-width: 100%
+}
+
+.blog-entries .blog-entry h2 {
+	font-size: 18px;
+	line-height: 1.5
+}
+
+.blog-entries .blog-entry p {
+	font-size: 13px;
+	color: gray
+}
+
+.blog-entries .post-meta {
+	margin-bottom: 20px;
+	font-size: 14px;
+	color: #b3b3b3
+}
+
+.blog-entries .post-meta .author img {
+	width: 30px;
+	border-radius: 50%;
+	display: inline-block
+}
+
+.element-animate {
+	opacity: 0;
+	visibility: hidden
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		visibility: hidden
+	}
+	to {
+		opacity: 1;
+		visibility: visible
+	}
+}
+
+.fadeIn {
+	animation-name: fadeIn
+}
+
+.element-animated {
+	animation-duration: 1s;
+	animation-fill-mode: both
+}

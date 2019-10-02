@@ -100,6 +100,10 @@ b {
     background: #6d7fcc;
 }
 
+#sidebar .sidebar-body {
+    padding: 20px;
+}
+
 #sidebar ul.components {
     padding: 20px 0;
     border-bottom: 1px solid #7386D5;
@@ -257,3 +261,4 @@ a.article, a.article:hover {
     }
 
 }
+
