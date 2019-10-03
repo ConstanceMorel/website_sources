@@ -1,5 +1,7 @@
 <h1>Lemme d'Itô et formules de Black-Scholes</h1>
 
+<br>
+
 <h4>Processus stochastiques</h4>
 
 <p>Un <b>processus stochastique</b> est une suite de variables aléatoires indexées par le temps utilisé pour décrire l'évolution aléatoire d'une variable au cours du temps.</p>
@@ -47,6 +49,8 @@ Cette relation contient une petite approximation. Il est supposé que \(a(x,t)\)
 
 <p>Ce processus de fluctuation est appelé <b>mouvement brownien géométrique</b>.</p>
 
+<br>
+
 <h4>Le lemme d'Itô</h4>
 
 <p>Le lemme d'Itô permet de déterminer le processus stochastique suivi par une fonction de la variable étudiée.</p>
@@ -66,6 +70,8 @@ $$dF = (-rSe^{r(T-t)} + \mu  S e^{r(T-t)} + 0) dt + \sigma S e^{r(T-t)} dz = (\m
 </p>
 
 <p>Par conséquent, le prix forward suit aussi un mouvement brownien géométrique d'espérance de taux de croissance \((\mu - r)\).</p>
+
+<br>
 
 <h4>Le modèle de Black, Scholes et Merton</h4>
 
@@ -122,6 +128,8 @@ $$d_2 = \frac{ln(S_0/K) + (r - \sigma^2/2)T}{\sigma \sqrt{T}} = d_1 - \sigma \sq
 où \(N(x)\) est la fonction de répartition  \(P(X \le x)\) d'une loi log-normale centrée réduite \(\Psi(0,1)\)</p>
 
 <p>Si l'option européenne verse des dividendes durant la durée de vie de l'option, alors le détachement du dividende entraine une baisse du cours égale au montant de ce dividende. Par conséquent, nous pouvons encore utiliser les formules de Black-Scholes mais il faut au préalable soustraire à \(S_0\) la valeur actualisée des dividendes versées durant la vie de l'option. Par exemple, si un dividende \(D\) est versé à \(t\) alors il faut remplacer \(S_0\) par \(S_0 - D e^{-r t}\). Si un dividende continu annuel \(q\) est versé durant la vie de l'option, il faut alors remplacer \(S_0\) par \(S_0 e^{-qT}\).</p>
+
+<br>
 
 <h4>La volatilité implicite</h4>
 

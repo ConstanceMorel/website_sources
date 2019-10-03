@@ -1,59 +1,37 @@
 <h1>Les options</h1>
 
-<p>Une <b>option</b> a les caractéristiques suivantes:
-<ul>
-	<li>engagement non ferme donnant le droit à son détenteur</li>
-	<li>d'acheter (<b>call</b>) ou de vendre (<b>put</b>) une certaine quantité (appelé <b>quotité</b>) d'un actif (appelé <b>sous-jacent</b>)</li>
-	<li>à une date future \(T\) (<b>option européenne</b>) ou jusqu'à une date future \(T\) (<b>option américaine</b>)</li>
-	<li>à un prix d'exercice convenu \(K\) (<b>strike</b>)</li>
-</ul>
-</p>
+<br>
 
-<p>La majorité des options sont des options américaines. Le prix d'une option pour une action (<b>premium</b>) est le prix à payer pour détenir cette option.</p>
+<h4>Définitions</h4>
 
-<p>Il y a donc quatre positions différentes possibles:
-<ul>
-	<li>l'achat d'un call</li>
-	<li>la vente d'un call</li>
-	<li>l'achat d'un put</li>
-	<li>la vente d'un put.</li>
-</ul>
-</p>
+<p>Une <b>option</b> est un engagement non ferme donnant le <b>droit</b> à son détenteur d'acheter (<b>call</b>) ou de vendre (<b>put</b>) une certaine quantité (appelé <b>quotité</b>) d'un actif (appelé <b>sous-jacent</b>) à une date future \(T\) (<b>option européenne</b>) ou jusqu'à une date future \(T\) (<b>option américaine</b>) à un prix d'exercice convenu \(K\) (<b>strike</b>). La majorité des options sont des options américaines. Le prix d'une option pour une action (<b>premium</b>) est le prix à payer pour détenir cette option.</p>
 
-<p>Les acheteurs (d'un call ou d'un put) ont une <b>position longue</b>. Alors que les vendeurs d'un call ou d'un put ont une <b>position courte</b>.</p>
+<p>Il y a quatre positions différentes possibles : l'achat d'un call, la vente d'un call, l'achat d'un put et la vente d'un put. Les acheteurs (d'un call ou d'un put) ont une <b>position longue</b>. Alors que les vendeurs d'un call ou d'un put ont une <b>position courte</b>.</p>
 
-<p>Une option est <b>dans la monnaie</b> si l'acheteur de l'option a intérêt à exercer son option (pour un call, \(S_T > K\) et pour un put, \(S_T < K\) avec \(S_T\) le prix du sous-jacent à l'échéance de l'option \(T\)). Une option est <b>à la monnaie</b> si \(S_T = K\). Une option est <b>en dehors de la monnaie</b> si l'acheteur de l'option n'a pas intérêt à l'exercer (pour un call, \(S_T < K\) et pour un put, \(S_T > K\)).</p>
+<p>Une option est <b>dans la monnaie</b> si l'acheteur de l'option a intérêt à exercer son option (pour un call, \(S_T > K\) et pour un put, \(S_T < K\) avec \(S_T\) le prix du sous-jacent à l'échéance de l'option). Une option est <b>à la monnaie</b> si \(S_T = K\). Une option est <b>en dehors de la monnaie</b> si l'acheteur de l'option n'a pas intérêt à l'exercer (pour un call, \(S_T < K\) et pour un put, \(S_T > K\)).</p>
 
 <p>Une <b>classe d'options</b> contient l'ensemble des options de même type (call ou put) sur le même sous-jacent (par exemple, les calls sur IBM). Une <b>série d'options</b> contient l'ensemble des options d'une même classe ayant le même prix d'exercice et la même échéance (par exemple, les calls IBM-200-octobre 2018).</p>
-
-<p>Le contrat d'une option est souvent ajustée en cas d'opérations sur titres (e.g. split).</p>
 
 <p>Pour dénouer une option, il suffit de prendre la position symétrique. Par exemple, pour dénouer l'achat d'un call, il suffit de vendre un call ayant les mêmes caractéristiques.</p>
 
 <h4>Profit et payoff d'une option</h4>
 
-<p><b>Notations</b>:
+<p>Dans cette section, nous noterons :
 <ul>
-	<li>\(K\): prix d'exercice de l'option (strike)</li>
-	<li>\(​S_T\): prix du sous-jacent à l'échéance de l'option \(T\)</li>
-	<li>\(P\): prix payé pour acquérir l'option (premium)</li>
+	<li>\(K\) le prix d'exercice de l'option (strike)</li>
+	<li>\(​S_T\) le prix du sous-jacent à l'échéance de l'option \(T\)</li>
+	<li>\(P\) le prix payé pour acquérir l'option (premium)</li>
 </ul>
 </p>
 
-<p><b>Achat d'un call</b>:</p>
+<p>Calculons le profit lors de l'<b>achat d'un call</b>. Si à \(T\), \(K\) est inférieur à \(S_T\) alors l'acheteur de l'option va exercer son option pour acheter le sous-jacent au prix \(K\) et va le revendre au prix du marché \(S_T\). Par conséquent, il va gagner \(K-S_T-P\). Si à \(T\), \(K\) est supérieur à \(S_T\), alors l'acheteur de l'option ne va pas exercer son option et il va alors perdre uniquement le prix d'achat de l'option \(P\). Par conséquent, l'acheteur d'un call gagne \(max(S_T - K, 0) -P\).</p>
 
-<p>Si à \(T\), \(K < S_T\) alors l'acheteur de l'option va exercer son option pour acheter le sous-jacent au prix \(K\) et va le revendre au prix du marché \(S_T\). Par conséquent, il va gagner \(K-S_T-P\).</p>
-
-<p>Si à \(T\), \(K > S_T\), alors l'acheteur de l'option ne va pas exercer son option et il va alors perder uniquement le prix d'achat de l'option \(P\).</p>
-
-<p>Par conséquent, l'acheteur d'un call gagne \(max(S_T - K, 0) -P\).</p>
-
-<p>Par un raisonnement similaire sur les autres positions nous obtenons les gains suivants:
+<p>Par un raisonnement similaire sur les autres positions, nous obtenons les gains suivants:
 <ul>
-	<li>achat d'un call: \(max(S_T - K, 0) - P\)</li>
-	<li>achat d'un put: \(max(K - S_T, 0) - P\)</li>
-	<li>vente d'un call: \(P - max(S_T - K, 0) = P + min(K - S_T, 0)\)</li>
-	<li>achat d'un put: \(P - max(K - S_T, 0) = P + min(S_T - K, 0)\)</li>
+	<li>achat d'un call : \(max(S_T - K, 0) - P\)</li>
+	<li>achat d'un put : \(max(K - S_T, 0) - P\)</li>
+	<li>vente d'un call : \(P - max(S_T - K, 0) = P + min(K - S_T, 0)\)</li>
+	<li>achat d'un put : \(P - max(K - S_T, 0) = P + min(S_T - K, 0)\)</li>
 </ul>
 </p>
 
@@ -61,12 +39,14 @@
 
 <p>Le <b>payoff</b> d'une option correspond aux gains/pertes réalisés à l'échéance de l'option. Par conséquent, nous avons les payoffs suivants:
 <ul>
-	<li>achat d'un call: \(max(S_T - K, 0)\)</li>
-	<li>achat d'un put: \(max(K - S_T, 0)\)</li>
-	<li>vente d'un call: \(- max(S_T - K, 0) = min(K - S_T, 0)\)</li>
-	<li>achat d'un put: \(- max(K - S_T, 0) = min(S_T - K, 0)\)</li>
+	<li>achat d'un call : \(max(S_T - K, 0)\)</li>
+	<li>achat d'un put : \(max(K - S_T, 0)\)</li>
+	<li>vente d'un call : \(- max(S_T - K, 0) = min(K - S_T, 0)\)</li>
+	<li>achat d'un put : \(- max(K - S_T, 0) = min(S_T - K, 0)\)</li>
 </ul>
 </p>
+
+<br>
 
 <h4>Les options sur futures</h4>
 
@@ -76,25 +56,37 @@
 
 <p>Les options sur futures sont très populaires car les futures sont plus liquides que les actifs.</p>
 
+<br>
+
 <h4>Les stock-options</h4>
 
 <p>Les <b>stock-options</b> sont des options d'achat sur les actions d'une société accordées par cette société à ses employés. Il y a tout d'abord une période d'acquisition des droits pendant laquelle l'option ne peut pas être exercée (si un cadre part de l'entreprise pendant cette période, le plus souvent il perd cette option). Quand un employé exerce une stock-option, l'entreprise émet de <b>nouvelles actions</b> et les lui vend au prix d'exercice. Le plus souvent le prix d'exercice d'une stock-option est égal au prix de l'action au moment de l'attribution des stock-options.</p>
 
+<br>
+
 <h4>Les options sur indices</h4>
 
-<p>Les <b>options sur indices</b> sont échangées sur les marchés de gré à gré et sur les marchés organisés. Le dénouement de ces options est effectué en cash. A L'échéance, le détenteur d'un call (resp put) reçoit \((S-K)\) (resp \((K-S)\)) par le vendeur du call (resp put). Ces options sont souvent utilisées pour limiter les risques de perte sur les portefeuilles répliquant la rentabilité des indices.</p>
+<p>Les <b>options sur indices</b> sont échangées sur les marchés de gré à gré et sur les marchés organisés. Le dénouement de ces options est effectué en cash. A l'échéance, le détenteur d'un call (resp put) reçoit \((S-K)\) (resp \((K-S)\)) par le vendeur du call (resp put). Ces options sont souvent utilisées pour limiter les risques de perte sur les portefeuilles répliquant la rentabilité des indices.</p>
+
+<br>
 
 <h4>Les options sur devises</h4>
 
 <p>Les <b>options sur devises</b> sont principalement échangées sur les marchés de gré à gré. Elles sont très utilisées par les entrepises pour se protéger contre les risques de change tout en bénéficiant de variations favorables du taux de change.</p>
 
+<br>
+
 <h4>Les options quanto</h4>
 
 <p>Les <b>options quanto</b> sont des actifs dérivés (call ou put) fondés sur deux devises distinctes. Le payoff est payé dans une devise particulière mais les sous-jacents sont issus d'un marché étranger donc libellés dans une autre devise. Le taux de change utilisé à l'échéance est fixé dès le début du contrat. Cela permet donc aux investisseurs de limiter leurs expositions aux variations du taux de change.</p>
 
+<br>
+
 <h4>Les options de taux</h4>
 
 <p>Les <b>options de taux (caps et floors)</b> permettent de définir dès maintenant un taux d'emprunt ou de prêt qui pourra être utilisé dans le futur. Un <b>cap</b> est une option de taux définissant un taux d'emprunt. Un <b>floor</b> est une option de taux définissant un taux de prêt. Les options de taux permettent de se couvrir contre une variation des taux d'intérêts.</p>
+
+<br>
 
 <h4>Les swaptions</h4>
 

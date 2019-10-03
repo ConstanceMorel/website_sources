@@ -1,38 +1,20 @@
 <h1>Les contrats forwards</h1>
 
-<p>Un <b>contrat</b> forward a les caractéristiques suivantes:
-<ul>
-	<li>engagement ferme</li>
-	<li>d'achat (position longue) ou de vente (position courte) d'une certaine quantité (appelée quotité) d'un actif (appelé sous-jacent)</li>
-	<li>à une date future donnée  \(T\)</li>
-	<li>à un prix convenu \(K\)</li>
-	<li>sur un marché de gré à gré (OTC).</li>
-</ul>
-</p>
+<br>
 
-<p><b>Objectif</b>: se protéger contre les variations du taux de change en fixant dès maintenant un taux de change futur
-</p>
+<h4>Définitions</h4>
 
-<p><b>Vocabulaire</b>:
-<ul>
-	<li>\(S_T\) est le prix au comptant (spot) de l'actif à la date \(T\)</li>
-	<li>\(K\) est le prix de livraison de l'actif (prix forward ou strike)</li>
-	<li>le flux du contrat forward (payoff) est</li>
-	<ul>
-		<li>\(S_T-K\) pour une position longue (achat)</li>
-		<li>\(K-S_T\) pour une position courte (vente)</li>
-	</ul>
-</ul>
-Ce flux représente le gain ou la perte du trader sur ce contrat.
-</p>
+<p>Un <b>contrat forward</b> permet de se protéger contre les variations du taux de change en fixant dès maintenant un taux de change futur. C'est un engagement ferme d'achat (position longue) ou de vente (position courte) d'une certaine quantité (appelée quotité) d'un actif (appelé sous-jacent) à une date future donnée  \(T\) à un prix convenu \(K\) sur un marché de gré à gré (OTC).</p>
+
+<p>Si nous notons \(S_T\) le prix au comptant (spot) de l'actif à la date \(T\) et \(K\) est le prix de livraison de l'actif (prix forward ou strike), alors le <b>payoff du contrat</b> (gain/perte du trader sur ce contrat) est égal à \(S_T-K\) pour une position longue (achat) et \(K-S_T\) pour une position courte (vente).</p>
+
+<br>
 
 <h4>Les stratégies de couverture</h4>
 
-<p><b>Couverture courte (short hedge)</b>: le hedger détient l'actif sous-jacent au contrat (ou va le recevoir) et prévoit de le vendre dans un futur proche. Il doit donc prendre une position courte pour se protéger des risques de variation de prix de ce sous-jacent.
-</p>
+<p>Si le hedger détient l'actif sous-jacent au contrat (ou va le recevoir) et prévoit de le vendre dans un futur proche, il doit alors prendre une position courte pour se protéger des risques de variation de prix de ce sous-jacent. C'est une <b>couverture courte (short hedge)</b>.</p>
 
-<p><b>Couverture longue (long hedger)</b>: symétrique de la position courte. Elle sert à se protéger des risques de variation de prix du sous-jacent lorsque que le hedger veut acheter l'actif dans le futur.
-</p>
+<p>Symétriquement, la <b>couverture longue (long hedge)</b> sert à se protéger des risques de variation de prix du sous-jacent lorsque que le hedger veut acheter l'actif dans le futur.</p>
 
 <p>Malheureusement, la courverture n'est pas aussi simple car:
 <ul>
@@ -41,6 +23,8 @@ Ce flux représente le gain ou la perte du trader sur ce contrat.
 	<li>la durée de la couverture souhaitée peut être plus grande que la maturité des contrats disponibles. Le hedger doit alors faire glisser sa couverture d'une échéance à l'autre en prenant des positions successives sur des contrats à maturité plus courte.</li>
 </ul>
 </p>
+
+<br>
 
 <h4>Les Forward Rate Agreement FRA</h4>
 

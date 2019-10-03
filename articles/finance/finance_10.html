@@ -2,15 +2,17 @@
 
 <p>Nous supposons que l'actif sous-jacent de l'option est une action pour simplifier les explications. Les résultats présentés dans cette section sont aussi valables pour d'autres actifs sous-jacents.</p>
 
+<br>
+
 <h4>Les spreads</h4>
 
-<p>Les spreads comportent une position dans une ou plusierus options d'achat ou position dans une ou plusierus options de ventes.</p>
+<p>Les <b>spreads</b> comportent une position dans une ou plusierus options d'achat ou position dans une ou plusierus options de ventes.</p>
 
 <p><b>Bull spread (spread haussier)</b>:
 <ul>
   <li>achat d'un call européen \((K_1, T)\)</li>
   <li>vente d'un call européen \((K_2, T)\)</li>
-  <li>\(​K_1 < K_2K\)</li>
+  <li>\(​K_1 < K_2\)</li>
 </ul>
 </p>
 
@@ -20,11 +22,7 @@
 
 <p>Si \(S_T < K_1\) alors les revenus finaux sont \(0 + 0 = 0\)</p>
 
-<p>Le trader obtient des bénéfices si \(S_T\) est grand.</p>
-
-<div class="text-center">
-<img src="../../img/finance/bull-spread.png" class="img-fluid" alt="bull-spread">
-</div>
+<p>Le trader obtient donc des bénéfices si \(S_T\) est grand.</p>
 
 <p><b>Bear spread (spread baissier)</b>:
 <ul>
@@ -40,11 +38,8 @@
 
 <p>Si \(S_T < K_1\) alors les revenus finaux sont \((K_2 - S_T) + (S_T - K_1) = K_2 - K_1\)</p> ​
 
-<p>Le trader obtient des bénéfices si \(S_T\) est petit.</p>
+<p>Le trader obtient donc des bénéfices si \(S_T\) est petit.</p>
 
-<div class="text-center">
-<img src="../../img/finance/bear-spread.png" class="img-fluid" alt="bear-spread">
-</div>
 
 <p><b>Butterfly spread</b>:
 <ul>
@@ -63,15 +58,13 @@
 
 <p>Si \(S_T < K_1\) alors les revenus finaux sont \(0 + 0 + 0 = 0\)</p>
 
-<p>Le trader obtient des bénéfices si \(S_T\) est proche de \(K_2\).</p> 
+<p>Le trader obtient donc des bénéfices si \(S_T\) est proche de \(K_2\).</p> 
 
-<div class="text-center">
-<img src="../../img/finance/butterfly-spread.png" class="img-fluid" alt="butterfly-spread">
-</div>
+<br>
 
 <h4>Les combinaisons (straddles, strips, straps, strangles)</h4>
 
-<p>Les combinaisons comportent une position à la fois dans des options d'achat et des options de vente.</p>
+<p>Les <b>combinaisons</b> comportent une position à la fois dans des options d'achat et des options de vente.</p>
 
 <p><b>Straddle</b>:
 <ul>
@@ -84,22 +77,13 @@
 
 <p>Si \(S_T < K\) alors les revenus finaux sont \(0 + (K-S_T) = K - S_T\)</p>
 
-<p>Le trader obtient des bénéfices si \(S_T\) est loin de \(K\).</p>
-
-
-<div class="text-center">
-<img src="../../img/finance/straddle.png" class="img-fluid" alt="straddle">
-</div>
+<p>Le trader obtient donc des bénéfices si \(S_T\) est loin de \(K\).</p>
 
 <p>Deux alternatives aux straddles prennent en compte le fait que le trader estime qu'il est plus probable que l'action soit haussière ou baissière (en plus du fait qu'il parie sur une forte variation de l'action).</p>
 
 <p>Dans un <b>strip</b> (un call et deux puts), le trader parie sur une forte variation du prix de l'action avec une probabilité plus importante pour la baisse que la hausse.</p>
 
 <p>Dans un <b>strap</b> (deux calls et un put), le trader parie sur une forte variation du prix de l'action avec une probabilité plus importante pour la hausse que la baisse.</p>
-
-<div class="text-center">
-<img src="../../img/finance/strip-strap.png" class="img-fluid" alt="strip-strap">
-</div>
 
 
 <p><b>Strangle</b>:
@@ -116,10 +100,6 @@
 
 <p>Si \(S_T < K_1\) alors les revenus finaux sont \(0 + (K_1 - S_T) = K_1 - S_T\)</p>
 
-<p>Le trader obtient des bénéfices si \(S_T\) est largement inférieur à \(K_1\) ou largement supérieur à \(K_2\)</p>
-
-<div class="text-center">
-<img src="../../img/finance/strangle.png" class="img-fluid" alt="strangle">
-</div>
+<p>Le trader obtient donc des bénéfices si \(S_T\) est largement inférieur à \(K_1\) ou largement supérieur à \(K_2\)</p>
 
 

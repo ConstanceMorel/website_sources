@@ -2,6 +2,8 @@
 
 <p>Les lettres grecques sont des indicateurs de risques sur les positions en options. Les traders les utilisent pour couvrir les risques d'un protefeuille d'options. Chaque lettre grecque mesure une dimension différente (prix du sous-jacent, volatilité, temps, ...) du risque d'une position en option.</p>
 
+<br>
+
 <h4>Le delta</h4>
 
 <p>Le <b>delta</b> d'une option mesure la sensibilité du prix de l'option à une variation donée du cours du sous-jacent.</p>
@@ -19,10 +21,6 @@ $$\delta(call) = N(d_1) > 0 $$
 $$\delta(put) = N(d_1) - 1 < 0$$
 </p>
 
-<div class="text-center">
-<img src="../../img/finance/delta.png" class="img-fluid" alt="delta">
-</div>
-
 <p><b>Delta d'une option européenne sur action versant un dividende de taux \(q\):</b>
 
 $$\delta(call) = e^{-qT} N(d_1)$$
@@ -31,6 +29,8 @@ $$\delta(put) = e^{-qT} (N(d_1) - 1)$$
 </p>
 
 <p>Le <b>delta d'un portefeuille d'options</b> est la somme des deltas des options qui le composent.</p>
+
+<br>
 
 <h4>Le gamma</h4>
 
@@ -51,16 +51,14 @@ $$\gamma(call) = \gamma(put) = \frac{N'(d_1)}{S \sigma \sqrt{T}} \ge 0 $$
 avec \(N'(x) = \frac{1}{\sqrt{2 \Pi}} e^{-x^2/2}\)
 </p>
 
-<div class="text-center">
-<img src="../../img/finance/gamma.png" class="img-fluid" alt="gamma">
-</div>
-
 <p><b>Gamma d'une option européenne sur action versant un dividende de taux \(q\):</b>
 
 $$\gamma(call) = \gamma(put) = \frac{N'(d_1) e^{-qT}}{S \sigma \sqrt{T}} \ge 0 $$
 </p>
 
 <p>Pour avoir un portefeuille delta-neutre et gamma-neutre, il faut d'abord prendre des positions sur des options pour rendre le portefeuille gamma-neutre (cela modifie le delta du portefeuille). Puis il faut prendre des positions sur l'actif sous-jacent pour rendre le portefeuille delta-neutre (cela ne modifie pas le gamma du portefeuille car l'actif sous-jacent est linéairement lié à l'option).</p>
+
+<br>
 
 <h4>Le thêta </h4>
 
@@ -77,10 +75,6 @@ $$\theta(call) = - \frac{S N'(d_1) \sigma}{2 \sqrt{T}} - r K e^{-rT} N(d_2)$$
 
 $$\theta(put) = - \frac{S N'(d_1) \sigma}{2 \sqrt{T}} + r K e^{-rT} N(-d_2)$$
 </p>
-
-<div class="text-center">
-<img src="../../img/finance/theta.png" class="img-fluid" alt="theta">
-</div>
 
 <p>Thêta d'une option européenne sur action versant un dividende de taux \(q\):
 
@@ -99,6 +93,8 @@ $$ r f = \frac{\partial f}{\partial t}  + r S \frac{\partial f}{\partial S} \fra
 $$r f = \theta + rS \delta + \frac{1}{2} \sigma^2 S^2 \gamma$$
 </p>
 
+<br>
+
 <h4>Le véga</h4>
 
 <p>Le <b>véga</b> mesure la sensibilité du prix de l'option à la volatilité implicite.
@@ -114,14 +110,12 @@ avec \(P\) le prix de l'option et \(\sigma\) sa volatilité implicite.
 $$\nu(call) = \nu(put) = S \sqrt{T} N'(d_1)$$
 </p>
 
-<div class="text-center">
-<img src="../../img/finance/vega.png" class="img-fluid" alt="vega">
-</div>
-
 <p><b>Véga d'une option européenne sur action versant un dividende de taux \(q\):</b>
 
 $$\nu(call) = \nu(put) = S \sqrt{T}N'(d_1) e^{-qT}$$
 </p>
+
+<br>
 
 <h4>Le rhô</h4>
 
@@ -144,6 +138,8 @@ $$\rho(call) = K T e^{-rT} N(d_2)$$
 
 $$\rho(put) = - K T e^{-rT} N(-d_2)$$
 </p>
+
+<br>
 
 <h4>Les grecques pour les options sur indices, devises, contrats futures</h4>
 
