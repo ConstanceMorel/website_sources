@@ -12,8 +12,8 @@
 
 <p>Les deux principales applications de la cryptographie asymétriques sont les suivantes:
 <ul>
-	<li> communications chiffrées: Alice envoie un message à Bob et chiffre le message avec la clé publique de Bob. Pour déchiffrer le message, la clé privée de Bob est nécessaire. Donc uniquement Bob peut déchiffrer le message.</li>
-	<li> authentification/signature: Alice signe un message avec sa clé privée. En utilisant la clé publique d'Alice, tout le monde peut vérifier que le message a bien été signé par Alice.</li>
+	<li> communications chiffrées : Alice envoie un message à Bob et chiffre le message avec la clé publique de Bob. Pour déchiffrer le message, la clé privée de Bob est nécessaire. Donc uniquement Bob peut déchiffrer le message.</li>
+	<li> authentification/signature : Alice signe un message avec sa clé privée. En utilisant la clé publique d'Alice, tout le monde peut vérifier que le message a bien été signé par Alice.</li>
 </ul>
 
 <div class="text-center">
@@ -28,6 +28,7 @@
 <ul>
 	<li>connaitre l'adresse de Bob (sa clé publique)</li>
 	<li>avoir une paire de clés (clé publique + clé privée)</li>
+	<li>détenir des bitcoins</li>
 </ul></p>
 
 <p>Pour activer la transaction, Alice va envoyer au réseau bitcoin un message contenant les informations de la transaction (l'identifiant ID de la transaction précédente prouvant qu'Alice détient des bitcoins, la clé publique de Bob et le montant de la transaction). Pour prouver son identité, Alice va signer le message avec sa clé privée. Si Alice a assez de bitcoins dans la transaction précédente, alors le mineur va valider la transaction (voir Section <u><a href="?page=3">Mineur</a></u>) et ajouter la transaction dans la blockchain (un livre cryptographique contenant toutes les transactions valides de bitcoins). Les bitcoins sont maintenant détenus par Bob. 
