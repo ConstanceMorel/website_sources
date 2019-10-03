@@ -1,0 +1,6 @@
+bootstrap.min.js https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js
+jquery-3.4.1.min.js https://code.jquery.com/jquery-3.4.1.min.js
+jquery-migrate-3.0.0.min.js https://code.jquery.com/jquery-migrate-3.0.0.min.js
+jquery.waypoints.min.js http://imakewebthings.com/waypoints/js/jquery.waypoints.min.js
+owl.carousel.min.js https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.min.js
+stellar.js https://markdalgleish.com/projects/stellar.js/js/stellar.js
