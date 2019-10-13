@@ -1,35 +1,23 @@
-<h1>Algorithmes évolutionnistes</h1>
+<h1>Apprentissage non supervisé</h1>
 
+<p>Les algorithmes d'<b>apprentissage non supervisé</b> peuvent avoir différents objectifs. Contrairement aux algorithmes d'apprentissage supervisé, la base de données n'est pas labelisée. Par exemple, l'algorithme k-means permet de séparer un ensemble de données non labelisés en groupes.</p>
 <br>
 
-<h4>Algorithme génétique</h4>
+<h4>k-means</h4>
 
-<p>Voici les principales étapes des algorithmes génétiques:
+<p>L'algorithme <b>k-moyennes (k-means)</b> permet de partitionner une base de données non labelisée. Cet algorithme prend en entrée des données \((x_1, ..., x_n)\) et un entier \(k\). L'apprentissage va permettre de ranger ces données dans \(k\) groupes appelés clusters. Les données d'un même groupe seront proches entre elles et seront éloignées des données des autres groupes. Mathématiquement, le but est de minimiser la distance d'une donnée à la moyenne des données de son cluster : \(argmin _S \sum _{i=1}^k \sum _{x_j \in S_i} dist(x_j, \mu_i)\) avec \((S_1,..., S_k)\) les \(k\) groupes et \(\mu _i \) la moyenne des données du groupe \(S_i\).</p>
+
+<p>L'algorithme classique pour résoudre ce problème est la <b>méthode des k-moyennes</b>. Tout d'abord \(k\) points \(m_1, ..., m_k\) représentant les moyennes de chaque groupe sont choisis aléatoirement. Puis les étapes suivantes sont répétées jusque convergence :
 <ul>
-	<li><b>Initialisation:</b> population d'individus aléatoires</li>
-	<li><b>Variations</b> pour créer des nouveaux individus</li>
-	<ul>
-		<li>Croisements: mélanger le contenu de plusieurs individus</li>
-		<li>Mutations: quelques modifications aléatoires</li>
-	</ul>
-	<li><b>Sélection</b> des survivants</li>
-	<ul>
-		<li>Roulette: probabilité de survivre proportionnelle à un score</li>
-		<li>Classement: avec une fonction de score par exemple soft-max</li>
-		<li>Tournois: des paires aléatoires d'individus sont créées et le meilleur de chaque paire est conservé</li>
-	</ul>
-	<li><b>Nouvelles générations</b> créées de manière itérative</li>
+	<li>Effectuer une partition de Voronoi selon les moyennes :
+	$$S_i = \{ x_p : dist(x_p, m_i) \leq dist(x_p, m_j), \forall 1 \leq j \leq k \}$$</li>
+	<li>Mettre à jour la moyenne de chaque cluster: $$\forall i, m_i = \frac{1}{|S_i|} \sum_{x_j \in S_i} x_j$$</li>
 </ul></p>
 
-<br>
+<p>Chaque donnée appartenant à la base de données d'apprentissage appartient maintenant à l'un des \(k\) groupes. Si nous avons une nouvelle donnée et nous voulons savoir à quel groupe elle appartient, il suffit de calculer la distance entre cette donnée et chacun des centres des groupes \(m_i\) et d'assigner à cette nouvelle donnée le groupe pour lequel la distance à son centre est minimal.</p>
 
-<h4>Population-Based Incremental Learning (PBIL)</h4>
+<p>Attention cet algorithme est sensible aux minima locaux. Il peut être utile de le lancer plusieurs fois avec des initialisations différentes et de conserver l'apprentissage qui a une erreur globale minimale (somme de la distance de chacun des points de la base d'apprentissage à son centre le plus proche).</p>
 
-<p>Similaire à l'algorithme génétique mais la population d'individus est remplacée par un vecteur de probabilité représentant l'individu idéal (un individu est représenté par un vecteur binaire)
-<ul>
-	<li>Vecteur de probabilité représentant l'individu idéal</li>
-	<li>Création d'une population à l'aide du vecteur de probabilités</li>
-	<li>Appliquer une étape de l'algorithme génétique pour créer une nouvelle population</li>
-	<li>Mise à jour du vecteur de probabilités avec un learning rate de \(\eta\)
-$$p = p \times (1 - \eta) + \eta \times mean (population)$$</li>
-</ul></p>
+<p>Cet algorithme peut par exemple être utilisé afin de partitionner les clients d'un magasin en groupes. Cela facilite la publicité ciblée car les clients d'un même groupe ont des chances d'aimer les mêmes produits.</p>
+
+<p>Cet algorithme est aussi utilisé pour réduire le bruit dans un ensemble de données en remplaçant chaque donnée en entrée par son centre le plus proche.</p>

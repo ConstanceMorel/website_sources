@@ -1,54 +1,83 @@
-<h1>Réduction de dimension</h1>
+<h1>Réseau de neurones</h1>
 
-<p><b>Objectifs</b>: décrire/visualiser des données, les décorréler, les débruiter, améliorer les performances d'un apprentissage</p>
-
-<p><b>Méthodes</b>: feature  selection (garder les features qui sont le plus correlés à la target), feature  derivation (créer des nouvelles features), clustering (regrouper ensemble des données similaires)</p>
-
-<p>Dans la suite, X est une matrice contenant l'ensemble des données dont chaque ligne correspond à une donnée.</p>
+<p>Nous allons commencer par présenter le perceptron qui est le réseau de neurones le plus simple. Il permet uniquement de classifier des problèmes linéairement séparables. Puis nous allons présenter le multilayer perceptron MLP qui permet de classifier des problèmes non linéairement séparables.</p>
 
 <br>
 
-<h4>Linear Discriminant Analysis  LDA</h4>
+<h4>Le perceptron</h4>
 
-<p><ul>
-	<li>Sur notre base de données, calculer le vecteur moyen pour chacune des classes noté \(\mu_c\) et le vecteur moyen pour toutes les classes noté \(\mu\)</li>
-	<li>Mesurer l'éparpillement (scatter) des données:</li>
-	<ul>
-		<li>scatter  matrix pour la classe \(i\): \(S_i = \sum_{x \in C_i} (x-\mu_i)(x-\mu_i)^T\)</li>
-		<li>within-class  scatter: \(S_W = mean(S_i)\)</li>
-		<li>between classes scatter: \(S_B = \sum_i (\mu_c - \mu) ( \mu_c - \mu)^T\)</li>
-	</ul>
-	<li>Objectif: trouver la projection \(W\) qui permet d'avoir le quotient \((W^T S_B W)/(W^T S_W W)\) aussi grand que possible</li>
-	<li>Méthode (spectral decomposition):</li>
-	<ul>
-		<li>si \(w\) est un vecteur propre de \(S_W^{-1} S_B\), le quotient sera égal à sa valeur propre</li>
-		<li>Calculer les vecteurs propres et valeurs propres de \(S_W^{-1} S_B\)</li>
-		<li>Conserver uniquement les vecteurs propres des valeurs propres les plus grandes pour construire la matrice de projection \(W\) (chaque ligne est un vecteur propre)</li>
-	</ul>
-	<li>Appliquer la réduction à un vecteur \(x\): \(T = W x\)</li>
-</ul></p>
+<p>Le <b>perceptron</b> est un algorithme d'apprentissage supervisé à deux classes. Il permet uniquement de classifier des données linéairement séparables. Il prend en entrée une donnée \(X=(x_1, ..., x_n)^T \in \mathbb{R}^n\) pour en déterminer sa classe \(y \in \{0, 1\}\). En dimension 2, le perceptron consiste en une droite qui sépare l'espace en deux domaines. Si un point est au dessus de la droite alors il a pour classe 1 et sinon il a pour classe 0. Le perceptron peut par exemple être utilisé pour définir si un mail est un spam ou pas.</p>
+
+<p>Mathématiquement, le perceptron est défini par ses poids \(W=(w_1, ..., w_n)^T \in \mathbb{R}^n\) et son biais/seuil \(b \in \mathbb{R}\). Nous notons \(h_{W,b}(X) = W^T X + b\) la fonction représentant le perceptron. Pour déterminer la classe de sortie sur une nouvelle entrée \(X\), il faut calculer \(h_{W,b}(X)\). Si nous obtenons un nombre supérieur ou égal à 0, la classe de sortie est 1, sinon la classe de sortie est 0.</p>
+
+<div class="text-center">
+<img src="../../img/machinelearning/perceptron.png" class="img-fluid" alt="perceptron">
+</div>
+
+<p>Le biais \(b\) peut être intégré au vecteur \(W\). Pour cela, une coordonnée égale à 1 est ajoutée à chaque vecteur d'entrée \(X\) et son poid associé \(w_0\) est ajoutée au vecteur \(W\). Nous avons alors \(h_{W}(X) = W^T X\) et la sortie du perceptron est égale à 0 si \(h_{W}(X)<0\) et 1 si \(h_{W}(X) \geq 0\). </p>
+
+<div class="text-center">
+<img src="../../img/machinelearning/perceptron_no_bias.png" class="img-fluid" alt="perceptron_no_bias">
+</div>
+
+<p>Supposons que nous avons une base de données d'apprentissage contenant des couples \((X,y)\) avec \(X \in \mathbb{R}^n\) la donnée et \(y \in \{0,1\}\) la classe. L'objectif de l'apprentissage est de trouver \(W \in \mathbb{R}^n\) tel que pour tous les couples \((X, y)\), nous avons \(h_{W}(X) \geq 0\) si \(y=1\) et \(h_{W}(X) < 0\) si \(y=0\). A chaque étape de l'apprentissage, un nouveau couple \((X, y)\) de la base de données est utilisé afin d'améliorer les paramètres du perceptron. Analysons si nous devons augmenter ou réduire le poids \(w_k\). Si le perceptron actuel classifie correctement la donnée \(X\) alors il n'est pas nécesaire de modifier les poids. Si \(x_k\) est positif et si le perceptron actuel classifie la donnée en 0 mais que la classe est égale à 1, alors le poids \(w_k\) du perceptron est trop petit. Si \(x_k\) est positif et si le perceptron actuel classifie la donnée en 1 mais que la classe est égale à 0, alors le poids \(w_k\) du perceptron est trop grand. Au contraire si \(x_k\) est négatif et si le perceptron actuel classifie la donnée en 0 mais que la classe est égale à 1, alors le poids \(w_k\) du perceptron est trop grand. Si \(x_k\) est négatif et si le perceptron actuel classifie la donnée en 1 mais que la classe est égale à 0, alors le poids \(w_k\) du perceptron est trop petit. Par conséquent, les nouveaux poids du perceptron peuvent être définis par \(w_k \leftarrow w_k - (s - y)x_k\) avec 
+\(s = \begin{cases} 0 & \text{ si } h_{W}(X)<0 \\ 1 & \text{ si } h_{W}(X) \geq 0 \end{cases}\). Habituellement un paramètre \(\alpha\) appelé <b>learning rate</b> est introduit pour ajuster la vitesse d'apprentissage. Les nouveaux poids sont calculés ainsi \(w_k \leftarrow w_k - \alpha(s - y)x_k\).</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td>y</td>
+      <td>s</td>
+      <td>\(x_k \geq 0\)</td>
+      <td>\(x_k < 0\)</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>\(w_k\) trop petit</td>
+      <td>\(w_k\) trop grand</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>\(w_k\) trop grand</td>
+      <td>\(w_k\) trop petit</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<p>Il existe différentes <b>astuces</b> pour améliorer ou accélérer l'apprentissage. On peut normaliser les entrées (avant la séparation de la BDD en apprentissage, validation, test) afin d'avoir une moyenne à zéro et une variance à 1 sur chaque coordonnée. On peut réduire le bruit sur les données en entrées avant de commencer l'apprentisage (par exemple, en effectuant une réduction de dimension).</p>
 
 <br>
 
-<h4>Principal Component  Analysis  PCA</h4>
+<h4>Multi-Layer Perceptron  MLP</h4>
 
-<p>Similaire à LDA mais pour des données non labellisées
+<p>Afin de résoudre des problèmes non linéairement séparables, le multi-layer perception peut être utilisé. C'est une combinaison de plusieurs perceptrons en série et en parallèle. Afin de résoudre des problèmes non linéairement séparables, une fonction non linéaire appelée fonction d'activation est utilisée. Les fonctions d'activation les plus utilisées sont la ReLU \(f(x) = \max(0,x)\) ou la sigmoid \(f(x) = (1 + e^{-x})^{-1}\). Cette fonction d'activation est appliquée à la sortie de chaque perceptron  \(f(W^T X + B)\) à la place de la comparaison à 0.</p>
+
+<div class="text-center">
+<img src="../../img/machinelearning/MLP.png" class="img-fluid" alt="mlp">
+</div>
+
+<p>La dernière couche contient autant de neurones que de classes. Par exemple, si nous voulons reconnaître les chiffres de 0 à 9, la dernière couche contient 10 classes. L'indice du neurone le plus grand de la dernière couche indique la catégorie/classe de sortie. Afin d'interpréter les neurones de sortie par des probabilités, la fonction softmax est souvent ajoutée après la dernière couche: \(f(x_i) = \frac{e^{x_i}}{\sum _j e^{x_j}}\). Avec la fonction softmax, l'erreur est parfois calculée à l'aide de la cross-entropy: \(- \sum_k y_k \cdot ln(f(x_k))\).</p>
+
+<p>Supposons que nous avons une base de données d'apprentissage contenant des couples \(x_i, y_i\) avec \(x_i\) une donnée appartenant à la classe \(y_i\). Il faut tout d'abord définir une fonction d'erreur qui permettra d'évaluer les performances du MLP. La fonction d'erreur la plus couramment utilisé est une moyenne des erreurs sur chaque donnée (Mean squared error MSE):
+$$\frac{1}{m} \sum _{i,j} (h(x_i)_j - y_{i,j})^2$$
+avec \(h(x_i)_j\) la j-ième composante du vecteur en sortie du MLP évalué sur l'entrée \(x_i\) et \(y_{i,j}\) qui est égal à 1 si \(y_i\) correspond à la j-ième classe et à 0 sinon. L'apprentissage du MLP s'effecture en deux étapes. Durant le <b>forward step</b>, on calcule \(h(x_i)\) la sortie du MLP pour chaque donnée \(x_i\) de la base d'apprentissage. Durant le <b>backward step</b>, on effectue une descente de gradient sur la fonction d'erreur afin d'améliorer les poids du réseau. Les nouveaux poids du réseau sont alors \(W \leftarrow W - \alpha \nabla E(W)\) avec \(E(W) = \frac{1}{m} \sum _{i,j} (h_W(x_i)_j - y_{i,j})^2\). Le calcul de \(\nabla E(W)\) est assez simple grâce à la règle de la dérivée en chaine : \(\frac{dz}{dx} = \frac{dz}{dy}\frac{dy}{dx}\). On répète plusieurs fois ces deux étapes jusque convergence. Il peut être utile d'utiliser une courbe représentant l'erreur en fonction du nombre d'itérations afin de décider quand arrêter l'apprentissage. Quand l'erreur sur la courbe commence à stagner, nous sommes au début de la zone de surapprentissage.</p>
+
+<p>Il existe différentes variantes du <b>forward step</b> en fonction des données que nous utilisons pour l'effectuer :
 <ul>
-	<li>Initialisation: centrer et réduire les entrées (moyenne à 0 et variance à 1)</li>
-	<li>Objectif: trouver la projection \(W\) qui permet de maximiser l'éparpillement des données: scatter  matrix  \(S = \sum_{x} W^T x^T x W\)</li>
-	<li>Méthode:</li>
-	<ul>
-		<li>Calculer les vecteurs propres et valeurs propres de \(X^T X\)</li>
-		<li>Conserver uniquement les vecteurs propres des valeurs propres les plus grandes pour construire la matrice de projection \(W\)</li>
-	</ul>
-	<li>Appliquer la réduction à un vecteur \(x\): \(T = W x\)</li>
-</ul></p>
+	<li>Batch algorithm : mise à jour des poids après avoir évalué l'erreur sur toutes les entrées</li>
+	<li>Sequential algorithm : mise à jour des poids après avoir évalué l'erreur sur une seule entrée</li>
+	<li>Minibatch : partitionner la base d'apprentissage en partitions appelées batchs et effectuer la descente de gradient batch par batch (un epoch est une itération sur la base d'apprentissage toute entière)</li>
+	<li>Stochastic Gradient Descent  SGD : similaire à sequential algorithm mais en prenant une entrée aléatoire à chaque itération</li>
+</ul>
+</p>
 
-<p>Afin d'effectuer une transformation non linéaire lors de la réduction de dimension, un kernel peut être utilisé (similaire à l'utilisation de kernels pour les SVM).</p>
+<p>Pour la plupart des problèmes, deux couches cachées suffisent amplement car nous pouvons approximer toutes les fonctions lisses (smooth) par un réseau à deux couches cachées. Le nombre de neurones par couche s'obtient par expérimentation. Il est conseillé de faire une dizaine d'apprentissages par architecture et faire la moyenne des performances obtenues afin de ne pas se tromper à cause d'une initialisation des poids chanceuses. Il est souvent nécessaire d'avoir au moins 10 fois plus de données que de poids dans le réseau à apprendre.</p>
 
-<br>
+<p>Un MLP peut aussi être utilisé pour faire de la compression (auto-encoder). Pour cela, il suffit que l'entrée soit identique à la sortie et que la couche juste avant la sortie contienne moins de neurones que la couche de sortie. Il faut alors apprendre le réseau et la donnée compressée correspond à la dernière couche cachée. Si nous utilisons une activation linéaire, alors cette méthode est équivalente à une PCA.</p>
 
-<h4>Independent  Component  Analysis  ICA</h4>
-
-<p>Dans l'algorithme PCA, les composantes de la projection sont orthogonales \(b_i \cdot b_j = 0\) et non corrélées \(cov(b_i, b_j) = 0\). Dans ICA, il est de plus imposé que les composantes de la projection soient indépendantes entre elles: \(E[b_i, b_j] = E[b_i]E[b_j]\)</p>
-
+<p>Le MLP est le réseau de neurones de base. Il existe de nombreuses autres variantes de réseaux de neurones. Par exemple, les Convolutional Neural Networks CNN sont des réseaux de neurones adaptés à l'apprentissage sur des images. Par rapport au perceptron, les couches linéaires sont remplacés par des couches de convolution  inspirées des filtres en traitement d'images.</p>

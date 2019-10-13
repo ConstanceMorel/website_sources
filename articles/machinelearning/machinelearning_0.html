@@ -1,133 +1,86 @@
 <h1>Introduction</h1>
 
+<p>Dans cet article, nous allons présenter rapidement le fonctionnement des principaux algorithmes de machine learning.</p>
+
 <br>
 
 <h4>Types de machine learning</h4>
 
-<p><b>Apprentissage supervisé (classification et régression):</b> à partir d'une BDD d'apprentissage avec des données et leurs labels, il faut généraliser afin de donner un label à des données jamais vues
+<p>Nous allons tout d'abord présenter les différents types de machine learning :
 <ul>
-	<li>CNN, SVM, arbres de décision (ID3, C5, CART), régression linéaire</li>
-	<li>AdaBoost, Bagging</li>
-</ul>
-</p>
+	<li>l'apprentissage supervisé</li>
+	<li>l'apprentissage non supervisé</li>
+	<li>l'apprentissage par renforcement</li>
+	<li>l'apprentissage évolutionniste</li>
+	<li>la réduction de dimension</li>
+	<li>les systèmes de recommandations</li>
+</ul></p>
 
-<p><b>Apprentissage non supervisé (clustering):</b> partitionner les données afin que les données dans une même partition soient proches entre elles (aient quelque chose en commun) et les données provenant de deux partitions différentes soient éloignées
-<ul>
-	<li>k-means, algorithme EM, regroupement hiérarchique (arbre)</li>
-</ul>
-</p>
+<p>Pour chacun de ces types de machine learning, le fonctionnement de quelques algorithmes seront présentés dans les sections suivantes.</p>
 
-<p><b>Apprentissage par renforcement:</b> apprentissage d'un bon comportement à partir d'observations/récompenses. A chaque étape, l'algorithme propose une action et le système donne un score à cette action (indiquant si l'action est bénéfique ou pas) sans indiquer comment améliorer ce score.
-<ul>
-	<li>Q-learning, Hidden Markov Model (Viterbi et Baum Welch)</li>
-</ul>
-</p>
+<p>L'<b>apprentissage supervisé</b> est utilisé pour la classification et la régression. A partir d'une base de données BDD d'apprentissage avec des données et leurs labels, il faut généraliser afin de donner un label à des données jamais vues. Nous avons par exemple une base de données contenant des images de chiffres manuscrits et le label de chaque image (à quel chiffre correspond chaque image). Avec un apprentissage supervisé, nous allons pouvoir apprendre à reconnaitre les chiffres manuscrits. Après la phase d'apprentissage, notre algorithme pourra déterminer avec un faible taux d'erreurs, le chiffre manuscrit présent sur une nouvelle image (qui n'appartient pas à la base de données d'apprentissage). Les principaux algorithmes supervisés sont les réseaux de neurones, SVM, les arbres de décision (ID3, C5, CART), la régression linéaire, l'AdaBoost et le Bagging.</p>
 
-<p><b>Apprentissage évolutionniste:</b> le principe s'inspire de la théorie de l'évolution pour résoudre des problèmes diverses. La théorie de l'évolution repose sur le fait que les organismes s'adaptent pour améliorer leur taux de survie et celui de leurs descendants
-<ul>
-	<li>algorithmes génétiques, PBIL</li>
-</ul>
-</p>
+<p>L'<b>apprentissage non supervisé</b> est utilisé pour partitionner les données (clustering) afin que les données dans une même partition soient proches entre elles (aient quelque chose en commun) et les données provenant de deux partitions différentes soient éloignées. Contrairement à l'apprentissage supervisé, la base de données d'apprentissage ne contient plus les labels. L'apprentissage non supervisé peut par exemple être utilisé pour regrouper les clients d'un magasin en différents groupes afin de faciliter le ciblage marketing. Les clients d'un même groupe aiment les mêmes produits. Les principaux algorithmes non supervisés sont le k-means, les algorithme EM et le regroupement hiérarchique (basé sur la contruction d'un arbre).</p>
 
-<p><b>Réduction de dimension (compression):</b> réduire la dimension des entrées afin de réduire le stockage toute en gardant un maximum d'information
-<ul>
-	<li>LDA, PCA, ICA</li>
-</ul>
-</p>
+<p>L'<b>apprentissage par renforcement</b> est un apprentissage d'un bon comportement à partir d'observations/récompenses. A chaque étape, l'algorithme propose une action et le système donne un score à cette action (indiquant si l'action est bénéfique ou pas) sans indiquer comment améliorer ce score. L'apprentissage par renforcement est par exemple utilisé pour créer des intelligences artificielles jouant au backgammon, aux échecs ou au go. Les principaux algorithmes d'apprentissage par renforcement sont le Q-learning et les algorithmes basés sur les Hidden Markov Models (Viterbi et Baum Welch).</p>
 
-<p><b>Système de recommandations:</b> filtrage de l'information visant à présenter les éléments d'information (films, musique, livres, news, images, pages Web, etc) qui sont susceptibles d'intéresser l'utilisateur
-<ul>
-	<li>collaborative filtering, content-based filtering, hybrid algorithm</li>
-</ul>
-</p>
+<p>L'<b>apprentissage évolutionniste</b> s'inspire de la théorie de l'évolution pour résoudre des problèmes diverses. La théorie de l'évolution repose sur le fait que les organismes s'adaptent pour améliorer leur taux de survie et celui de leurs descendants. Les principaux algorithmes évolutionnistes sont les algorithmes génétiques et PBIL.</p>
+
+<p>La <b>réduction de dimension</b> est utilisé pour réduire la dimension des entrées afin de réduire le stockage toute en gardant un maximum d'information. La réduction de dimension peut aussi être utilisée pour garder uniquement les informations les plus intéressantes d'une base de données. Les principaux algorithmes de réduction de dimension sont LDA, PCA et ICA.</p>
+
+<p>Le <b>système de recommandations</b> est un filtrage de l'information visant à présenter les éléments d'information (films, musique, livres, news, images, pages Web, etc) qui sont susceptibles d'intéresser un utilisateur. Les principaux algorithmes de recommandations sont le collaborative filtering, le content-based filtering et l'hybrid algorithm.</p>
 
 <br>
 
 <h4>Machine learning process</h4>
 
-<p>
-<ul>
+<p>Pour la plupart des algorithmes de machine learning, le process global de mise en place de l'apprentissage est similaire :
+<ol>
 	<li>Récupération et nettoyage des données</li>
 	<li>Création des features</li>
 	<li>Choix de l’algorithme</li>
 	<li>Détermination des paramètres de l’algorithme</li>
 	<li>Apprentissage</li>
 	<li>Evaluation</li>
-</ul>
+</ol>
 </p>
 
-<br>
-
-<h4>Séparation de la base de données</h4>
-
-<p><ul>
-	<li>Base d’apprentissage : 60%</li>
-	<li>Base de validation : 20%</li>
-	<li>Base de test : 20%</li>
+<p>La base de données est généralement partitionnée en trois bases : 
+<ul>
+	<li>Base d’apprentissage (60%)</li>
+	<li>Base de validation (20%)</li>
+	<li>Base de test (20%)</li>
 </ul></p>
 
-<p>Méthode de cross-validation : séparer la base d’apprentissage \(80\%\) en K
-sous-ensembles : prendre le 1er sous-ensemble pour la validation et apprendre
-avec les autres sous-ensembles, puis prendre le 2e sous-ensemble pour la validation et apprendre avec les autres sous-ensembles, répéter cette étape K
-fois et conserver l’apprentissage qui a obtenu le meilleur score de validation</p>
+<p>Tous les apprentissages sont effectués sur la base d'apprentissage, la performance de chaque apprentissage est validée sur la base de validation. La base de test est uniquement utilisé à la toute fin. Elle permet d'évaluer les performances de notre algorithmes appris en évitant de prendre en compte le surapprentissage.</p>
+
+<p>La méthode de <b>cross-validation</b> est une méthode d'estimation de la fiabilité d'un apprentissage qui limite le surapprentissage. Dans cette méthode, la base d’apprentissage (80%) est séparée en K sous-ensembles. Le premier sous-ensemble est utilisé pour la validation et les autres sous-ensembles sont utilisés pour l'apprentissage. Puis lors de l'apprentissage suivant, le 2e sous-ensemble est utilisé pour la validation et l'apprentissage est effectué sur les autres sous-ensembles. Et ainsi du suite, jusqu'à avoir effectué K apprentissages. Puis la moyenne des peformances de chaque apprentissage est caclulée pour estimer la performance globale de l'apprentissage.</p>
 
 <br>
 
 <h4>Quelques métriques</h4>
 
-<p><b>Accuracy :</b> nombre d’entrées correctement classifiées sur le nombre total d’entrées</p>
+<p>Il existe différentes métriques pour évaluer les performances d'un apprentissage.</p>
 
-<p><b>Matrice de confusion:</b> l’élément en position (i, j) de la matrice est égal au   nombre d’entrées que l’algorithme place dans la catégorie j alors qu’ils appartiennent à la catégorie i. Par conséquent, les valeurs au niveau de la diagonale de la matrice représentent le nombre d’éléments correctement classifiés. L’accuracy est donc égale à la somme des valeurs de la diagonale divisée par la somme de tous les éléments.</p>
+<p>L'<b>accuracy </b> est égal au nombre d’entrées correctement classifiées sur le nombre total d’entrées</p>
 
- <p><b>Sensibilité (recall), Spécificité, Précision :</b>
+<p>La <b>matrice de confusion</b> est une matrice dont l’élément en position (i, j) est égal au nombre d’entrées que l’algorithme place dans la catégorie j alors qu’ils appartiennent à la catégorie i. Par conséquent, les valeurs au niveau de la diagonale de la matrice représentent le nombre d’éléments correctement classifiés. L’accuracy est donc égale à la somme des valeurs de la diagonale divisée par la somme de tous les éléments.</p>
+
+ <p>La <b>sensibilité (recall), la spécificité et la précision</b> sont calculées à partir de \(TP\) (resp. \(TN\) ) le nombre de vrais positifs (resp. négatifs) et de \(FP\) (resp. \(FN\)) le nombre de faux positifs (resp. négatifs):
   $$recall = TP/(TP + FN )$$
   $$specificity = TN/(TN + FP )$$
   $$precision = TP/(TP + FP )$$
-  avec \(TP\) (resp. \(TN\) ) le nombre de vrais positifs (resp. négatifs), \(FP\) (resp. \(FN\)) le nombre de faux positifs (resp. négatifs)
 </p>
 
 <div class="text-center">
 <img src="../../img/machinelearning/F1score_new.png" class="img-fluid" alt="F1score">
 </div>
 
-<p><b>F1-score :</b> \(2 \cdot precision \cdot recall/(precision + recall)\)</p>
+<p>Le <b>F1-score</b> est un score utilisant la précision et la sensibilité
+$$2 \cdot precision \cdot recall/(precision + recall)$$
+</p>
 
-<p><b>Courbe de ROC (Receiver Operator Characteristic):</b> courbe du pourcentage de vrais positifs (sur l’axe y) par rapport au pourcentage de faux positifs (sur l’axe x). Cette courbe permet de comparer différents paramétrages d’un même classifieur ou de comparer différents classifieurs. L’aire sous la courbe ROC (area under the curve AUC) est une bonne métrique représentant le classifieur.</p>
+<p>La <b>courbe de ROC (Receiver Operator Characteristic)</b> est une courbe représentant le pourcentage de vrais positifs (sur l’axe y) par rapport au pourcentage de faux positifs (sur l’axe x). Cette courbe permet de comparer différents paramétrages d’un même classifieur ou de comparer différents classifieurs. L’aire sous la courbe ROC (area under the curve AUC) est une bonne métrique représentant le classifieur.</p>
 
-<p><b>Minkowski metric:</b> \(L_k(x,y)=\sum _i (|x_i - y_i |^k)^{1/k}\)
-<ul>
-	<li>k = 1 : distance de Manhattan</li>
-	<li>k = 2 : distance Euclidienne</li>
-</ul></p>
+<p>La <b>métrique de Minkowski</b> est égale à \(L_k(x,y)=\sum _i (|x_i - y_i |^k)^{1/k}\). Si k = 1, elle correspond à la distance de Manhattan. Si k = 2, elle correspond à la distance Euclidienne.</p>
 
-<br>
-
-<h4>Quelques rappels de probabilité</h4>
-
-<p><b>Bayes’ rule :</b> \(P (C_i |X_j ) = \frac{P(X_j | C_i) \cdot P(C_i)}{P(X_j)}\) car \(P(X_j |C_i ) = P (X_j , C_i )/P (C_i )\)</p>
-
-<p><b>Posterior probability:</b> \(P (C_i |X_j )\)</p>
-
-<p><b>Prior probability:</b> \(P (C_i )\)</p>
-
-<p><b>Class conditionnal probability:</b> \(P (X_j |C_i )\)</p>
-
-<p><b>Maximum a posteriori (MAP):</b> \(argmax_i P(C_i |X)\) : quelle est la classe la plus probable pour une entrée donnée (vecteur de features)</p>
-
-<p><b>Naive Bayes’ Classifier:</b> MAP en suppossant que les features sont indépendantes entre elles. Donc \(P(X|C_i ) = \prod_j P(X_j |C_i )\). Et donc \(argmax_i P(C_i | X) = argmax_i P(C_i)\) et \(\prod_j P(X_j | C_i) / P(X) = argmax_i  P(C_i) \prod_j P(X_j | C_i)\)</p>
-
-<br>
-
-<h4>Quelques rappels de statistiques</h4>
-
-<p><b>Espérance (expectation) :</b> similaire à une moyenne en prenant en compte les probabilités : \(E[f (X)] = \sum_i f (X_i ) \cdot P (X_i )\)</p>
-
-<p><b>Variance :</b> mesure de dispersion : \(var(X) = E[X-E[X]]^2 = E[X - \mu]^2\) où \(\mu\) est la moyenne/espérance de \(X\)</p>
-
-<p><b>Ecart type (standard deviation std) :</b> \(\sigma = \sqrt{var(X)}\)</p>
-
-<p><b>Covariance :</b> \(cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(cov(X, Y ) = 0\).</p>
-
-<p><b>Gaussienne ou distribution normale :</b> \(p(x) = \frac{1}{\sqrt{2 \pi \sigma}} exp( \frac{-(x-\mu)^2}{2 \sigma^2})\)</p>
-
-<p><b>Central Limit Theorem :</b> convergence en loi de la somme d’une suite de variables aléatoires vers la loi normale</p>

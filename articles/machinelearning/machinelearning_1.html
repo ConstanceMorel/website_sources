@@ -1,28 +1,46 @@
-<h1>Analyse discriminante linéaire</h1>
+<h1>Un peu de maths</h1>
 
-<p>Uniquement pour résoudre les problèmes linéairement séparables: possibilité de trouver un hyperplan qui sépare les deux classes de sorties.</p>
+<br>
 
-<p><b>Perceptron</b> (réseau de neurones basique): il permet uniquement de classifier des données linéairement séparables:
-<ul>
-	<li><b>Entrées</b>: couples \((X,y)\) avec \(y \in \{0,1\}\)</li>
-	<li><b>Objectif</b>: Trouver \(W\) et \(b\) tel que \(h_{W,b}(X) = W^T X + b \geq 0\) si \(y=1\) et \(h_{W,b}(X) = W^T X + b < 0\) si \(y=0\)</li>
-	<li><b>Solution</b> basée sur une descente de gradient: \(w_i = w_i - \alpha(s - y)x_i\) avec 
-\(s = \begin{cases} 0 & \text{ si } h_{W,b}(X)<0 \\ 1 & \text{ si } h_{W,b}(X) \geq 0 \end{cases}\) et \(h_{W,b}(X) = W^T X + b\)</li>
-	<li><b>Astuces</b> pour améliorer ou accélérer l'apprentissage</li>
-	<ul>
-		<li>Learning rate: \(0.1 < \alpha < 0.4\)</li>
-		<li>Ajout d'un biais: ajout d'une coordonnée égale à -1 à chaque vecteur d'entrées X (et de son poids associés \(w_0\)). Cela permet de faire varier le seuil.</li>
-		<li>Normaliser les entrées (avant la séparation de la BDD en apprentissage, validation, test) afin d'avoir une moyenne à zéro et une variance à 1 sur chaque coordonnée</li>
-		<li>Sélection des features: en apprenant sur toutes les features sauf 1 et en comparant les performances du classifieur ou en faisant une réduction de dimension (par exemple, PCA)</li>
-	</ul>
-</ul></p>
+<h4>La descente de gradient</h4>
 
-<p><b>Régression linéaire</b> La grande différence par rapport au perceptron est le format de la sortie. Avec le perceptron, la sortie est une catégorie appartenant à un espace fini et dans le cas de la régression, la sortie est un réel.
-<ul>
-	<li><b>Entrées</b>: couples \((X,y)\) avec \(y \in \mathbb{R}\)</li>
-	<li><b>Objectif</b>: Trouver \(\beta\) tel que pour une nouvelle donnée \(X\), nous avons la sortie \(y=X \beta\)</li>
-	<li><b>Erreur</b>: least square error: \(E = (y-X\beta)(y-X\beta)^T\)</li>
-	<li><b>Solution</b>: \(\frac{\partial E}{\partial \beta} = X^T(y-X\beta)=0\) soit \(\beta = (X^T X)^{-1} X^T y\)</li>
-</ul></p>
+<p>La descente de gradient permet de trouver efficacement un minimum local d'une fonction à plusieurs variables. Supposons que notre fonction représente la surface d'une chaine de montagnes. Le principle consiste de partir d'un point aléatoire sur cette chaine de montagne. A chaque étape, il faut analyser la pente tout autour de soit et descendre d'un pas dans la direction de la pente la plus importante. Losque l'on ne peut plus descendre, nous avons atteint un minimum local de la fonction.</p>
 
-<p>Pour résoudre des problèmes non linéairement séparables avec une analyse discriminante linaire, il faut soit projeter les entrées dans un autre espace (similaire à l'utilisation de kernels pour les SVM), soit ajouter des variables non linéaires (par exemple, \(x_1 \times x_2\)).</p>
+<p>Mathématiquement, nous notons f(x, y) la fonction représentant la surface de notre chaine de montagnes. Trouver la direction de la pente la plus importante correspond à calculer les dérivées partielles \(\frac{\partial f}{\partial x}\) et \(\frac{\partial f}{\partial y}\). C'est le gradient de notre fonction \(\nabla f = (\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y})\). Si nous sommes en position \(x_0, y_0\), la nouvelle position après avoir descendu d'un pas dans la direction de la pente la plus élevée est \((x_0,y_0) - \alpha \nabla f(x_0,y_0)\) avec \(\alpha\) la longueur du pas appelé learning rate.</p>
+
+<p>Le learning rate utilisé pendant la descente de gradient n'est pas forcément constant. Il est conseillé d'en choisir un qui dminue au cours des itérations afin de faire grands pas au début de la descente et les petits pas à la fin. L'exponential  decay est couramment utilisé : \(\alpha = \alpha _0 \cdot e^{-kt}\) où \(t\) est le nombre d'itérations, \(\alpha_0\) est le learning rate initial et \(k\) un paramètre.</p>
+
+<p>La méthode de la descente de gradient est souvent utilisé lors des apprentissages. Le principe est de créer d'une fonction d'erreur qui permet d'évaluer les performances de notre algorithme d'apprentissage. Puis d'effectuer une descente de gradient sur cette fonction d'erreur afin de trouver les paramètres de la fonction qui minimise l'erreur.</p>
+
+
+<br>
+
+<h4>Quelques rappels de probabilité</h4>
+
+<p><b>Bayes’ rule :</b> \(P (C_i |X_j ) = \frac{P(X_j | C_i) \cdot P(C_i)}{P(X_j)}\) car \(P(X_j |C_i ) = P (X_j , C_i )/P (C_i )\)</p>
+
+<p><b>Posterior probability:</b> \(P (C_i |X_j )\)</p>
+
+<p><b>Prior probability:</b> \(P (C_i )\)</p>
+
+<p><b>Class conditionnal probability:</b> \(P (X_j |C_i )\)</p>
+
+<p><b>Maximum a posteriori (MAP):</b> \(argmax_i P(C_i |X)\) : quelle est la classe la plus probable pour une entrée donnée (vecteur de features)</p>
+
+<p><b>Naive Bayes’ Classifier:</b> MAP en suppossant que les features sont indépendantes entre elles. Donc \(P(X|C_i ) = \prod_j P(X_j |C_i )\). Et donc \(argmax_i P(C_i | X) = argmax_i P(C_i)\) et \(\prod_j P(X_j | C_i) / P(X) = argmax_i  P(C_i) \prod_j P(X_j | C_i)\)</p>
+
+<br>
+
+<h4>Quelques rappels de statistiques</h4>
+
+<p><b>Espérance (expectation) :</b> similaire à une moyenne en prenant en compte les probabilités : \(E[f (X)] = \sum_i f (X_i ) \cdot P (X_i )\)</p>
+
+<p><b>Variance :</b> mesure de dispersion : \(var(X) = E[X-E[X]]^2 = E[X - \mu]^2\) où \(\mu\) est la moyenne/espérance de \(X\)</p>
+
+<p><b>Ecart type (standard deviation std) :</b> \(\sigma = \sqrt{var(X)}\)</p>
+
+<p><b>Covariance :</b> \(cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(cov(X, Y ) = 0\).</p>
+
+<p><b>Gaussienne ou distribution normale :</b> \(p(x) = \frac{1}{\sqrt{2 \pi \sigma}} exp( \frac{-(x-\mu)^2}{2 \sigma^2})\)</p>
+
+<p><b>Central Limit Theorem :</b> convergence en loi de la somme d’une suite de variables aléatoires vers la loi normale</p>

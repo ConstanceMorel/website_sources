@@ -1,45 +1,30 @@
-<h1>Apprentissage par renforcement</h1>
+<h1>Apprentissage par renformcement</h1>
 
-<p><ul>
-	<li><b>Objectif</b>: maximiser la récompense totale des étapes successives</li>
-	<li><b>Méthode</b></li>
-	<ul>
-		<li>A chaque étape, l'algorithme propose la prochaine action</li>
-		<li>Il obtient une récompense pour cette action</li>
-		<li>Il essaie d'en déduire qu'elles sont les bonnes et mauvaises actions à partir de chacun des états</li>
-		<li>Afin de ne pas se retrouver dans un maximum local, l'algorithme renvoie de temps en temps une action aléatoire</li>
-	</ul>
-</ul></p>
+<p>L'objectif d'un <b>apprentissage par renforcement</b> est de maximiser les récompenses reçues au cours du temps. Pour cela un <b>agent</b> est dans un environnement et choisit à chaque étape une action à effectuer. Il obtient alors une récompense pour cette action. Cette action peut modifier l'état de l'environnement dans lequel l'agent se trouve. L'agent essaie de déduire des différentes récompenses qu'il a reçu, qu'elles sont les bonnes et mauvaises actions à effectuer pour chaque état de l'environnement. Afin d'éviter les maximum locaux, l'agent choisit de temps en temps une action aléatoire.</p>
+
+<p>Les algorithmes d'apprentissage par renforcement sont souvent utilisés pour créer des robots intelligents. Par exemple, ces algorithmes peuvent être utilisés pour apprendre à un robot à marcher. Dans ce cas, un état est constitué de la position de l'ensemble des membres du robot. A chaque étape, le robot choisit de bouger certains de ces membres. Cela l'amène dans un nouvel état. Il reçoit une récompense qui dépend de ce que son action a provoquée. Par exemple, si il était debout et qu'il est tombé, il ne recevra pas de récompense. Si il était par terre et qu'il s'est relevé, sa récompense sera positive. Si il était debout et qu'il a réussi à avancer, sa récompense sera importante.</p>
 
 <br>
 
 <h4>Q-learning</h4>
 
-<p>\(Q(s,a)\) est une estimation de la récompense lorsque nous appliquons l'action \(a\) à partir de l'état \(s\).
+<p>L'algorithme le plus connu d'apprentissage par renforcement est le <b>Q-learning</b>. Notons \(Q(s,a)\) l'estimation de la récompense lorsque nous appliquons l'action \(a\) à partir de l'état \(s\). Lors de la phase d'initialisation de l'algorithme, les valeurs de \(Q(s,a)\) pour tout \(s\) et tout \(a\) sont initialisées par une petite valeur aléatoire. L'état initial \(s\) est choisit aléatoirement parmi les états possibles de l'environnement. Pendant l'apprentissage, les étapes suivantes sont répétées jusqu'à convergence :
 <ul>
-	<li><b>Initialisation</b></li>
+	<li>Sélectionner une action \(a\) à l'aide d'un soft-max sur \(Q(s,a)\) (le soft-max donne la probabilité de choisir chacune des actions \(a\) possible à partir de l'état \(s\))</li>
+	<li>Effectuer l'action \(a\) afin d'obtenir la récompense \(r\) et d'atteindre le nouvel état \(s'\)</li>
+	<li>Mettre à jour de \(Q(s,a) \leftarrow (1-\mu) Q(s,a) + \mu (r + \gamma max_{a'} Q(s', a'))\) avec</li>
 	<ul>
-		<li>Initialiser \(Q(s,a)\) pour tout \(s\) et tout \(a\) par une petite valeur aléatoire</li>
-		<li>Choisir aléatoirement un état initial \(s\)</li>
+		<li>\(r\) la récompense reçue</li>
+		<li>\(\mu\) la vitesse d'apprentissage comprise entre 0 et 1</li>
+		<li>\(\gamma\) le facteur d'actualisation</li>
 	</ul>
-	<li><b>Algorithme:</b> Répéter les étapes suivantes jusqu'à convergence</li>
-	<ul>
-		<li>Sélectionner une action \(a\) à l'aide d'un soft-max sur \(Q(s,a)\) (le soft-max donne la probabilité de choisir chacune des actions \(a\) possible à partir de l'état \(s\))</li>
-		<li>Effectuer l'action \(a\), obtenir la récompense \(r\) et atteindre le nouvel état \(s'\)</li>
-		<li>Mise à jour de \(Q(s,a)\): \(Q(s,a) = (1-\mu) Q(s,a) + \mu (r + \gamma max_{a'} Q(s', a'))\) avec</li>
-		<ul>
-			<li>\(r\) la récompense reçue</li>
-			<li>\(\mu\) la vitesse d'apprentissage comprise entre 0 et 1</li>
-			<li>\(\gamma\) le facteur d'actualisation</li>
-		</ul>
-		<li>Nouvel état \(s = s'\)</li>
-	</ul>
+	<li>Renommer le nouvel état \(s \leftarrow s'\)</li>
 </ul></p>
 
 <br>
 
 <h4>Sarsa algorithme</h4>
 
-<p>Identique au Q-learning sauf pour la mise à jour de \(Q(s,a)\): 
+<p>L'algorithme <b>Sarsa</b> est identique à l'algorithme Q-learning à part pour la mise à jour de l'estimation des récompenses :
 $$Q(s,a) = (1 - \mu) Q(s,a) + \mu (r + \gamma Q(s', a'))$$ 
-où \(a'\) est l'action effectuée sur le prochain état en suivant la même méthode (soft-max)</p>
+où \(a'\) est l'action effectuée sur le prochain état en suivant la même méthode (soft-max).</p>

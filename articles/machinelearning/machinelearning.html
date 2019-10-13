@@ -9,13 +9,14 @@
     <title>Machine learning article</title>
 
     <!-- Bootstrap CSS CDN -->
-    <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/pub/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/article.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- MathJax -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
 
 </head>
 
@@ -34,34 +35,28 @@
                     <a href="?page=0">Introduction</a>
                 </li>
                 <li id="1">
-                    <a href="?page=1">Analyse discriminante linéaire</a>
+                    <a href="?page=1">Un peu de maths</a>
                 </li>
                 <li id="2">
-                    <a href="?page=2">Réseau de neuronnes</a>
+                    <a href="?page=2">Régression linéaire</a>
                 </li>
                 <li id="3">
-                    <a href="?page=3">Réduction de dimension</a>
+                    <a href="?page=3">Réseau de neuronnes</a>
                 </li>
                 <li id="4">
-                    <a href="?page=4">Apprentissage probabilistique</a>
+                    <a href="?page=4">Support Vector Machine</a>
                 </li>
                 <li id="5">
-                    <a href="?page=5">Support Vector Machine</a>
+                    <a href="?page=5">Arbre de décisions</a>
                 </li>
                 <li id="6">
-                    <a href="?page=6">Algorithmes évolutionnistes</a>
+                    <a href="?page=6">Apprentissage non supervisé</a>
                 </li>
                 <li id="7">
                     <a href="?page=7">Apprentissage par renforcement</a>
                 </li>
                 <li id="8">
-                    <a href="?page=8">Apprentissage avec des arbres</a>
-                </li>
-                <li id="9">
-                    <a href="?page=9">Apprentissage non supervisé</a>
-                </li>
-                <li id="10">
-                    <a href="?page=10">Hidden Markov Models</a>
+                    <a href="?page=8">Apprentissage évolutionnistes</a>
                 </li>
             </ul>
 
@@ -83,10 +78,6 @@
                         <span></span>
                         <span></span>
                     </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
                     <div>
                         <a id="previous-btn-up" role="button" class="btn btn-secondary">Précédent</a>
                         <a id="next-btn-up" role="button" class="btn btn-secondary">Suivant</a>
@@ -110,10 +101,10 @@
     </div>
 
     <!-- jQuery -->
-    <script src="../../js/jquery-3.4.1.min.js"></script>
+    <script src="../../js/pub/jquery-3.4.1.min.js"></script>
     <script> 
         $(function(){
-            var nbPages = 11;
+            var nbPages = 9;
 
             var urlParams = new URLSearchParams(location.search);
             var subpage = urlParams.get("page");
@@ -151,11 +142,9 @@
             nextBtnDown.href = "?page="+nextPageNumber;
         });
     </script>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
-    <script src="../../js/bootstrap.min.js"></script>
-
+    <script src="../../js/pub/bootstrap.min.js"></script>
+    <!-- Collapse navbar -->
     <script type="text/javascript">
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
@@ -164,10 +153,6 @@
             });
         });
     </script>
-
-    <!-- MathJax -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-
 
 </body>
 

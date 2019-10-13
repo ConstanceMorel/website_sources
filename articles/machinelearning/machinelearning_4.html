@@ -1,45 +1,27 @@
-<h1>Apprentissage probabilistique</h1>
+<h1>Support Vector Machine SVM</h1>
+
+<p>SVM est une méthode d'apprentissage supervisée à deux classes qui consiste à trouver l'<b>hyperplan</b> qui sépare l'espace tout en respectant les deux catégories des données en entrée : toutes les données de la première catégorie sont du même côté de l'hyperplan et toutes les données de la deuxième catégorie sont de l'autre côté de l'hyperplan. Le meilleur hyperplan est celui avec la <b>marge maximale</b> (la distance entre l'hyperplan et la donnée la plus proche de l'hyperplan est maximale). Si les données en entrée ne sont pas linéairement séparables, alors il n'existe pas d'hyperplan séparant les données sans faire d'erreur de classification sur la base de données. Il existe alors deux méthodes pour résoudre les problèmes non linéairement séparables : utiliser des <b>noyaux (kernels)</b> afin de projeter les données dans un espace de dimension plus grande ou autoriser quelques erreurs de classification.</p>
+
+<p>Si nous voulons faire une \(N\)-classification, il suffit de faire \(N\) SVM dont chacun classifie une classe contre toutes les autres. Puis lors de la classification d'un nouvel élément, nous prenons la classe qui donne le meilleur résultat (pour laquelle l'élément à classifier est le plus loin de l'hyperplan séparateur).</p>
+
+<p>Mathématiquement, nous avons une base d'apprentissage contenant des couples \((X_i, y_i)\) avec \(X_i \in \mathbb{R}^n\) la donnée et \(y_i\) sa catégorie. Nous voulons résoudre le problème suivant \(\min_{\theta} \frac{1}{2} \parallel \theta \parallel ^2\) tel que \(y_i (\theta ^T X_i + b) \geq 1\). Si nous autorisons quelques erreurs de classification, le problème à résoudre est le suivant \(\min_{\theta} \frac{1}{2} \parallel \theta \parallel ^2 + C \sum_k \zeta_k\) tel que \(y_i (\theta ^T X_i + b) \geq 1 - \zeta_i \) et \(\forall k, \zeta_k \geq 0\). Pour résoudre ce problème, la méthode des multiplicateurs de Lagrance est habituellement utilisée. Cette méthode fait intervenir le problème dual suivant \(\max_{\alpha} \sum_k \alpha_k - \frac{1}{2} \sum _{i,j} \alpha_i \alpha_j y_i y_j X_i^T X_j\) tel que \(\alpha_k \geq 0\) et \(\sum_k \alpha_k y_k = 0\). Si nous notons \(\alpha^*\) le vecteur \(\alpha\) qui maximise cette équation, l'équation de l'hyperplan séparateur est alors \(h(X) = \sum _k \alpha_k^* y_k (X^T X_k)+ b\).</p>
+
+<p>Pour résoudre des problèmes non linéairement séparables des noyaux peuvent être utilisés. Ils consistent à appliquer une fonction non linéaire \(\Phi\) aux données en entrée afin de les projeter dans un espace de plus grande dimension. Dans les équations précédentes, \(\Phi(X)\) n'est jamais calculé seul, mais toujours sous la forme \(\Phi(X)^T\Phi(Y)\) qui est noté \(K(X,Y)\). Cette astuce est appelée le kernel trick. Par conséquent, les noyaux doivent être définis tels que \(K(X,Y)\) soit facile à évaluer. Les noyaux les plus couramment utilisés sont les suivants :
+<ul>
+	<li>Noyau linéaire: \(K(X,Y) = X ^T Y\)</li>
+	<li>Noyau polynomial: \(K(X,Y) = (1 + X ^T Y)^p\)</li>
+	<li>Noyau Gaussien (RBF): \(K(X,Y) = exp ( -\frac{\parallel X-Y \parallel^2}{2 \sigma ^2} )\)</li>
+	<li>Noyau tangente hyperbolique: \(K(X,Y) = \tanh (\kappa X ^T Y + c)\)</li>
+</ul>
+</p>
+
+<p>Le noyau polynomial correspond à transformer une entrée \(X=(x_1, x_2, x_3)\) en une entrée \(\phi(X) = (1,\) \(\sqrt{2} x_1,\) \(\sqrt{2} x_2,\) \(\sqrt{2} x_3,\) \(x_1 ^2,\) \(x_2 ^2,\) \(x_3 ^2,\) \(\sqrt{2} x_1 x_2,\) \(\sqrt{2} x_1 x_3,\) \(\sqrt{2} x_2 x_3)\). Nous avons alors \(\phi(X)^T \phi(Y) = K(X,Y) = (1 + X ^T Y)^2\).</p>
+
+
 
 <br>
 
-<h4>Modèle de mélange Gaussiens (Gaussian Mixture Models GMM)</h4>
+<h4>SVM régression</h4>
 
-<p><ul>
-	<li><b>Entrées:</b> données non labellisées</li>
-	<li><b>Objectif:</b> séparer les données en différentes classes en supposant que chaque classe peut être représentée par une gaussienne. L'objectif est de trouver les paramètres de ces gaussiennes. Si nous ne connaissons pas le nombre de classes, il faut tester différentes valeurs et voir ce qui donne le meilleur résultat.</li>
-	<li><b>Sortie</b> pour une entrée \(x\): \(f(x) = \sum_c \alpha_c \phi(x; \mu_c, \sigma_c)\) avec \(\sum_c \alpha_c = 1\)</li>
-	<li><b>Probabilité d'appartenir à une classe:</b> \(P(x \in c) = \alpha_c \phi(x; \mu_c, \sigma_c) / f(x)\)</li>
-	<li><b>Méthode:</b> utiliser l'algorithme EM</li>
-	<ul>
-		<li>Initialisation: choisir aléatoirement \(\alpha_c, \mu_c, \sigma_c\)</li>
-		<li>E-step: calculer l'espérance: \(P(x \in c)\)</li>
-		<li>M-step: trouver les paramètres qui maximisent l'espérance en la différenciant</li>
-		<li>Répéter E-step et M-step jusqu'à convergence</li>
-	</ul>
-</ul></p>
+<p>Le problème consiste à trouver un hyperplan pour lequel toutes les données se situent dans un hyper-cylindre centré sur cet hyperplan et de rayon \(\epsilon\). Par conséquent, les maximisations et minimisations du problème précédent sont inversées mais la logique reste identique.</p>
 
-<br>
-
-<h4>Recherche de plus proches voisins</h4>
-
-<p><ul>
-	<li><b>Entrées:</b> données labellisées \((x_i, t_i)\)</li>
-	<li><b>Objectif:</b> donner une classe à une donnée inconnue \(y\)</li>
-	<li><b>Méthode:</b> trouver les \(k\) plus proches voisins de \(y\) parmi les \(x_i\). Faire un vote majoritaire parmi ces voisins pour déterminer la classe de \(y\)</li>
-	<li><b>Astuce:</b> KD-tree est un algorithme efficace pour calculer les \(k\) plus proches voisins</li>
-</ul></p>
-
-<br>
-
-<h4>KD-tree</h4>
-
-<p><ul>
-	<li><b>Objectif:</b> créer une structure de données de partitionnement de l'espace qui permet de stocker des points et de faire des recherches efficaces de plus proches voisins</li>
-	<li><b>Construction</b> (par exemple en dimension 2):</li>
-	<ul>
-		<li>trouver l'hyperplan orthogonal à (Ox) passant par une entrée (non encore incluse dans l'arbre) qui sépare l'ensemble des entrées en deux groupes équilibrés</li>
-		<li>mettre l'entrée sélectionnée à la racine de l'arbre</li>
-		<li>construire récursivement les deux sous-arbres avec les deux groupes créés et en prenant des hyperplans orthogonaux à (Oy)</li>
-		<li>continuer de manière récursive jusqu'à ce que chaque entrée appartienne à un noeud de l'arbre</li>
-	</ul>
-</ul></p>        

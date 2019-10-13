@@ -1,36 +1,34 @@
-<h1>Apprentissage avec des arbres</h1>
+<h1>Algorithme évolutionniste</h1>
+
+<p>Les <b>apprentissages évolutionnistes</b> sont des apprentissages inspirés de la <b>sélection naturelle</b>. A partir d'une population de solutions potentielles à un problème, des modifications (e.g. des mutations, des croisements, des sélections, ...) sont effectuées sur cette population afin de créer une nouvelle population. Normalement, les individus de cette nouvelle population sont en moyenne plus proches du résultat du problème que les individus de la population initiale.</p>
 
 <br>
 
-<h4>Arbre de décision</h4>
+<h4>Algorithme génétique</h4>
 
-<p><b>Construction de l'arbre</b>
+<p>L'algorithme évolutionniste le plus connu est l'<b>algorithme génétique</b>. Voici les principales étapes de cet algorithme :
 <ul>
-	<li>Choisir l'attribut qui sépare le mieux la base de données (minimise la diversité)</li>
-	<li>Séparer la base d'apprentissage en fonction de cet attribut</li>
-	<li>Continuer récursivement en construisant un sous-arbre avec chacune de ces sous-bases</li>
+	<li><b>Initialisation :</b> une population d'individus est créée aléatoirement</li>
+	<li><b>Variations</b> pour créer des nouveaux individus à partir d'une population les opérations suivantes sont utilsées</li>
+	<ul>
+		<li>Croisements : mélange du contenu de plusieurs individus</li>
+		<li>Mutations : quelques modifications aléatoires sur les individus</li>
+	</ul>
+	<li><b>Sélection</b> : uniquement certains des nouveaux individus sont sélectionnés pour faire partie de la nouvelle population. Il existe différentes méthodes de sélection des individus :</li>
+	<ul>
+		<li>Roulette : la probabilité de survie d'un individu est proportionnelle à un score calculé à partir des caractéristiques de cet individu</li>
+		<li>Classement : les individus sont classé à l'aide d'une fonction de score et uniquement les individus les mieux classés sont conservés</li>
+		<li>Tournois: des paires aléatoires d'individus sont créées et uniquement le meilleur individu de chaque paire est conservé</li>
+	</ul>
+	<li>Les étapes de variations et sélections sont répétées jusque convergence. Chaque étape correspond à une nouvelle génération d'individus.</li>
 </ul></p>
 
-<p><b>Méthode pour sélectionner l'attribut</b>
-<ul>
-	<li>Indice de diversité de Gini (CART): probrabilité qu'un élément aléatoire de l'ensemble soit mal classé si son étiquette était sélectionnée aléatoirement depuis la distribution des étiquettes dans le sous-ensemble. Mathématiquement si la classe prend une valeur aléatoire dans \(1, ..., m\) et si \(p_i\) est la probabilité qu'un item avec le label \(i\) soit choisi alors \(I_G(f)=\sum_{i=1}^m p_i (1 - p_i) = 1 - \sum_i p_i^2\)</li>
-	<li>Gain d'information (ID3, C4.5): basé sur le concept d'entropie de Shanon: \(I_E(p) = - \sum_{i \in E} p_i \log_2 p_i\)</li>
-</ul></p>
+<p>Il est assez évident que cet algorithme reprend les grands principes de la sélection naturelle des espèces.</p>
 
 <br>
 
-<h4>Ensemble learning</h4>
+<h4>Population-Based Incremental Learning (PBIL)</h4>
 
-<p><b>AdaBoost</b>
-<ul>
-	<li><b>Objectif</b> créer un ensemble de classificateurs faibles sur différentes versions de la BDD. Puis un vote majoritaire avec poids est calculé pour décider le la classification finale</li>
-	<li><b>Méthode</b> Le premier classifieur est appris sur la BDD initiale et on attribue à chaque donnée pour l'apprentissage un poids de \(1/N\) (\(N\) est le nombre d'entrées dans la base d'apprentissage). Pour la construction du deuxième classifieur, on augmente le poids des données ayant été mal classifiées par le classifieur précédent et on diminue le poids des données ayant été bien classifiées. Et ainsi de suite pour les classifieurs suivants. Par conséquent, les entrées les plus dures à classifier ont de plus en plus d'influence lors de la construction des classifieurs.</li>
-</ul></p>
-
-<p><b>Bagging</b>
-<ul>
-	<li><b>Objectif</b> créer un ensemble de classificateurs faibles sur différentes versions de la BDD. Puis un vote majoritaire avec poids est calculé pour décider le la classification finale</li>
-	<li><b>Méthode</b> Pour chaque arbre, créer une nouvelle base d'apprentissage en prenant au hasard avec remise (doublons autorisés) des données de la base d'apprentissage. Utiliser un algorithme simple pour construire un arbre à partir de chacune des nouvelles bases de données.</li>
-</ul></p>
-
-<p>Exemple: <b>random forest</b>: bagging dont la construction de l'arbre est effectuée en prenant aléatoirement pour chaque nouveau noeud un sous-ensemble des features restantes , puis en sélectionnant la meilleure feature dans ce sous-ensemble à l'aide de l'entropie ou de l'indice de Gini</p>
+<p>L'algorithme <b>Population-Based Incremental Learning (PBIL)</b> est similaire à l'algorithme génétique mais la population d'individus est remplacée par un vecteur de probabilité représentant l'individu idéal. Dans cet algorithme chaque individu est représenté par un vecteur binaire. L'initialisation de cet algorithme consiste à créer un vecteur aléatoire contenant des réels entre 0 et 1. Ce vecteur a la même dimension qu'un vecteur représentant un individu.  Pendant l'apprentissage, ce vecteur de probabilités va peu à peu se rapprocher de l'individu idéal. Tout d'abord une population est créée à l'aide de ce vecteur de probabilités. Une étape de l'algorithme génétique est appliquée sur cette population afin de créer une nouvelle population. Puis le vecteur de probabilités est mis à jour à partir de la nouvelle population :
+$$p = p \times (1 - \eta) + \eta \times mean (population)$$
+avec \(\eta\) le learning rate (un paramètre définissant la vitesse d'apprentissage).</p>

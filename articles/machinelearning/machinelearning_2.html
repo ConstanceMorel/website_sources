@@ -1,64 +1,19 @@
-<h1>Réseau de neurones</h1>
+<h1>Régression linéaire</h1>
 
-<p>Rappel: le perceptron permet uniquement de classifier des données linéairement séparables:
-$$h_{W,B}(X) = \begin{cases} 0 & \text{ si } W^T X + B < 0 \\ 1 & \text{ si } W^T X + B \geq 0 \end{cases}$$</p>
+<p>La régression linéaire est une méthode d'apprentissage supervisée. La base de données contient des couples \((x, y)\) avec \(x \in \mathbb{R}^n\) et \(y \in \mathbb{R}\). Le but est de trouver une fonction linéaire \(f\) de \(\mathbb{R}^n\) dans \(\mathbb{R}\) tel que pour tous les couples \((x, y)\) de la base de données, nous ayons \(f(x)\) proche de \(y\). Cela permet d'évaluer facilement la valeur de \(y\) pour une nouvelle donnée \(x\) jamais vue. Par exemple, \(x\) est un vecteur représentant les caractéristiques d'un appartement (surface, nombre de pièces, distance au métro le plus proche, ...) et \(y\) est le prix de l'appartement. L'apprentissage nous permet de déterminer \(f\) qui nous permettra d'estimer le prix de nouveaux appartements.</p>
 
-<br>
 
-<h4>Multi-Layer Perceptron  MLP</h4>
+<p>En dimension 2, la régression linéaire est bien connue. Nous avons une base de données contenant des couples de réels \((x,y)\) et nous voulons trouver la droite définie par \(f(x) = ax + b\) tel que pour tout \(x\) dans la base de données, \(f(x)\) et \(y\) soient proches. Si nous prenons la fonction suivante pour estimer l'erreur \(E = \sum_{(x,y)} (y - f(x))^2\) alors le but de l'apprentissage est de trouver \(a\) et \(b\) tels que l'erreur soit minimale sur notre base de données.</p>
 
-<p>Afin de résoudre des problèmes non linéairement séparables, le multi-layer perception peut être utilisé. C'est une combinaison de plusieurs perceptrons en série. De plus, une fonction non linéaire appelée fonction d'activation (ReLU: \(f(x) = \max(0,x)\) ou sigmoid: \(f(x) = (1 + e^{-x})^{-1}\)) est utilisée. Cette fonction est appliquée à la sortie de chaque perceptron  \(f(W^T X + B)\). La dernière couche contient autant de neurones que de classes. Par exemple, si nous voulons reconnaître les chiffres de 0 à 9, la dernière couche contient 10 classes. L'indice du neurone le plus grand de la dernière couche indique la catégorie/classe de sortie. Afin d'interpréter les neurones de sortie par des probabilités, la fonction softmax est souvent ajoutée après la dernière couche: \(f(x_i) = \frac{e^{x_i}}{\sum _j e^{x_j}}\). Avec la fonction softmax, l'erreur est parfois calculée à l'aide de la cross-entropy: \(- \sum_k y_k \cdot ln(f(x_k))\).</p>
+<div class="text-center">
+<img src="../../img/machinelearning/regression_lineaire.jpg" class="img-fluid" alt="regression_lineaire">
+</div>
 
-<br>
+<p>Nous pouvons exprimer ce problème de manière vectorielle. Pour cela, nous ajoutons une coordonnée égale à 1 à chaque entrée \(x\). Cela nous donne le vecteur \(x' = (1, x)^T\). Le but de l'apprentissage est de trouver \(W \in \mathbb{R}^2\) tel que l'erreur \(E = \sum_{(x',y)} (y - f(x'))^2\) est minimale avec \(f(x') = W^T x'\).</p>
 
-<p><b>Apprentissage des poids:</b>
-<ul>
-	<li><b>Méthode</b> :</li>
-	<ul>
-		<li>Forward step: Evaluation de la prédiction pour toutes les entrées dans la base d'apprentissage</li>
-		<li>Calcul de l'erreur moyenne (Mean squared error MSE):   $$\frac{1}{m} \sum _{i,j} (h(x_i)_j - y_{i,j})^2$$</li>
-		<li>Backward step: Descente de gradient pour améliorer les poids</li>
-	</ul>
-	<li><b>Batchs</b> :</li>
-	<ul>
-		<li>Batch algorithm: mise à jour des poids après avoir évalué l'erreur sur toutes les entrées</li>
-		<li>Sequential algorithm: mise à jour des poids après avoir évalué l'erreur sur une seule entrée</li>
-		<li>Minibatch: partitionner la base d'apprentissage en partitions appelées batchs et effectuer la descente de gradient batch par batch (un epoch est une itération sur la base d'apprentissage toute entière)</li>
-		<li>Stochastic Gradient Descent  SGD: similaire à sequential algorithm mais en prenant une entrée aléatoire à chaque itération</li>
-	</ul>
-	<li><b>Astuces</b> supplémentaires par rapport au perceptron :</li>
-	<ul>
-		<li>Initialiser les poids avec des valeurs aléatoires entre \(\pm 1/\sqrt{n}\) avec \(n\) le nombre de neurones sur la couche d'entrées</li>
-		<li>Dérivées en chaine: \(\frac{dz}{dx} = \frac{dz}{dy}\frac{dy}{dx}\)</li>
-		<li>Learning rate diminuant au cours des itérations (ex: exponential  decay: \(\alpha = \alpha _0 \cdot e^{-kt}\) où \(t\) est le nombre d'itérations, \(\alpha_0\) est le learning rate initial et \(k\) un paramètre)</li>
-		<li>Dropout: sélectionner aléatoirement certains poids et biais lors de l'apprentissage et ne mettre à jour que ces éléments sélectionnés</li>
-		<li>Momentum  \(m\) (souvent \(m=0.9\)): \(w = w - \alpha \cdot \frac{\partial J}{\partial w} - m \Delta w\) où \(\Delta w\) est égale à la variation de poids lors de l'itération précédente</li>
-		<li>Décider quand arrêter l'apprentissage en s'aidant d'une courbe de l'erreur (pour la base d'apprentissage et celle de validation) en fonction du nombre d'epochs: s'arrêter d'apprendre quand l'erreur sur la courbe d'apprentissage ne diminue plus (après nous sommes en zone de sur-apprentissage)</li>
-		<li>Utiliser la dérivée première et seconde dans la descente de gradient</li>
-	</ul>
-</ul></p>
+<p>Soit \(X\) la matrice telle que chaque ligne correspond à un vecteur \(x'\) de la base de données. Soit \(Y\) le vecteur dont chaque composant correspond à un réel \(y\) de la base de données. Notre problème à résoudre est le suivant : trouver \(W\) tel que l'erreur \(E = (Y - XW)(Y-XW)^T\) soit minimale. Pour résoudre ce problème, il suffit de dériver l'erreur par rapport à \(W\) 
+$$\frac{\partial E}{\partial W} = -2X^T(Y-XW)=0$$
+et de trouver la valeur de \(W\) pour laquelle cette dérivée est nulle 
+$$W = (X^T X)^{-1} X^T Y$$</p>
 
-<p>Pour la plupart des problèmes, deux couches cachées suffisent amplement car nous pouvons approximer toutes les fonctions lisses (smooth) par un réseau à deux couches cachées. Le nombre de neurones par couche s'obtient par expérimentation. Il est conseillé de faire une dizaine d'apprentissages par architecture et faire la moyenne des performances obtenues afin de ne pas se tromper à cause d'une initialisation des poids chanceuses. Il est souvent nécessaire d'avoir au moins 10 fois plus de données que de poids dans le réseau à apprendre.</p>
-
-<p>Un MLP peut aussi être utilisé pour faire de la compression (auto-encoder). Pour cela, il suffit que l'entrée soit identique à la sortie et que la couche juste avant la sortie contienne moins de neurones que la couche de sortie. Il faut alors apprendre le réseau et la donnée compressée correspond à la dernière couche cachée. Si nous utilisons une activation linéaire, alors cette méthode est équivalente à une PCA.</p>
-
-<br>
-
-<h4>Convolutional Neural Network  CNN</h4>
-
-<p><b>Modifications par rapport au MLP:</b>
-<ul>
-	<li>Remplacement des couches linéaires par des couches de convolution inspirées des filtres en traitement d'images. Cela permet de réduire significativement le nombre de poids à apprendre.</li>
-	<li>Ajout de couches de pooling (max ou average) afin de réduire la taille de la couche actuelle et de réduire le bruit</li>
-	<li>Architecture classique: \([(Conv -> Act)^n -> Pool]^m -> FC^2\) où</li>
-	<ul>
-		<li>\(FC\) représente une couche complètement connectée (étape linéaire dont tous les neurones d'une couche sont reliés à tous les neurones de la couche suivante)</li>
-		<li>\(Conv\) représente une couche de convolution</li>
-		<li>\(Act\) représente une couche d'activation</li>
-		<li>\(Pool\) représente une couche de pooling</li>
-	</ul>
-	<li>(Facultatif) Ajout de couches de batch  normalization avant chaque couche d'activation afin d'avoir une distribution stable en entrée des couches d'activation et ainsi d'accélérer l'apprentissage</li>
-</ul></p>
-
-   
-
+<p>Les mêmes formules sont utilisables pour les régressions linéaires en dimension supérieure à deux.</p>
