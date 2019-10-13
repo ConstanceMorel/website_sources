@@ -10,7 +10,7 @@
 
 <p>Une option est <b>dans la monnaie</b> si l'acheteur de l'option a intérêt à exercer son option (pour un call, \(S_T > K\) et pour un put, \(S_T < K\) avec \(S_T\) le prix du sous-jacent à l'échéance de l'option). Une option est <b>à la monnaie</b> si \(S_T = K\). Une option est <b>en dehors de la monnaie</b> si l'acheteur de l'option n'a pas intérêt à l'exercer (pour un call, \(S_T < K\) et pour un put, \(S_T > K\)).</p>
 
-<p>Une <b>classe d'options</b> contient l'ensemble des options de même type (call ou put) sur le même sous-jacent (par exemple, les calls sur IBM). Une <b>série d'options</b> contient l'ensemble des options d'une même classe ayant le même prix d'exercice et la même échéance (par exemple, les calls IBM-200-octobre 2018).</p>
+<p>Une <b>classe d'options</b> contient l'ensemble des options de même type (call ou put) sur le même sous-jacent. Par exemple, l'ensemble des calls sur Safran représente une classe d'options. Une <b>série d'options</b> contient l'ensemble des options d'une même classe ayant le même prix d'exercice et la même échéance. Par exemple, l'ensemble des calls sur Safran de prix d'exercice 100 euros et de date d'échéance décembre 2022 représente une série d'option.</p>
 
 <p>Pour dénouer une option, il suffit de prendre la position symétrique. Par exemple, pour dénouer l'achat d'un call, il suffit de vendre un call ayant les mêmes caractéristiques.</p>
 
@@ -52,7 +52,7 @@
 
 <p>Les <b>options sur futures</b> sont des options donnant le droit d'acheter ou de vendre une position sur un future à un certain prix à une certaine date future. Ces options sont le plus souvent américaines.</p>
 
-<p>Lors de l'exercice d'un call (resp put), le détenteur prend une position longue (resp courte) sur le future et reçoit la différence entre le prix future et le prix d'exercice (resp la différence entre le prix d'exercice et le prix future). Le payoff d'un call européen sur future est donc \(max(F_T - K, 0)\) et le payoff d'un put européen sur future est \(max(K-F_T, 0)\) avec \(F_T\) le prix du future à l'échéance de l'option.</p>
+<p>Lors de l'exercice d'un call (resp put), le détenteur prend une position longue (resp courte) sur le future et reçoit la différence entre le prix fdu uture et le prix d'exercice (resp la différence entre le prix d'exercice et le prix du future). Le payoff d'un call européen sur future est donc \(max(F_T - K, 0)\) et le payoff d'un put européen sur future est \(max(K-F_T, 0)\) avec \(F_T\) le prix du future à l'échéance de l'option.</p>
 
 <p>Les options sur futures sont très populaires car les futures sont plus liquides que les actifs.</p>
 
@@ -60,7 +60,7 @@
 
 <h4>Les stock-options</h4>
 
-<p>Les <b>stock-options</b> sont des options d'achat sur les actions d'une société accordées par cette société à ses employés. Il y a tout d'abord une période d'acquisition des droits pendant laquelle l'option ne peut pas être exercée (si un cadre part de l'entreprise pendant cette période, le plus souvent il perd cette option). Quand un employé exerce une stock-option, l'entreprise émet de <b>nouvelles actions</b> et les lui vend au prix d'exercice. Le plus souvent le prix d'exercice d'une stock-option est égal au prix de l'action au moment de l'attribution des stock-options.</p>
+<p>Les <b>stock-options</b> sont des options d'achat sur les actions d'une société accordées par cette société à ses employés. Il y a tout d'abord une période d'acquisition des droits pendant laquelle l'option ne peut pas être exercée (si un amployé part de l'entreprise pendant cette période, le plus souvent il perd cette option). Quand un employé exerce une stock-option, l'entreprise émet de <b>nouvelles actions</b> et les lui vend au prix d'exercice. Le plus souvent le prix d'exercice d'une stock-option est égal au prix de l'action au moment de l'attribution des stock-options.</p>
 
 <br>
 

@@ -1,80 +1,67 @@
-<h1>Quelques rappels de statistiques</h1>
+<h1>Les grecques</h1>
+
+<p>Les lettres grecques sont des indicateurs de risques sur les positions en options. Les traders les utilisent pour couvrir les risques d'un protefeuille d'options. Chaque lettre grecque mesure une dimension différente (prix du sous-jacent, volatilité, temps, ...) du risque d'une position en option.</p>
 
 <br>
 
-<h4>Rappels de statistiques</h4>
+<h4>Le delta</h4>
 
-<p><b>Variable discrète</b>: \(X(\Omega) = \{x_1, x_2, ..., x_k, ... \}\)
-<ul>
-	<li> \(P(a \le X \le b) = \sum_{a \le x_k \le b} P(X=x_k)\)</li>
-	<li>Fonction de répartition: \(F(x) = P(X \le x) = \sum_{x_k \le b} P(X = x_k)\)</li>
-	<li>Espérance (expectation): \(E[X] = \sum x_k P(X=x_k)\) (similaire à une moyenne pondérée par les probabilités)</li>
-	<li>\(E[g(X)] = \sum g(X_k) P(X=x_k)\)</li>
-	<li>Variance: \(Var(X) = E[X - E[X]]^2\) (mesure de dispersion)</li>
-	<li>Ecart type (standard deviation std): \(\sigma = \sqrt{Var(X)}\)</li>
-	<li>Covariance: \(Cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(Cov(X, Y) = 0\).</li>
-</ul>
-</p>
+<p>Le <b>delta</b> d'une option mesure la sensibilité du prix de l'option à une variation donée du cours du sous-jacent.</p>
 
-<p><b>Variable continue à densité \(f\):</b> \(X(\Omega) \in \mathbb{R}\)
-<ul>
-	<li>\(P(a \le X \le b) = \int_{a}^{b} f(t) dt\)</li>
-	<li>Fonction de répartition: \(F(x) = P(X \le x) = \int_{-\infty}^{x} f(t) dt\)</li>
-	<li>Espérance (expectation): \(E[X] = \int_{-\infty}^{\infty} t \cdot f(t) dt\) (similaire à une moyenne pondérée par les probabilités)</li>
-	<li>\(E[g(X)] = \int_{-\infty}^{\infty} g(t) f(t) dt\)</li>
-	<li>Variance: \(Var(X) = E[X - E[X]]^2\) (mesure de dispersion)</li>
-	<li>Ecart type (standard deviation std): \(\sigma = \sqrt{Var(X)}\)</li>
-	<li>Covariance: \(Cov(X,Y)=E[(X-E[X])(Y-E[Y])]\). Si \(X\) et \(Y\) sont indépendantes, \(Cov(X, Y) = 0\).</li>
-</ul>
+<p>
+$$ \delta = \frac{\partial P}{\partial S}$$
+avec \(P\) le prix de l'option et \(S\) le cours du sous-jacent.</p>
+
+<p>Pour se couvrir de la vente d'une option, le trader doit acheter \(\delta\) actions. Lorsque le \(\delta\) d'un portefeuille est nul, le trader est couvert contre une variation du cours du sous-jacent. Cette position est appelée <b>delta-neutre</b> (\(\delta = 0\)). Le trader doit régulièrement réajuster son portefeuille car le \(\delta\) varie au cours du temps.</p>
+
+<p>Le <b>delta d'un portefeuille d'options</b> est la somme des deltas des options qui le composent.</p>
+
+<br>
+
+<h4>Le gamma</h4>
+
+<p>Le <b>gamma</b> d'une option représente la courbure  de la fonction liant le prix de l'option au cours du sous-jacent c'est-à-dire si le prix de l'option a tendance à évoluer rapidement ou pas par rapport à l'évolution du prix du sous-jacent.</p>
+
+<p>
+$$\gamma = \frac{\partial^2 P}{\partial S^2}$$
+avec \(P\) le prix de l'option et \(S\) le cours du sous-jacent.</p>
+
+<p>Si le gamma est faible, le delta varie lentement. Il n'est donc pas nécessaire d'ajuster fréquemment le portefeuille pour maintenir une position delta-neutre.</p>
+
+<p>Le trader peut adopter une position <b>gamma-neutre</b> afin de se protéger contre l'impact de cette courbure. Pour cela, il est nécessaire de prendre des positions sur des options (et non sur des actifs ou des forwards) car une option n'est pas linéairement liée à l'actif sous-jacent.</p>
+
+<p>Pour avoir un portefeuille delta-neutre et gamma-neutre, il faut d'abord prendre des positions sur des options pour rendre le portefeuille gamma-neutre (cela modifie le delta du portefeuille). Puis il faut prendre des positions sur l'actif sous-jacent pour rendre le portefeuille delta-neutre (cela ne modifie pas le gamma du portefeuille car l'actif sous-jacent est linéairement lié à l'option).</p>
+
+<br>
+
+<h4>Le thêta </h4>
+
+<p>Le <b>thêta</b> d'une option mesure la sensibilité du prix de l'option à la variation de la durée de vie de l'option.</p>
+
+<p>
+$$\theta = - \frac{\partial P}{\partial T}$$
+avec \(P\) le prix de l'option et \(T\) la durée de vie de l'option.
 </p>
 
 <br>
 
-<h4>Loi normale</h4>
+<h4>Le véga</h4>
 
-<p>La <b>loi normale</b> est une des lois de probabilités les plus adaptées pour modéliser des phénomènes aléatoires. Sa densité de probabilité est
+<p>Le <b>véga</b> mesure la sensibilité du prix de l'option à la volatilité implicite.
 
-$$ f(x) = \frac{1}{\sigma \sqrt{2 \pi}} exp( \frac{-(x - \mu)^2}{\sigma^2})$$
-
-avec \(\mu\) son espérance et \(\sigma\) son écart-type.</p>
-
-<div class="text-center">
-<img src="../../img/finance/loi_normale_densite.png" class="img-fluid" alt="loi_normale_densite">
-</div>
-
-<p>La <b>loi normale centrée réduite</b> est la loi normale d'espérance nulle et d'écart-type égal à 1.</p>
-
-<p>Lorsqu'une variable aléatoire \(X\) suit une loi normale, nous noterons par la suite \(X \sim (\mu, \sigma)\)</p>
-
-<p>Le <b>théorème central limite</b> établit la convergence en loi de la somme d'une suite de variables aléatoires vers la loi normale.</p>
-
-<p><b>Quelques intervalles de confiance pour la loi normale:</b>
-
-$$P(\mu - \sigma \le x \le \mu + \sigma) \approx 0.6827$$
+$$\nu = \frac{\partial P}{\partial \sigma}$$
+avec \(P\) le prix de l'option et \(\sigma\) sa volatilité implicite.
 </p>
 
-<div class="text-center">
-<img src="../../img/finance/loi_normale_distribution.png" class="img-fluid" alt="lloi_normale_distribution">
-</div>
-
+<p>Pour obtenir une position <b>véga-neutre</b>, il est nécessaire de prendre des positions sur des options (comme pour obtenir une position gamma-neutre). Si nous voulons obtenir une position véga-neutre et gamma-neutre, il est nécessaire de prendre des positions sur au moins deux options différentes.</p>
 
 <br>
 
-<h4>Loi log-normale</h4>
+<h4>Le rhô</h4>
 
-<p>Un variable aléatoire \(X\) suit une <b>loi log-normale</b> \((\mu, \sigma)\) si \(Y = ln(X)\) suit une loi normale \((\mu, \sigma)\). La densité de probabilité de \(X\) est
+<p>Le <b>rhô</b> mesure la sensibilité du prix d'une option au taux d'intérêt sans risque.
 
-$$f(x) = \left\{ \begin{array}{ll} \frac{1}{x \sigma \sqrt{2 \pi}} exp( \frac{-(ln(x)-\mu)^2}{2 \sigma^2}) & \text{ si } x>0 \\ 0 & \text{ sinon } \end{array} \right.$$
+$$\rho = \frac{\partial P}{\partial r}$$
+avec \(P\) le prix de l'option et \(\rho\) sa volatilité implicite.
 </p>
-
-<div class="text-center">
-<img src="../../img/finance/loi_log_normale_densite.png" class="img-fluid" alt="loi_log_normale_densite">
-</div>
-
-<p><b>Espérance d'une loi log-normale:</b>
-$$E[X] =  e^{\mu + \sigma^2 / 2}$$
-</p>
-
-<p><b>Variance d'une loi log-normale:</b>
-$$Var(X) = (e^{\sigma^2} - 1) e^{2 \mu + \sigma^2}$$
-</p>
+   

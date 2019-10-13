@@ -6,7 +6,7 @@
 
 <h4>Les spreads</h4>
 
-<p>Les <b>spreads</b> comportent une position dans une ou plusierus options d'achat ou position dans une ou plusierus options de ventes.</p>
+<p>Les <b>spreads</b> comportent une position dans une ou plusieurs options d'achat ou position dans une ou plusieurs options de ventes.</p>
 
 <p><b>Bull spread (spread haussier)</b>:
 <ul>
@@ -16,11 +16,28 @@
 </ul>
 </p>
 
-<p>Si \(K_2 < S_T\) alors les revenus finaux sont \((S_T - K_1) + (K_2 - S_T) = K_2 - K_1\)</p>
-
-<p>Si \(K_1 < S_T < K_2\), alors les revenus finaux sont \((S_T - K_1) + 0 = S_T - K_1\)</p>
-
-<p>Si \(S_T < K_1\) alors les revenus finaux sont \(0 + 0 = 0\)</p>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Conditions</th>
+      <th>Revenux finaux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(S_T < K_1\)</td>
+      <td>\((S_T - K_1) + (K_2 - S_T)\) \( = K_2 - K_1\)</td>
+    </tr>
+    <tr>
+      <td>\(K_1 < S_T < K_2\)</td>
+      <td>\((S_T - K_1) + 0\) \(= S_T - K_1\)</td>
+    </tr>
+    <tr>
+      <td>\(K_2 < S_T\)</td>
+      <td>\((S_T - K_1) + (K_2 - S_T)\) \( = K_2 - K_1\)</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Le trader obtient donc des bénéfices si \(S_T\) est grand.</p>
 
@@ -32,11 +49,28 @@
 </ul>
 </p>
 
-<p>Si \(K_2 < S_T\) alors les revenus finaux sont \(0 + 0 = 0\)</p>
-
-<p>Si \(K_1 < S_T < K_2\) alors les revenus finaux sont \((K_2 - S_T) + 0 = K_2 - S_T\)</p>
-
-<p>Si \(S_T < K_1\) alors les revenus finaux sont \((K_2 - S_T) + (S_T - K_1) = K_2 - K_1\)</p> ​
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Conditions</th>
+      <th>Revenux finaux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(S_T < K_1\)</td>
+      <td>\((K_2 - S_T) + (S_T - K_1)\) \(= K_2 - K_1\)</td>
+    </tr>
+    <tr>
+      <td>\(K_1 < S_T < K_2\)</td>
+      <td>\((K_2 - S_T) + 0\) \(= K_2 - S_T\)</td>
+    </tr>
+    <tr>
+      <td>\(K_2 < S_T\)</td>
+      <td>\(0 + 0 = 0\)</td>
+    </tr>
+  </tbody>
+</table> ​
 
 <p>Le trader obtient donc des bénéfices si \(S_T\) est petit.</p>
 
@@ -50,13 +84,32 @@
 </ul>
 </p>
 
-<p>Si \(K_3 < S_T\) alors les revenus finaux sont \((S_T - K_1) + (S_T - K_3) +2(K_2 -S_T) = 2K_2 - K_1 - K_3\)</p>
-
-<p>Si \(K_2 < S_T < K_3\) alors les revenus finaux sont \((S_T - K_1) + 0 + 2(K_2 -S_T) = 2K_2 - K_1 - S_T\)</p>
-
-<p>Si \(K_1 < S_T < K_2\) alors les revenus finaux sont \((S_T - K_1) + 0 + 0 = S_T - K_1\)</p>
-
-<p>Si \(S_T < K_1\) alors les revenus finaux sont \(0 + 0 + 0 = 0\)</p>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Conditions</th>
+      <th>Revenux finaux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(S_T < K_1\)</td>
+      <td>\(0 + 0 + 0 = 0\)</td>
+    </tr>
+    <tr>
+      <td>\(K_1 < S_T < K_2\)</td>
+      <td>\((S_T - K_1) + 0 + 0\) \(= S_T - K_1\)</td>
+    </tr>
+    <tr>
+      <td>\(K_2 < S_T < K_3\)</td>
+      <td>\((S_T - K_1) + 0 + 2(K_2 -S_T)\) \(= 2K_2 - K_1 - S_T\)</td>
+    </tr>
+    <tr>
+      <td>\(K_3 < S_T\)</td>
+      <td>\((S_T - K_1) + (S_T - K_3) +2(K_2 -S_T)\) \(= 2K_2 - K_1 - K_3\)</td>
+    </tr>
+  </tbody>
+</table> 
 
 <p>Le trader obtient donc des bénéfices si \(S_T\) est proche de \(K_2\).</p> 
 
@@ -73,9 +126,24 @@
 </ul>
 </p>
 
-<p>Si \(K < S_T\) alors les revenus finaux sont \((S_T - K) + 0 = S_T - K\)</p>
-
-<p>Si \(S_T < K\) alors les revenus finaux sont \(0 + (K-S_T) = K - S_T\)</p>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Conditions</th>
+      <th>Revenux finaux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(S_T < K\)</td>
+      <td>\(0 + (K-S_T)\) \(= K - S_T\)</td>
+    </tr>
+    <tr>
+      <td>\(K < S_T\)</td>
+      <td>\((S_T - K) + 0\) \(= S_T - K\)</td>
+    </tr>
+  </tbody>
+</table> 
 
 <p>Le trader obtient donc des bénéfices si \(S_T\) est loin de \(K\).</p>
 
@@ -94,11 +162,28 @@
 </ul>
 </p>
 
-<p>Si \(K_2 < S_T\) alors les revenus finaux sont \((S_T - K_2) + 0 = S_T - K_2\)</p>
-
-<p>Si \(K_1 < S_T < K_2\) alors les revenus finaux sont \(0 + 0 = 0\)</p>
-
-<p>Si \(S_T < K_1\) alors les revenus finaux sont \(0 + (K_1 - S_T) = K_1 - S_T\)</p>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Conditions</th>
+      <th>Revenux finaux</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>\(S_T < K_1\)</td>
+      <td>\(0 + (K_1 - S_T)\) \(= K_1 - S_T\)</td>
+    </tr>
+    <tr>
+      <td>\(K_1 < S_T < K_2\)</td>
+      <td>\(0 + 0 = 0\)</td>
+    </tr>
+    <tr>
+      <td>\(K_2 < S_T\)</td>
+      <td>\((S_T - K_2) + 0\) \(= S_T - K_2\)</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Le trader obtient donc des bénéfices si \(S_T\) est largement inférieur à \(K_1\) ou largement supérieur à \(K_2\)</p>
 
