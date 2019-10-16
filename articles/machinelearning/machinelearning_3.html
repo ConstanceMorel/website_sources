@@ -14,7 +14,7 @@
 <img src="../../img/machinelearning/perceptron.png" class="img-fluid" alt="perceptron">
 </div>
 
-<p>Le biais \(b\) peut être intégré au vecteur \(W\). Pour cela, une coordonnée égale à 1 est ajoutée à chaque vecteur d'entrée \(X\) et son poid associé \(w_0\) est ajoutée au vecteur \(W\). Nous avons alors \(h_{W}(X) = W^T X\) et la sortie du perceptron est égale à 0 si \(h_{W}(X)<0\) et 1 si \(h_{W}(X) \geq 0\). </p>
+<p>Le biais \(b\) peut être intégré au vecteur \(W\). Pour cela, une coordonnée égale à 1 est ajoutée à chaque vecteur d'entrée \(X\) et son poids associé \(w_0\) est ajouté au vecteur \(W\). Nous avons alors \(h_{W}(X) = W^T X\) et la sortie du perceptron est égale à 0 si \(h_{W}(X)<0\) et 1 si \(h_{W}(X) \geq 0\). </p>
 
 <div class="text-center">
 <img src="../../img/machinelearning/perceptron_no_bias.png" class="img-fluid" alt="perceptron_no_bias">
@@ -49,19 +49,19 @@
 </table>
 
 
-<p>Il existe différentes <b>astuces</b> pour améliorer ou accélérer l'apprentissage. On peut normaliser les entrées (avant la séparation de la BDD en apprentissage, validation, test) afin d'avoir une moyenne à zéro et une variance à 1 sur chaque coordonnée. On peut réduire le bruit sur les données en entrées avant de commencer l'apprentisage (par exemple, en effectuant une réduction de dimension).</p>
+<p>Il existe différentes <b>astuces</b> pour améliorer ou accélérer l'apprentissage. On peut normaliser les entrées (avant la séparation de la base de données en apprentissage, validation, test) afin d'avoir une moyenne à zéro et une variance à 1 sur chaque coordonnée. On peut réduire le bruit sur les données en entrées avant de commencer l'apprentisage (par exemple, en effectuant une réduction de dimension).</p>
 
 <br>
 
 <h4>Multi-Layer Perceptron  MLP</h4>
 
-<p>Afin de résoudre des problèmes non linéairement séparables, le multi-layer perception peut être utilisé. C'est une combinaison de plusieurs perceptrons en série et en parallèle. Afin de résoudre des problèmes non linéairement séparables, une fonction non linéaire appelée fonction d'activation est utilisée. Les fonctions d'activation les plus utilisées sont la ReLU \(f(x) = \max(0,x)\) ou la sigmoid \(f(x) = (1 + e^{-x})^{-1}\). Cette fonction d'activation est appliquée à la sortie de chaque perceptron  \(f(W^T X + B)\) à la place de la comparaison à 0.</p>
+<p>Afin de résoudre des problèmes non linéairement séparables, le multi-layer perception peut être utilisé. C'est une combinaison de plusieurs perceptrons en série et en parallèle. Afin de résoudre des problèmes non linéairement séparables, une fonction non linéaire appelée fonction d'activation est utilisée. Les fonctions d'activation les plus utilisées sont la ReLU \(f(x) = \max(0,x)\) ou la sigmoid \(f(x) = (1 + e^{-x})^{-1}\). Cette fonction d'activation est appliquée à la sortie de chaque perceptron  \(f(W^T X + b)\) à la place de la comparaison à 0.</p>
 
 <div class="text-center">
 <img src="../../img/machinelearning/MLP.png" class="img-fluid" alt="mlp">
 </div>
 
-<p>La dernière couche contient autant de neurones que de classes. Par exemple, si nous voulons reconnaître les chiffres de 0 à 9, la dernière couche contient 10 classes. L'indice du neurone le plus grand de la dernière couche indique la catégorie/classe de sortie. Afin d'interpréter les neurones de sortie par des probabilités, la fonction softmax est souvent ajoutée après la dernière couche: \(f(x_i) = \frac{e^{x_i}}{\sum _j e^{x_j}}\). Avec la fonction softmax, l'erreur est parfois calculée à l'aide de la cross-entropy: \(- \sum_k y_k \cdot ln(f(x_k))\).</p>
+<p>La dernière couche contient autant de neurones que de classes. Par exemple, si nous voulons reconnaître les chiffres de 0 à 9, la dernière couche contient 10 classes. L'indice du neurone le plus grand de la dernière couche indique la catégorie/classe de sortie. Afin d'interpréter les neurones de sortie par des probabilités, la fonction softmax est souvent ajoutée après la dernière couche: \(f(x_i) = \frac{e^{x_i}}{\sum _j e^{x_j}}\). Avec la fonction softmax, l'erreur est généralement calculée à l'aide de la cross-entropy: \(- \sum_k y_k \cdot ln(f(x_k))\).</p>
 
 <p>Supposons que nous avons une base de données d'apprentissage contenant des couples \(x_i, y_i\) avec \(x_i\) une donnée appartenant à la classe \(y_i\). Il faut tout d'abord définir une fonction d'erreur qui permettra d'évaluer les performances du MLP. La fonction d'erreur la plus couramment utilisé est une moyenne des erreurs sur chaque donnée (Mean squared error MSE):
 $$\frac{1}{m} \sum _{i,j} (h(x_i)_j - y_{i,j})^2$$
@@ -78,6 +78,6 @@ avec \(h(x_i)_j\) la j-ième composante du vecteur en sortie du MLP évalué sur
 
 <p>Pour la plupart des problèmes, deux couches cachées suffisent amplement car nous pouvons approximer toutes les fonctions lisses (smooth) par un réseau à deux couches cachées. Le nombre de neurones par couche s'obtient par expérimentation. Il est conseillé de faire une dizaine d'apprentissages par architecture et faire la moyenne des performances obtenues afin de ne pas se tromper à cause d'une initialisation des poids chanceuses. Il est souvent nécessaire d'avoir au moins 10 fois plus de données que de poids dans le réseau à apprendre.</p>
 
-<p>Un MLP peut aussi être utilisé pour faire de la compression (auto-encoder). Pour cela, il suffit que l'entrée soit identique à la sortie et que la couche juste avant la sortie contienne moins de neurones que la couche de sortie. Il faut alors apprendre le réseau et la donnée compressée correspond à la dernière couche cachée. Si nous utilisons une activation linéaire, alors cette méthode est équivalente à une PCA.</p>
+<p>Un MLP peut aussi être utilisé pour faire de la compression à l'aide d'un <b>auto-encoder</b>. Dans ce cas, la couche d'entrée et de sortie du réseau neurones contient exactement le même nombre de neurones que le nombre de composants d'une entrée. Si nous voulons compresser la donnée, une des couches cachées (ni la couche d'entrée ni la couche de sortie) du réseau doit contenir moins de neurones que la couche d'entrée. Lors de l'apprentissage, nous ne cherchons plus à prédire une valeur cible Y à partir d'une entrée X mais nous cherchons à reconstruire l'entrée X. Une fois le réseau appris, pour compresser une entrée, il suffit de la faire passer dans le réseau et de récupérer les informations sur notre couche cachée. Ce type de réseau est appelé auto-encoder car il est aussi utilisé pour encoder des données. Pour encoder une donnée, il suffit de lui faire traverser le réseau et de récupérer les valeurs sur notre couche cachée. Pour décoder une donnée, il suffit de mettre les valeurs sur la couche cachée, de continuer à évaluer le réseau à partir de cette couche et de récupérer les données sur la couche de sortie.</p>
 
 <p>Le MLP est le réseau de neurones de base. Il existe de nombreuses autres variantes de réseaux de neurones. Par exemple, les Convolutional Neural Networks CNN sont des réseaux de neurones adaptés à l'apprentissage sur des images. Par rapport au perceptron, les couches linéaires sont remplacés par des couches de convolution  inspirées des filtres en traitement d'images.</p>

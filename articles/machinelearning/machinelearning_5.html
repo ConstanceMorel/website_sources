@@ -20,7 +20,7 @@
 
 <p>Pour choisir l'attribut qui sépare le mieux la base de données, différentes méthodes existent :
 <ul>
-	<li>L'indice de diversité de Gini est utilisé dans l'algorithme de création d'arbre de décisions CART. Cet indice représente la probrabilité qu'un élément aléatoire de l'ensemble soit mal classé si son étiquette était sélectionnée aléatoirement depuis la distribution des étiquettes dans le sous-ensemble. Mathématiquement si la classe prend une valeur aléatoire dans \(1, ..., m\) et si \(p_i\) est la probabilité qu'un item avec le label \(i\) soit choisi alors \(I_G(f)=\sum_{i=1}^m p_i (1 - p_i) = 1 - \sum_i p_i^2\)</li>
+	<li>L'indice de diversité de Gini est utilisé dans l'algorithme de création d'arbre de décisions CART. Cet indice représente la probabilité qu'un élément aléatoire de l'ensemble soit mal classé si son étiquette était sélectionnée aléatoirement depuis la distribution des étiquettes dans le sous-ensemble. Mathématiquement si la classe prend une valeur aléatoire dans \(1, ..., m\) et si \(p_i\) est la probabilité qu'un item avec le label \(i\) soit choisi alors \(I_G(f)=\sum_{i=1}^m p_i (1 - p_i) = 1 - \sum_i p_i^2\)</li>
 	<li>Le gain d'information est utilisé dans les algorithmes de création d'arbres ID3 et C4.5. Le gain d'information est basé sur le concept d'entropie de Shanon : \(I_E(p) = - \sum_{i \in E} p_i \log_2 p_i\)</li>
 </ul></p>
 

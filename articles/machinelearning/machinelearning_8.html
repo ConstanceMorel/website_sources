@@ -18,7 +18,7 @@
 	<ul>
 		<li>Roulette : la probabilité de survie d'un individu est proportionnelle à un score calculé à partir des caractéristiques de cet individu</li>
 		<li>Classement : les individus sont classé à l'aide d'une fonction de score et uniquement les individus les mieux classés sont conservés</li>
-		<li>Tournois: des paires aléatoires d'individus sont créées et uniquement le meilleur individu de chaque paire est conservé</li>
+		<li>Tournois: des paires aléatoires d'individus sont créées et pour chaque paire, uniquement l'individu qui a le meilleur score est conservé</li>
 	</ul>
 	<li>Les étapes de variations et sélections sont répétées jusque convergence. Chaque étape correspond à une nouvelle génération d'individus.</li>
 </ul></p>
@@ -29,6 +29,8 @@
 
 <h4>Population-Based Incremental Learning (PBIL)</h4>
 
-<p>L'algorithme <b>Population-Based Incremental Learning (PBIL)</b> est similaire à l'algorithme génétique mais la population d'individus est remplacée par un vecteur de probabilité représentant l'individu idéal. Dans cet algorithme chaque individu est représenté par un vecteur binaire. L'initialisation de cet algorithme consiste à créer un vecteur aléatoire contenant des réels entre 0 et 1. Ce vecteur a la même dimension qu'un vecteur représentant un individu.  Pendant l'apprentissage, ce vecteur de probabilités va peu à peu se rapprocher de l'individu idéal. Tout d'abord une population est créée à l'aide de ce vecteur de probabilités. Une étape de l'algorithme génétique est appliquée sur cette population afin de créer une nouvelle population. Puis le vecteur de probabilités est mis à jour à partir de la nouvelle population :
+<p>L'algorithme <b>Population-Based Incremental Learning (PBIL)</b> est similaire à l'algorithme génétique mais la population d'individus est remplacée par un vecteur de probabilité représentant l'individu idéal. Dans cet algorithme chaque individu est représenté par un vecteur binaire (vecteur dont les composantes sont égales à 0 ou 1). L'initialisation de cet algorithme consiste à créer un vecteur aléatoire contenant des réels entre 0 et 1. Ce vecteur a la même dimension qu'un vecteur représentant un individu.  Pendant l'apprentissage, ce vecteur de probabilités va peu à peu se rapprocher de l'individu idéal.</p>
+
+<p>Tout d'abord une population est créée à l'aide de ce vecteur de probabilités. Pour chaque individu, la valeur de chaque composante du vecteur binaire qui le représente est tirée aléatoirement en utilisant les probabilités présentes dans le vecteur de probabilités. Une étape de l'algorithme génétique est appliquée sur cette population afin de créer une nouvelle population. Puis le vecteur de probabilités est mis à jour à partir de la nouvelle population :
 $$p = p \times (1 - \eta) + \eta \times mean (population)$$
 avec \(\eta\) le learning rate (un paramètre définissant la vitesse d'apprentissage).</p>

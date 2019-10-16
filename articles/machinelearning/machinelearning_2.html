@@ -1,6 +1,6 @@
 <h1>Régression linéaire</h1>
 
-<p>La régression linéaire est une méthode d'apprentissage supervisée. La base de données contient des couples \((x, y)\) avec \(x \in \mathbb{R}^n\) et \(y \in \mathbb{R}\). Le but est de trouver une fonction linéaire \(f\) de \(\mathbb{R}^n\) dans \(\mathbb{R}\) tel que pour tous les couples \((x, y)\) de la base de données, nous ayons \(f(x)\) proche de \(y\). Cela permet d'évaluer facilement la valeur de \(y\) pour une nouvelle donnée \(x\) jamais vue. Par exemple, \(x\) est un vecteur représentant les caractéristiques d'un appartement (surface, nombre de pièces, distance au métro le plus proche, ...) et \(y\) est le prix de l'appartement. L'apprentissage nous permet de déterminer \(f\) qui nous permettra d'estimer le prix de nouveaux appartements.</p>
+<p>La régression linéaire est une méthode d'apprentissage supervisé. La base de données contient des couples \((x, y)\) avec \(x \in \mathbb{R}^n\) et \(y \in \mathbb{R}\). Le but est de trouver une fonction linéaire \(f\) de \(\mathbb{R}^n\) dans \(\mathbb{R}\) tel que pour tous les couples \((x, y)\) de la base de données, nous ayons \(f(x)\) proche de \(y\). Cela permet d'évaluer facilement la valeur de \(y\) pour une nouvelle donnée \(x\) jamais vue. Par exemple, \(x\) est un vecteur représentant les caractéristiques d'un appartement (surface, nombre de pièces, distance au métro le plus proche, ...) et \(y\) est le prix de l'appartement. L'apprentissage nous permet de déterminer \(f\) qui nous permettra d'estimer le prix de nouveaux appartements.</p>
 
 
 <p>En dimension 2, la régression linéaire est bien connue. Nous avons une base de données contenant des couples de réels \((x,y)\) et nous voulons trouver la droite définie par \(f(x) = ax + b\) tel que pour tout \(x\) dans la base de données, \(f(x)\) et \(y\) soient proches. Si nous prenons la fonction suivante pour estimer l'erreur \(E = \sum_{(x,y)} (y - f(x))^2\) alors le but de l'apprentissage est de trouver \(a\) et \(b\) tels que l'erreur soit minimale sur notre base de données.</p>
@@ -11,7 +11,7 @@
 
 <p>Nous pouvons exprimer ce problème de manière vectorielle. Pour cela, nous ajoutons une coordonnée égale à 1 à chaque entrée \(x\). Cela nous donne le vecteur \(x' = (1, x)^T\). Le but de l'apprentissage est de trouver \(W \in \mathbb{R}^2\) tel que l'erreur \(E = \sum_{(x',y)} (y - f(x'))^2\) est minimale avec \(f(x') = W^T x'\).</p>
 
-<p>Soit \(X\) la matrice telle que chaque ligne correspond à un vecteur \(x'\) de la base de données. Soit \(Y\) le vecteur dont chaque composant correspond à un réel \(y\) de la base de données. Notre problème à résoudre est le suivant : trouver \(W\) tel que l'erreur \(E = (Y - XW)(Y-XW)^T\) soit minimale. Pour résoudre ce problème, il suffit de dériver l'erreur par rapport à \(W\) 
+<p>Soit \(X\) la matrice telle que chaque ligne correspond à un vecteur \(x'\) de la base de données. Soit \(Y\) le vecteur colonne dont chaque composant correspond à un réel \(y\) de la base de données. Notre problème à résoudre est le suivant : trouver \(W\) tel que l'erreur \(E = (Y - XW)(Y-XW)^T\) soit minimale. Pour résoudre ce problème, il suffit de dériver l'erreur par rapport à \(W\) 
 $$\frac{\partial E}{\partial W} = -2X^T(Y-XW)=0$$
 et de trouver la valeur de \(W\) pour laquelle cette dérivée est nulle 
 $$W = (X^T X)^{-1} X^T Y$$</p>
