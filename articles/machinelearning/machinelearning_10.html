@@ -1,0 +1,108 @@
+<h1>Hidden Markov Model</h1>
+
+<br>
+
+<h4>Chaine de Markov</h4>
+
+<p>Un <b>processus de Markov</b> est un processus stochastique qui a la propriété suivante, les états futurs dépendent uniquement de l'état présent et sont indépendants des états passés. Si l'espace des états est fini, nous avons alors une <b>chaine de Markov</b>.</p>
+
+<p>Pour rendre la présentation plus facile, nous allons prendre un exemple. Supposons qu'un ami nous envoie tous les jours ce qu'il a fait de sa journée. Il y a uniquement trois activités possibles : se balader, faire les courses et faire le ménage. L'activité du jour dépend uniquement du temps qu'il fait le matin. Il y a deux possibilités pour le temps : soit il pleut, soit il fait beau. Dans une chaine de Markov, les activités sont appelées <b>observations</b>. Le temps correspond à un <b>état</b>. Il existe des <b>probabilités de transition</b> d'un état à un autre:
+<ul>
+	<li>Si il fait beau aujoud'hui, il y a 60% de chanches qu'il fasse beau demain et 40% de chances qu'il pleuve demain</li>
+	<li>Si il pleut aujourd'hui, il y a 80% de chances qu'il pleuve demain et 20% de chance qu'il fasse beau demain</li>
+</ul></p>
+
+<p>Il existe des <b>probabilités d'émission</b> qui correspondent à la probabilité de faire chacune des activités dans la journée connaissant la météo le matin :
+<ul>
+	<li>si il fait beau, il y a 70% de chances de se balader, 20% de chances de faires les courses et 10% de chances de faire le ménage</li>
+	<li>si il pleut, il y a 10% de chances de se balader, 30% de chances de faire les courses et 60% de chances de faire le ménage</li>
+</ul></p>
+
+<p>Nous pouvons représenter cet exemple sous forme d'automate.</p>
+
+<div class="text-center">
+<img src="../../img/machinelearning/hmm.png" class="img-fluid" alt="hmm">
+</div>
+
+
+<p>Mathématiquement, nous notons par la suite
+<ul>
+	<li>\(s_i\) le i-ième état (par exemple, \(s_0\) pour le soleil et \(s_1\) pour la pluie)</li>
+	<li>\(o_i\) la i-ième observation (par exemple, \(o_0\) pour se balader, \(o_1\) pour faire les courses et \(o_2\) pour faire le ménage)</li>
+	<li>\(a_{i,j}\) la probabilité d'être dans l'état \(s_j\) sachant que nous étions dans l'état \(s_i\) à l'étape précédente. Dans notre exemple, nous avons \(a_{1,0} = 0.2\). Nous pouvons représenter l'ensemble de ces probabilités de transition dans une matrice
+	$$ A= \begin{pmatrix} 0.6 & 0.4 \\ 0.2 & 0.8 \end{pmatrix} $$ </li>
+	<li>\(b_{i,j}\) la probabilité d'observer \(o_j\) sachant que nous sommes dans l'état \(s_i\). Dans note exemple, nous avons \(b_{1,2} = 0.6\). Nous pouvons représenter l'ensemble de ces probabilités d'émission dans une matrice
+	$$ B = \begin{pmatrix} 0.7 & 0.2 & 0.1 \\ 0.1 & 0.3 & 0.6 \end{pmatrix} $$ </li>
+</ul></p>
+
+<br>
+
+<h4>Modèle de Markov caché</h4>
+
+<p>Un <b>modèle de Markov caché</b> est un modèle de Markov dans lequel nous avons uniquement les observations et nous avons aucune information sur les états. Dans notre exemple, notre ami nous informe de son activité journalière mais il ne nous donne pas d'information sur la météo.</p>
+
+<p>Il existe trois problèmes différents liés aux modèles de Markov cachés:
+<ul>
+	<li><b>Problème 1</b> Quelle est la probabilité d'une séquence d'observations donnée ? Notre ami nous informe des ses activités pendant une semaine. Quelle est la probabilité de cette séquence d'activités ?</li>
+	<li><b>Problème 2</b> Quelle est la séquence d'états la plus probable étant donné une séquence d'observations ? Notre ami nous informe de ses activités pendant une semaine. Quel est la séquence d'états la plus probable correspondant à cette séquence d'information ?</li>
+	<li><b>Problème 3</b> Comment estimer la matrice de transitions \(A\) et la matrice d'émission \(B\) à partir d'une séquence d'observations ? Notre ami nous informe de ses activités pendant un mois. Comment en déduire la matrice de transitions \(A\) et la matrice d'émissions \(B\) ?</li>
+</ul></p>
+
+<p>Dans les problèmes 1 et 2, nous connaissons la matrice de transitions \(A\) et la matrice d'émissions \(B\).</p>
+
+<br>
+
+<h4>Forward and backward algorithms (problème 1)</h4>
+
+<p>Les <b>forward and backward algorithms</b> sont des méthodes pour résoudre le premier problème. Pour rappel, nous connaissons la matrice de transitions \(A\) et la matrice d'émissions \(B\). Nous avons une séquence d'observations \(o_{1}, o_{2}, ..., o_{T}\) et nous voulons en déduire la probabilité de cette séquence d'observations \(P(o_{1},...,o_{T}|A,B)\).</p>
+
+<p>L'<b>algorithme forward</b> consiste à calculer à chaque étape \(\alpha _{s,t}\), la probabilité d'être dans l'état \(s\) à \(t\) et d'avoir observé \(o_{1}, o_{2}, ..., o_{t}\). Tout d'abord, nous calculons les \(\alpha _{s,1}\) qui correspondent aux probabilités d'être dans l'état \(s\) lors de la première observation \(o_1\)
+$$\alpha _{s,1} = b_{s,o_{1}} \pi _{s}$$
+avec \(\pi_{s}\) la probabilité de partir de l'état \(s\). Puis nous calculons récursivement l'ensemble des 
+\(\alpha _{s,t}\) qui correspondent aux probabilités d'être dans l'état \(s\) à la \(t\)-ième étape
+$$\alpha _{s,t} = b_{s,o_{t}} \sum_{i} a_{i,s} \alpha _{i,t-1}$$
+Enfin nous pouvons calculer la probabilité de la séquence observée
+\(P(o_{1},...,o_{T}|A,B) = \sum_{i} \alpha _{i,T}\)
+</p>
+
+<p>L'<b>algorithme backward</b> est un algorithme alternatif calculant les probabilités des séquences d'observations à partir de la fin de la séquence. Il calcule récursivement \(\beta _{s,t}\) la probabilité d'être dans l'état \(s\) à \(t\) et d'observer par la suite \(o_{t+1}, o_{t+2},..., o_{T}\).</p>
+
+<br>
+
+<h4>L'algorithme de Viterbi (problème 2)</h4>
+
+<p>L'<b>algorithme de Viterbi</b> est une méthode pour résoudre le deuxième problème. Pour rappel, nous connaissons la matrice de transitions \(A\) et la matrice d'émissions \(B\). Nous avons une séquence d'observations \(o_{1}, o_{2}, ..., o_{T}\) et nous voulons en déduire la séquence d'états la plus probable probabilité \(s_{1}, s_{2}, ..., s_{T}\).</p>
+
+<p>Cette algorithme consiste à calculer récursivement \(v_{s,t}\), la probabilité du chemin le plus probable qui se termine à l'état \(s\) à \(t\). Tout d'abord, nous calculons les \(v_{s,1}\) qui correspondent aux probabilités d'être dans l'état \(s\) lors de la première observation \(o_1\)
+$$v_{s,1} = b_{s,o_{1}} \pi _{s}$$
+avec \(\pi_{s}\) la probabilité de partir de l'état \(s\). Puis nous calculons récursivement pour tout état \(s\), la probabilité \(v_{s,t}\) qui correspond à la probabilité du chemin le plus probable qui se termine à l'état \(s\) à \(t\)
+$$v_{s,t} = max_{i} (b_{s,o_{t}} v_{i,t-1} a_{i,s})$$
+Pour chaque \(v_{s,t}\), nous conservons l'information de quel état a permis de maximiser l'équation précédente
+$$choix_{s,t} = argmax_{i} (b_{s,o_{t}} v_{i,t-1} a_{i,s})$$
+Pour \(t=1\), nous avons \(choix_{s,1} = s\). Enfin nous pouvons obtenir la séquence d'états \(x_1, ..., x_T\) la plus probable
+$$x_T = argmax_{i}(v_{T,i})$$
+$$x_{t-1} = choix_{x_t, t}$$
+</p>
+
+<br>
+
+<h4>L'algorithme de Baum-Welch (problème 3)</h4>
+
+<p>L'<b>algorithme de Baum-Welch</b> est une méthode pour résoudre le troisième problème. Pour rappel, nous avons une séquence d'observations et nous voulons en déduire la matrice de transitions \(A\) et la matrice d'émissions \(B\).</p>
+
+<p>Cette méthode est basée sur l'<b>Expectation-Maximization (EM)</b> méthode. Tout d'abord, la matrice de transitions \(A\) et la matrice d'émissions \(B\) sont initialisées avec des probabilités aléatoires. La phase d'<b>espérance</b> (expectation) consiste à
+<ul>
+	<li> évaluer les \(\alpha _{s,t}\) à l'aide de l'algorithme forward</li>
+	<li> évaluer les \(\beta _{s,t}\) à l'aide de l'algortihme backward</li>
+	<li> évaluer \(\gamma _{i,j,t}\), la probabilité qu'à \(t\) nous suivons la transition de \(i\) à \(j\)
+$$\gamma _{i,j,t} = \frac{\alpha _{i,t} a_{i,j} b_{j,o_{t+1}} \beta_{j,t+1}}{\sum_{k,l} \alpha _{k,t} a_{k,l} b_{l,o_{t+1}} \beta_{l,t+1}}$$</li>
+</ul></p>
+
+<p>La phase de <b>maximisation</b> (maximization) consiste à mettre à jour la matrice de transitions \(A\)
+$$a_{i,j} = \frac{\sum_{t} \gamma _{i,j,t}}{\sum_{t,m} \gamma _{i,m,t}}$$
+et à mettre à jour la matrice d'émissions \(B\)
+$$b_{i,k} = \frac{\sum_{t,o_{t}=k} \sum_{m} \gamma _{i,m,t}}{\sum_{t,m} \gamma _{i,m,t}}$$
+</p>
+
+<p>Les étapes d'espérance et de maximisation sont répétées jusque convergence.</p>
+
