@@ -8,14 +8,14 @@
 
 <p>Pour rendre la présentation plus facile, nous allons prendre un exemple. Supposons qu'un ami nous envoie tous les jours ce qu'il a fait de sa journée. Il y a uniquement trois activités possibles : se balader, faire les courses et faire le ménage. L'activité du jour dépend uniquement du temps qu'il fait le matin. Il y a deux possibilités pour le temps : soit il pleut, soit il fait beau. Dans une chaine de Markov, les activités sont appelées <b>observations</b>. Le temps correspond à un <b>état</b>. Il existe des <b>probabilités de transition</b> d'un état à un autre:
 <ul>
-	<li>Si il fait beau aujoud'hui, il y a 60% de chances qu'il fasse beau demain et 40% de chances qu'il pleuve demain</li>
-	<li>Si il pleut aujourd'hui, il y a 80% de chances qu'il pleuve demain et 20% de chance qu'il fasse beau demain</li>
+	<li>S'il fait beau aujourd'hui, il y a 60% de chances qu'il fasse beau demain et 40% de chances qu'il pleuve demain</li>
+	<li>S'il pleut aujourd'hui, il y a 80% de chances qu'il pleuve demain et 20% de chance qu'il fasse beau demain</li>
 </ul></p>
 
 <p>Il existe des <b>probabilités d'émission</b> qui correspondent à la probabilité de faire chacune des activités dans la journée connaissant la météo le matin :
 <ul>
-	<li>si il fait beau, il y a 70% de chances de se balader, 20% de chances de faires les courses et 10% de chances de faire le ménage</li>
-	<li>si il pleut, il y a 10% de chances de se balader, 30% de chances de faire les courses et 60% de chances de faire le ménage</li>
+	<li>s'il fait beau, il y a 70% de chances de se balader, 20% de chances de faires les courses et 10% de chances de faire le ménage</li>
+	<li>s'il pleut, il y a 10% de chances de se balader, 30% de chances de faire les courses et 60% de chances de faire le ménage</li>
 </ul></p>
 
 <p>Nous pouvons représenter cet exemple sous forme d'automate.</p>
@@ -39,15 +39,15 @@
 
 <h4>Modèle de Markov caché</h4>
 
-<p>Un <b>modèle de Markov caché</b> est un modèle de Markov dans lequel nous avons uniquement les observations et nous avons aucune information sur les états. Dans notre exemple, notre ami nous informe de son activité journalière mais il ne nous donne pas d'information sur la météo.</p>
+<p>Un <b>modèle de Markov caché</b> est un modèle de Markov dans lequel nous avons uniquement les observations et nous n'avons aucune information sur les états. Dans notre exemple, notre ami nous informe de son activité journalière mais il ne nous donne pas d'information sur la météo.</p>
 
 <p> Les modèles de Markov cachés sont utilisés notamment en reconnaissance de formes (reconnaissance de la parole, reconnaissance d'empreinte, reconnaissance de l'écriture manuscrite, reconnaissance de gestes).</p>
 
 <p>Il existe trois problèmes différents liés aux modèles de Markov cachés:
 <ul>
-	<li><b>Problème 1</b> Quelle est la probabilité d'une séquence d'observations donnée ? Notre ami nous informe des ses activités pendant une semaine. Quelle est la probabilité de cette séquence d'activités ?</li>
+	<li><b>Problème 1</b> Quelle est la probabilité d'une séquence d'observations donnée ? Notre ami nous informe de ses activités pendant une semaine. Quelle est la probabilité de cette séquence d'activités ?</li>
 	<li><b>Problème 2</b> Quelle est la séquence d'états la plus probable étant donné une séquence d'observations ? Notre ami nous informe de ses activités pendant une semaine. Quelle est la séquence de météo la plus probable correspondant à cette séquence d'informations ?</li>
-	<li><b>Problème 3</b> Comment estimer la matrice de transitions \(A\) et la matrice d'émission \(B\) à partir d'une séquence d'observations ? Notre ami nous informe de ses activités pendant un mois. Comment en déduire la matrice de transition \(A\) et la matrice d'émission \(B\) ?</li>
+	<li><b>Problème 3</b> Comment estimer la matrice de transition \(A\) et la matrice d'émission \(B\) à partir d'une séquence d'observations ? Notre ami nous informe de ses activités pendant un mois. Comment en déduire la matrice de transition \(A\) et la matrice d'émission \(B\) ?</li>
 </ul></p>
 
 <p>Dans les problèmes 1 et 2, nous connaissons la matrice de transition \(A\) et la matrice d'émission \(B\).</p>
@@ -106,5 +106,5 @@ et à mettre à jour la matrice d'émission \(B\)
 $$b_{i,k} = \frac{\sum_{t,o_{t}=k} \sum_{m} \gamma _{i,m,t}}{\sum_{t,m} \gamma _{i,m,t}}$$
 </p>
 
-<p>Les étapes d'espérance et de maximisation sont répétées jusque convergence.</p>
+<p>Les étapes d'espérance et de maximisation sont répétées jusqu'à la convergence.</p>
 

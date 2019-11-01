@@ -10,18 +10,18 @@
 <img src="../../img/machinelearning/decision_tree.png" class="img-fluid" alt="decision_tree">
 </div>
 
-<p>Les feuilles de l'arbre indiquent le résultat de la décision "est-ce que le sportif va s'entrainer aujourd'hui". Pour décider si un sportif va s'entrainer, il faut lire l'arbre de haut en bas en partant de la racine "Quel temps fait-il ?". Si il pleut et que le sportif n'a pas fait de sport pendant ces derniers jours, alors le sportif va s'entrainer.</p>
+<p>Les feuilles de l'arbre indiquent le résultat de la décision "est-ce que le sportif va s'entrainer aujourd'hui". Pour décider si un sportif va s'entrainer, il faut lire l'arbre de haut en bas en partant de la racine "Quel temps fait-il ?". S'il pleut et que le sportif n'a pas fait de sport pendant ces derniers jours, alors le sportif va s'entrainer.</p>
 
 <br>
 
 <h4>Construction de l'arbre</h4>
 
-<p>Les arbres de décision peuvent facilement être créés automatiquement à partir d'une base de données d'apprentissage contenant des données labelisées. Les données sont des triplets contenant la réponse aux trois questions présentes dans l'arbre et le label est la réponse oui ou non à la question "Est ce que le sportif va s'entrainer aujoud'hui ?". Un arbre de décision se construit généralement récursivement à partir de la racine. L'attribut qui sépare le "mieux" la base de données est choisi pour la racine. Puis la base d'apprentissage est séparée en fonction de cet attribut. Puis on continue récursivement en construisant un sous-arbre avec chacune des sous-bases.</p>
+<p>Les arbres de décision peuvent facilement être créés automatiquement à partir d'une base de données d'apprentissage contenant des données labellisées. Les données sont des triplets contenant la réponse aux trois questions présentes dans l'arbre et le label est la réponse oui ou non à la question "Est ce que le sportif va s'entrainer aujourd'hui ?". Un arbre de décision se construit généralement récursivement à partir de la racine. L'attribut qui sépare le "mieux" la base de données est choisi pour la racine. Puis la base d'apprentissage est séparée en fonction de cet attribut. Puis on continue récursivement en construisant un sous-arbre avec chacune des sous-bases.</p>
 
 <p>Pour choisir l'attribut qui sépare le mieux la base de données, différentes méthodes existent :
 <ul>
-	<li>L'indice de diversité de Gini est utilisé dans l'algorithme de création d'arbre de décisions CART. Cet indice représente la probabilité qu'un élément aléatoire de l'ensemble soit mal classé si son étiquette était sélectionnée aléatoirement depuis la distribution des étiquettes dans le sous-ensemble. Mathématiquement si la classe prend une valeur aléatoire dans \(1, ..., m\) et si \(p_i\) est la probabilité qu'un item avec le label \(i\) soit choisi alors \(I_G(f)=\sum_{i=1}^m p_i (1 - p_i) = 1 - \sum_i p_i^2\)</li>
-	<li>Le gain d'information est utilisé dans les algorithmes de création d'arbres ID3 et C4.5. Le gain d'information est basé sur le concept d'entropie de Shanon : \(I_E(p) = - \sum_{i \in E} p_i \log_2 p_i\)</li>
+	<li>L'indice de diversité de Gini est utilisé dans l'algorithme de création d'arbre de décision CART. Cet indice représente la probabilité qu'un élément aléatoire de l'ensemble soit mal classé si son étiquette était sélectionnée aléatoirement depuis la distribution des étiquettes dans le sous-ensemble. Mathématiquement si la classe prend une valeur aléatoire dans \(1, ..., m\) et si \(p_i\) est la probabilité qu'un item avec le label \(i\) soit choisi alors \(I_G(f)=\sum_{i=1}^m p_i (1 - p_i) = 1 - \sum_i p_i^2\)</li>
+	<li>Le gain d'information est utilisé dans les algorithmes de création d'arbres ID3 et C4.5. Le gain d'information est basé sur le concept d'entropie de Shannon : \(I_E(p) = - \sum_{i \in E} p_i \log_2 p_i\)</li>
 </ul></p>
 
 <br>
@@ -30,9 +30,9 @@
 
 <p>Le plus souvent en machine learning, plusieurs arbres de décision sont combinés dans un classifieur.</p>
 
-<p>La méthode <b>AdaBoost</b> crée un ensemble de classificateurs faibles/simples sur différentes version de la base de données d'apprentissage, puis un vote majoritaire avec poids est calculé afin de décider de la classification finale. Plus précisément, le premier classifieur est appris sur la base de données entière avec un poids de \(1/N\) sur chaque donnée (\(N\) étant le nombre de données dans la base d'apprentissage). Pour la construction du deuxième classifieur, on augmente le poids des données ayant été mal classifiées par le classifieur précédent et on diminue le poids des données ayant été bien classifiées. Et ainsi de suite pour les classifieurs suivants. Par conséquent, les entrées les plus dures à classifier ont de plus en plus d'influence lors de la construction des classifieurs.</p>
+<p>La méthode <b>AdaBoost</b> crée un ensemble de classificateurs faibles/simples sur différentes versions de la base de données d'apprentissage, puis un vote majoritaire avec poids est calculé afin de décider de la classification finale. Plus précisément, le premier classifieur est appris sur la base de données entière avec un poids de \(1/N\) sur chaque donnée (\(N\) étant le nombre de données dans la base d'apprentissage). Pour la construction du deuxième classifieur, on augmente le poids des données ayant été mal classifiées par le classifieur précédent et on diminue le poids des données ayant été bien classifiées. Et ainsi de suite pour les classifieurs suivants. Par conséquent, les entrées les plus dures à classifier ont de plus en plus d'influence lors de la construction des classifieurs.</p>
 
-<p>Comme pour l'AdaBoost, la méthode <b>Bagging</b> crée un ensemble de classificateurs faibles/simples sur différentes version de la base de données d'apprentissage, puis un vote majoritaire avec poids est calculé afin de décider de la classification finale. Pour chaque arbre, une nouvelle base d'apprentissage est créée en prenant au hasard avec remise (doublons autorisés) des données de la base d'apprentissage.</p>
+<p>Comme pour l'AdaBoost, la méthode <b>Bagging</b> crée un ensemble de classificateurs faibles/simples sur différentes versions de la base de données d'apprentissage, puis un vote majoritaire avec poids est calculé afin de décider de la classification finale. Pour chaque arbre, une nouvelle base d'apprentissage est créée en prenant au hasard avec remise (doublons autorisés) des données de la base d'apprentissage.</p>
 
 <p>Le <b>random forest</b> est une méthode utilisant du bagging. Pour chaque arbre, une base de données est créée en prenant au hasard avec remise (doublons autorisés) des données de la base d'apprentissage (bagging) et en prenant au hasard uniquement un sous-ensemble des features. Il y a trois features dans notre exemple "Est ce que le sportif va s'entrainer aujourd'hui ?" qui sont :
 <ul>

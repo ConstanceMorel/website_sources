@@ -20,21 +20,21 @@
 
 <p>L'<b>apprentissage supervisé</b> est utilisé pour la classification et la régression. A partir d'une base de données BDD d'apprentissage avec des données et leurs labels, il faut généraliser afin de donner un label à des données jamais vues. Nous avons par exemple une base de données contenant des images de chiffres manuscrits et le label de chaque image (à quel chiffre correspond chaque image). Avec un apprentissage supervisé, nous allons pouvoir apprendre à reconnaitre les chiffres manuscrits. Après la phase d'apprentissage, notre algorithme pourra déterminer avec un faible taux d'erreurs, le chiffre manuscrit présent sur une nouvelle image (qui n'appartient pas à la base de données d'apprentissage). Les principaux algorithmes supervisés sont les réseaux de neurones, le SVM, les arbres de décision (ID3, C5, CART) et la régression linéaire.</p>
 
-<p>L'<b>apprentissage non supervisé</b> est utilisé pour partitionner les données (clustering) afin que les données dans une même partition soient proches entre elles (aient quelque chose en commun) et les données provenant de deux partitions différentes soient éloignées. Contrairement à l'apprentissage supervisé, la base de données d'apprentissage ne contient plus les labels. L'apprentissage non supervisé peut par exemple être utilisé pour regrouper les clients d'un magasin en différents groupes afin de faciliter le ciblage marketing. Les clients d'un même groupe aiment les mêmes produits. Les principaux algorithmes non supervisés sont le k-means, les algorithmes EM et le regroupement hiérarchique (basé sur la contruction d'un arbre).</p>
+<p>L'<b>apprentissage non supervisé</b> est utilisé pour partitionner les données (clustering) afin que les données dans une même partition soient proches entre elles (aient quelque chose en commun) et les données provenant de deux partitions différentes soient éloignées. Contrairement à l'apprentissage supervisé, la base de données d'apprentissage ne contient plus les labels. L'apprentissage non supervisé peut par exemple être utilisé pour regrouper les clients d'un magasin en différents groupes afin de faciliter le ciblage marketing. Les clients d'un même groupe aiment les mêmes produits. Les principaux algorithmes non supervisés sont le k-means, les algorithmes EM et le regroupement hiérarchique (basé sur la construction d'un arbre).</p>
 
 <p>L'<b>apprentissage par renforcement</b> est un apprentissage d'un bon comportement à partir d'observations/récompenses. A chaque étape, l'algorithme propose une action et le système donne un score à cette action (indiquant si l'action est bénéfique ou pas) sans indiquer comment améliorer ce score. L'apprentissage par renforcement est par exemple utilisé pour créer des intelligences artificielles jouant au backgammon, aux échecs ou au go. Les principaux algorithmes d'apprentissage par renforcement sont le Q-learning et les algorithmes basés sur les Hidden Markov Models (Viterbi et Baum Welch).</p>
 
-<p>L'<b>apprentissage évolutionniste</b> s'inspire de la théorie de l'évolution pour résoudre des problèmes diverses. La théorie de l'évolution repose sur le fait que les organismes s'adaptent pour améliorer leur taux de survie et celui de leurs descendants. Les principaux algorithmes évolutionnistes sont les algorithmes génétiques et PBIL.</p>
+<p>L'<b>apprentissage évolutionniste</b> s'inspire de la théorie de l'évolution pour résoudre des problèmes divers. La théorie de l'évolution repose sur le fait que les organismes s'adaptent pour améliorer leur taux de survie et celui de leurs descendants. Les principaux algorithmes évolutionnistes sont les algorithmes génétiques et PBIL.</p>
 
-<p>La <b>réduction de dimension</b> est utilisée pour réduire la dimension des données afin de réduire le stockage toute en gardant un maximum d'information. La réduction de dimension peut aussi être utilisée pour garder uniquement les informations les plus intéressantes d'une base de données. Les principaux algorithmes de réduction de dimension sont LDA, PCA et ICA.</p>
+<p>La <b>réduction de dimension</b> est utilisée pour réduire la dimension des données afin de réduire le stockage tout en gardant un maximum d'informations. La réduction de dimension peut aussi être utilisée pour garder uniquement les informations les plus intéressantes d'une base de données. Les principaux algorithmes de réduction de dimension sont LDA, PCA et ICA.</p>
 
 <p>Le <b>système de recommandations</b> est un filtrage de l'information visant à présenter les éléments d'information (films, musique, livres, news, images, pages Web, etc) qui sont susceptibles d'intéresser un utilisateur. Les principaux algorithmes de recommandations sont le collaborative filtering, le content-based filtering et l'hybrid algorithm.</p>
 
 <br>
 
-<h4>Machine learning process</h4>
+<h4>Machine learning processus</h4>
 
-<p>Pour la plupart des algorithmes de machine learning, le process global de mise en place de l'apprentissage est similaire :
+<p>Pour la plupart des algorithmes de machine learning, le processus global de mise en place de l'apprentissage est similaire :
 <ol>
 	<li>Récupération et nettoyage des données</li>
 	<li>Création des features</li>
@@ -54,7 +54,7 @@
 
 <p>Tous les apprentissages sont effectués sur la base d'apprentissage, la performance de chaque apprentissage est validée sur la base de validation. La base de test est uniquement utilisée à la toute fin. Elle permet d'évaluer les performances de notre apprentissage en évitant le surapprentissage.</p>
 
-<p>La méthode de <b>cross-validation</b> est une méthode d'estimation de la fiabilité d'un apprentissage qui limite le surapprentissage. Dans cette méthode, la base d’apprentissage (80%) est séparée en K sous-ensembles. Le premier sous-ensemble est utilisé pour la validation et les autres sous-ensembles sont utilisés pour l'apprentissage. Puis lors de l'apprentissage suivant, le 2e sous-ensemble est utilisé pour la validation et l'apprentissage est effectué sur les autres sous-ensembles. Et ainsi du suite, jusqu'à avoir effectué K apprentissages. Puis la moyenne des peformances de chaque apprentissage est caclulée pour estimer la performance globale de l'apprentissage.</p>
+<p>La méthode de <b>cross-validation</b> est une méthode d'estimation de la fiabilité d'un apprentissage qui limite le surapprentissage. Dans cette méthode, la base d’apprentissage (80%) est séparée en K sous-ensembles. Le premier sous-ensemble est utilisé pour la validation et les autres sous-ensembles sont utilisés pour l'apprentissage. Puis lors de l'apprentissage suivant, le 2e sous-ensemble est utilisé pour la validation et l'apprentissage est effectué sur les autres sous-ensembles. Et ainsi du suite, jusqu'à avoir effectué K apprentissages. Puis la moyenne des performances de chaque apprentissage est calculée pour estimer la performance globale de l'apprentissage.</p>
 
 <br>
 
@@ -70,7 +70,7 @@
   $$recall = TP/(TP + FN )$$
   $$specificity = TN/(TN + FP )$$
   $$precision = TP/(TP + FP )$$
- Par exemple, si nous cherchons à déterminer si un mail est un spam. Les vrais positifs sont les mails qui sont des spams et que l'algorithme classifie en spam. Les vrais négatifs sont les mails qui ne sont pas des spams et que l'algorithme classifie en non spam. Les faux positifs sont les mails qui ne sont pas des spams mais que l'algorithme classifie en spam. Les faux négatifs sont les mails qui sont des spams mais que l'algorithme classifie en non spam.
+ Par exemple, si nous cherchons à déterminer si un mail est un spam. Les vrais positifs sont les mails qui sont des spams et que l'algorithme classifie en spam. Les vrais négatifs sont les mails qui ne sont pas des spams et que l'algorithme classifie en non-spam. Les faux positifs sont les mails qui ne sont pas des spams mais que l'algorithme classifie en spam. Les faux négatifs sont les mails qui sont des spams mais que l'algorithme classifie en non-spam.
 </p>
 
 <table class="table table-bordered">
