@@ -1,21 +1,21 @@
-<h1>Côté mineur: La validation des transaction</h1>
+<h1>Côté mineur: La validation des transactions</h1>
 
 <br>
 
-<h4>Un réseau pair-à-pair (peer-to-peer)</h4>
+<h4>Un réseau pair à pair (peer-to-peer)</h4>
 
-<p>Un réseau pair-à-pair P2P est un réseau distribué dans lequel chaque noeud a le même rôle. Pour envoyer un message dans un réseau P2P, un noeud envoie le message à tous ses voisins qui eux mêmes renvoient le message à tous leurs voisins et ainsi de suite.</p>
+<p>Un réseau pair à pair P2P est un réseau distribué dans lequel chaque noeud a le même rôle. Pour envoyer un message dans un réseau P2P, un noeud envoie le message à tous ses voisins qui eux-mêmes renvoient le message à tous leurs voisins et ainsi de suite.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/p2p.png" style="max-width:50%;" class="img-fluid" alt="p2p">
 </div>
 
-<p>Nakamoto décrit le réseau blockcahin <cite>[Nak08]</cite> comme suit:</p>
+<p>Nakamoto décrit le réseau blockchain <cite>[Nak08]</cite> comme suit:</p>
 <ol>
 	<li> Les nouvelles transactions sont envoyées à tous les noeuds.</li>
 	<li> Chaque noeud regroupe les transactions dans un bloc.</li>
-	<li> Chaque noeud essaie de résoudre une preuve-de-travail (proof-of-work) difficile pour ses blocs.</li>
-	<li> Quand un noeud résoud une preuve-de-travail, il envoie son bloc à tous les autre noeuds.</li>
+	<li> Chaque noeud essaie de résoudre une preuve de travail (proof-of-work) difficile pour ses blocs.</li>
+	<li> Quand un noeud résout une preuve de travail, il envoie son bloc à tous les autres noeuds.</li>
 	<li> Les noeuds acceptent le bloc uniquement si toutes les transactions sont valides et ne sont pas déjà dépensées.</li>
 	<li> Les noeuds expriment leur acceptation du bloc en travaillant à la création du prochain bloc dans la chaine, en utilisant le hash du bloc accepté en tant que hash du bloc précédent.</li>
 </ol></p>
@@ -24,25 +24,25 @@
 
 <br>
 
-<h4>Preuve-de-travail (proof-of-work)</h4>
+<h4>Preuve de travail (proof-of-work)</h4>
 
-<p>La preuve-de-travail est un algorithme de consensus utilisé dans la plupart des blockchains. C'est un puzzle ayant les propriétés suivantes:
+<p>La preuve de travail est un algorithme de consensus utilisé dans la plupart des blockchains. C'est un puzzle ayant les propriétés suivantes:
 <ul>
 	<li> il est difficile de trouver une solution à ce puzzle</li>
 	<li> il est facile de vérifier qu'une solution est valide</li>
 </ul>
 
-<p>Dans Bitcoin, la preuve-de-travail est Hashcash. Ce puzzle consiste à trouver un nonce tel que les premiers k bits du hash du bloc sont égaux à 0.</p>
+<p>Dans Bitcoin, la preuve de travail est Hashcash. Ce puzzle consiste à trouver un nonce tel que les premiers k bits du hash du bloc sont égaux à 0.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/PoW.png" style="max-width:50%;" class="img-fluid" alt="PoW">
 </div>
 
-<p>Le mineur va essayer successivement des nonces aléatoires jusqu'à ce qu'il trouve un nonce qui résoud ce puzzle. Il va alors envoyer le nouveau bloc contenant ce nonce.</p>
+<p>Le mineur va essayer successivement des nonces aléatoires jusqu'à ce qu'il trouve un nonce qui résout ce puzzle. Il va alors envoyer le nouveau bloc contenant ce nonce.</p>
 
-<p>Dans bitcoin, la difficulté de cette preuve-de-travail est ré-ajustée périodiquement afin d'avoir en moyenne un bloc toutes les dix minutes. Pour cela, le nombre de 0 demandés au début du hash du bloc est modifié.</p>
+<p>Dans bitcoin, la difficulté de cette preuve de travail est réajustée périodiquement afin d'avoir en moyenne un bloc toutes les dix minutes. Pour cela, le nombre de 0 demandé au début du hash du bloc est modifié.</p>
 
-<p>Il est facile de vérifier qu'une solution est valide car un hash est facile est caculé. Mais ce puzzle est difficile à cause de la résistance des fonctions de hachage à la pré-image partielle. </p>
+<p>Il est facile de vérifier qu'une solution est valide car un hash est facile à caculer. Mais ce puzzle est difficile à cause de la résistance des fonctions de hachage à la préimage partielle. </p>
 
 <br>
 

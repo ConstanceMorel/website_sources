@@ -1,27 +1,27 @@
-<h1>La blockchain pour stoquer toutes les transactions</h1>
+<h1>La blockchain pour stocker toutes les transactions</h1>
 
 <br>
 
 <h4>Fonction de hachage cryptographique</h4>
 
-<p>Les fonctions de hachage sont au coeur du stoquage des transactions au sein de la blockchain.</p>
+<p>Les fonctions de hachage sont au coeur du stockage des transactions au sein de la blockchain.</p>
 
 <p>Une fonction de hachage cryptographique est une fonction transformant une entrée de taille arbitraire en une sortie de taille fixe \(h: \{ 0, 1 \} ^* \mapsto \{0 ,1 \} ^n\) avec les propriétés suivantes:
 <ul>
-	<li> Résistance à la pré-image (pre-image resistance) : étant donné une valeur \(y\), il est difficile de trouver une valeur \(x\) tel que \(y=h(x)\)</li>
-	<li> Résistance à une deuxième pré-image (second pre-image resistance) : étant donnée \(x\) et \(h(x)\), il est difficile de trouver une valeur \(y\) différente de  \(x\) tel que \(h(y)=h(x)\)</li>
+	<li> Résistance à la préimage (pre-image resistance) : étant donné une valeur \(y\), il est difficile de trouver une valeur \(x\) tel que \(y=h(x)\)</li>
+	<li> Résistance à une deuxième préimage (second pre-image resistance) : étant donné \(x\) et \(h(x)\), il est difficile de trouver une valeur \(y\) différente de  \(x\) tel que \(h(y)=h(x)\)</li>
 	<li> Résistance aux collisions (collision resistance) : étant donnée une fonction de hachage \(h\), il est difficile de trouver deux valeurs \(x\) et \(y\) tels que \(h(x) = h(y)\)</li>
 </ul></p>
 
-<p>Générallement, les fonctions de hachage sont rapides à évaluer (plus rapides que les opérations cryptographiques symétriques). Les fonctions de hachage les plus célèbres sont <strong>SHA-1</strong> et <strong>SHA-2</strong>. Aujourd'hui ces fonctions sont largement utilisées dans des domaines variés comme le stoquage sécurisé des mots de passe et la vérification de l'intégrité de données.</p>
+<p>Généralement, les fonctions de hachage sont rapides à évaluer (plus rapides que les opérations cryptographiques symétriques). Les fonctions de hachage les plus célèbres sont <strong>SHA-1</strong> et <strong>SHA-2</strong>. Aujourd'hui ces fonctions sont largement utilisées dans des domaines variés comme le stockage sécurisé des mots de passe et la vérification de l'intégrité de données.</p>
 
 <br>
 
-<h4>Le stoquage des transactions</h4>
+<h4>Le stockage des transactions</h4>
 
 <p>La blockchain est une structure de données contenant toutes les transactions bitcoins dans l'ordre chronologique.</p>
  
-<p>Plusieurs transactions sont stoquées ensemble au sein d'une structure de données appelée merkle tree, un arbre binaire avec des pointeurs de hachage. Dans cet arbre, chaque feuille contient une transaction. Les autres noeuds contiennent un hash de leurs enfants.</p>
+<p>Plusieurs transactions sont stockées ensemble au sein d'une structure de données appelée merkle tree, un arbre binaire avec des pointeurs de hachage. Dans cet arbre, chaque feuille contient une transaction. Les autres noeuds contiennent un hash de leurs enfants.</p>
 
 <div class="text-center">
 <img src="../../img/blockchain/merkle_tree.png" class="img-fluid" alt="merkle_tree">
