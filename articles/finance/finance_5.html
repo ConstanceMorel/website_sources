@@ -14,11 +14,11 @@
 
 <p>Si le hedger détient l'actif sous-jacent au contrat (ou va le recevoir) et prévoit de le vendre dans un futur proche, il doit alors prendre une position courte pour se protéger des risques de variation de prix de ce sous-jacent. C'est une <b>couverture courte (short hedge)</b>.</p>
 
-<p>Symétriquement, la <b>couverture longue (long hedge)</b> sert à se protéger des risques de variation de prix du sous-jacent lorsque que le hedger veut acheter l'actif dans le futur.</p>
+<p>Symétriquement, la <b>couverture longue (long hedge)</b> sert à se protéger des risques de variation de prix du sous-jacent lorsque le hedger veut acheter l'actif dans le futur.</p>
 
-<p>Malheureusement, la courverture n'est pas aussi simple car:
+<p>Malheureusement, la couverture n'est pas aussi simple car:
 <ul>
-	<li>l'actif à couvrir n'est pas forcément le même que le sous-jacent du contrat futur. Il faut alors prendre en compte la corrélation entre l'actif à couvrir et le sous-jacent du contrat futur. Cela est appelée la <b>couvertue croisée</b>.</li>
+	<li>l'actif à couvrir n'est pas forcément le même que le sous-jacent du contrat futur. Il faut alors prendre en compte la corrélation entre l'actif à couvrir et le sous-jacent du contrat futur. Cela est appelé la <b>couverture croisée</b>.</li>
 	<li>la date de livraison de l'actif à couvrir n'appartient pas forcément aux échéances des contrats futurs. Il faut alors prendre un contrat futur avec une échéance plus éloignée et dénouer sa position lors de la livraison. Il faut donc prendre en compte la différence des prix des contrats futurs entre les contrats lors de la couverture et les contrats lors de la livraison afin de calculer les gains/pertes sur cette couverture.</li>
 	<li>la durée de la couverture souhaitée peut être plus grande que la maturité des contrats disponibles. Le hedger doit alors faire glisser sa couverture d'une échéance à l'autre en prenant des positions successives sur des contrats à maturité plus courte.</li>
 </ul>
