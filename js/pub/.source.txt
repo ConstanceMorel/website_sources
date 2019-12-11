@@ -4,3 +4,4 @@ jquery-migrate-3.0.0.min.js https://code.jquery.com/jquery-migrate-3.0.0.min.js
 jquery.waypoints.min.js http://imakewebthings.com/waypoints/js/jquery.waypoints.min.js
 owl.carousel.min.js https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.min.js
 stellar.js https://markdalgleish.com/projects/stellar.js/js/stellar.js
+swiper.min.js https://unpkg.com/swiper@5.2.1/js/swiper.min.js

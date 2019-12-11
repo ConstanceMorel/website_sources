@@ -1,2 +1,5 @@
 js/pub/*.js
 css/pub/*.css
+css/fonts/*.ttf
+nicolas/articles/template.html
+.DS_Store
