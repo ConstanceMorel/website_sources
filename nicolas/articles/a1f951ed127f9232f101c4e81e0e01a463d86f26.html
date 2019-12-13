@@ -76,13 +76,13 @@
         <div class="container">
             <div class="media-container-row">
                 <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
-                    In a real-life scenario, let's calculate the minimum length of an HMAC key to be breakable in more than 10 years. I will theoretically take eight Nvidia GTX 1080s, using this <a href="https://gist.github.com/epixoip/a83d38f412b4737e99bbef804a270c40" onclick="window.open(this.href); return false;"><b>performance sheet</b></a>.
+                    In a real-life scenario, let's calculate the minimum length of an HMAC key to be breakable in more than 10 years, which is 315360000 seconds. I will theoretically take eight Nvidia GTX 1080s, using this <a href="https://gist.github.com/epixoip/a83d38f412b4737e99bbef804a270c40" onclick="window.open(this.href); return false;"><b>performance sheet</b></a>.
                     <br>
                     <br> By approximating, we consider that HMAC performs two SHA-1s and one XOR (0.5 times the number of SHA-1 per second). With this configuration, it is possible to generate about \(6.87 \times 10^{10}\) SHA-1 per second.
                     <br>
                     <br> Let k be the length in bit of an HMAC key. The number of possibilities is \(2^k\) and we will take an average of \(2^{k-1}\) keys tested before recovering the HMAC key.
                     <br>
-                    <br> $$\frac{2^{k-1}}{0.5 \times 6.87 \times 10^{10}} = 3600 \times 24 \times 365 \times 10$$ $$2^{k-1} = 315360000 \times 0.5 \times 6.87 \times 10^{10}$$ $$k = log_2(315360000 \times 0.5 \times 6.87 \times 10^{10}) + 1$$ $$k \approx 64$$
+                    <br> $$\frac{2^{k-1}}{0.5 \times 6.87 \times 10^{10}} = 315360000 $$ $$2^{k-1} = 315360000 \times 0.5 \times 6.87 \times 10^{10}$$ $$k = log_2(1083261600 \times 10^{10}) + 1$$ $$k \approx 64$$
                     <br>
                     <br> k is around 64 bits, which is an 8 bytes long string...
                     <br>
@@ -208,7 +208,7 @@
                 </div>
                 <div class="col-md-4 col-lg-2 mb-30 text-left">
                 </div>
-                <div class="col-md-4 col-lg-2 mb-30 text-left">
+                <div class="col-md-4 col-lg-2 mb-30 text-center">
                     <div class="card h-100">
                         <div class="dplay-tbl">
                             <div class="dplay-tbl-cell">
