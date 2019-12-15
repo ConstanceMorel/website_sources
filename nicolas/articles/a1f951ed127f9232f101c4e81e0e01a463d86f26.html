@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="assets/images/logo2.png" type="image/x-icon">
+    <title>SHA-1 is broken, not HMAC</title>
+    <link rel="stylesheet" href="../../css/pub/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/nicolas-blog.min.css">
+    <link rel="stylesheet" href="../../css/nicolas-blog-more.min.css">
+    <link href="../../css/nicolas-main.min.css" rel="stylesheet">
+    <link href="../../css/pub/ionicons.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <section class="menu cid-qv1frvgcz3" once="menu" id="menu1-7v" data-rv-view="8334">
+
+        <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm bg-color transparent">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+            <div class="menu-logo">
+                <div class="navbar-brand">
+
+                    <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="../">
+                        <b>Return HOME</b></a></span>
+                </div>
+            </div>
+
+        </nav>
+    </section>
+
+    <section class="mbr-section content5 cid-qvbiXHsAN2 mbr-parallax-background" id="content5-7w" data-rv-view="8336" style="background-image: url('../images/background_security.png');">
+
+        <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(35, 35, 35);">
+        </div>
+
+        <div class="container">
+            <div class="media-container-row">
+                <div class="title col-12 col-md-8">
+                    <h1 class="align-center mbr-bold mbr-white pb-3 mbr-fonts-style display-1">Security Post-it #1</h1>
+                    <h3 class="mbr-section-subtitle align-center mbr-light mbr-white pb-3 mbr-fonts-style display-5">
+                        SHA-1 is broken, not HMAC</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mbr-section content4 cid-qvbjfGj2Ze" id="content4-7x" data-rv-view="8339">
+
+        <div class="container">
+            <div class="media-container-row">
+                <div class="title col-12 col-md-8">
+                    <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-7"><em>
+                        By Nicolas Beguier - December 13, 2019</em></h3>
+                    <br>
+                    <br>
+                    <br>
+                    <h2 class="align-center pb-3 mbr-fonts-style display-5">
+                        SHA-1 and HMAC are not broken by a brute-force attack</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mbr-section article content1 cid-qvbjomyZfb" id="content1-7y" data-rv-view="8341">
+        <div class="container">
+            <div class="media-container-row">
+                <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+                    In a real-life scenario, let's calculate the minimum length of an HMAC key to be breakable in more than 10 years, which is 315360000 seconds. I will theoretically take eight Nvidia GTX 1080s, using this <a href="https://gist.github.com/epixoip/a83d38f412b4737e99bbef804a270c40" onclick="window.open(this.href); return false;"><b>performance sheet</b></a>.
+                    <br>
+                    <br> By approximating, we consider that HMAC performs two SHA-1s and one XOR (0.5 times the number of SHA-1 per second). With this configuration, it is possible to generate about \(6.87 \times 10^{10}\) SHA-1 per second.
+                    <br>
+                    <br> Let k be the length in bit of an HMAC key. The number of possibilities is \(2^k\) and we will take an average of \(2^{k-1}\) keys tested before recovering the HMAC key.
+                    <br>
+                    <br> $$\frac{2^{k-1}}{0.5 \times 6.87 \times 10^{10}} = 315360000 $$ $$2^{k-1} = 315360000 \times 0.5 \times 6.87 \times 10^{10}$$ $$k = log_2(1083261600 \times 10^{10}) + 1$$ $$k \approx 64$$
+                    <br>
+                    <br> k is around 64 bits, which is an 8 bytes long string...
+                    <br>
+                    <br> It seems like a common password could easily be broken, but the recommended 20 bytes for the HMAC are safe.
+                    <br>
+                    <br> To break a SHA-1, the calculation is the same but the time spent is twice less.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mbr-section content4 cid-qvbjXQkUU7" id="content4-81" data-rv-view="8345">
+
+        <div class="container">
+            <div class="media-container-row">
+                <div class="title col-12 col-md-8">
+                    <h2 class="align-center pb-3 mbr-fonts-style display-5">
+                        SHA-1 is vulnerable to collision</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mbr-section article content1 cid-qvbjomyZfb" id="content1-7y" data-rv-view="8341">
+        <div class="container">
+            <div class="media-container-row">
+                <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+                    Breaking SHA-1 by brute-force attack is not a solution.
+                    <br>
+                    <br> In 2017, <a href="https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html" onclick="window.open(this.href); return false;"><b>Google has found how to collide two SHA-1 hashes</b></a>. At the time, it cost approximately 130k$ and relies on the birthday paradox.
+                    <br>
+
+                    <section class="cid-qvbjxOlHgO" id="image1-80" data-rv-view="8343">
+
+                        <figure class="mbr-figure container">
+                            <div class="image-block" style="width: 60%;">
+                                <img src="https://2.bp.blogspot.com/-dOYNrXyS9NQ/WK6l__AnOoI/AAAAAAAAAbA/JWAAlziN0RIfHBkzEJ1KobxRzcwKWii3wCLcB/s1600/shattered-infographic.png" width="1400" alt="SHAttered" title="" media-simple="true">
+                            </div>
+                        </figure>
+                    </section>
+
+                    <br> In May 2019, some french and singapourien researches have found how to <a href="https://eprint.iacr.org/2019/459.pdf" onclick="window.open(this.href); return false;"><b>reduce the number of try to collide prefixes</b></a>.
+                    <br>
+                    <br>
+                    <blockquote>
+                        "We are currently working on further improvements (unpublished yet), and we evaluate now that one can find a chosen-prefix collision for SHA-1 with a budget of less than $100,000, which is really practical."
+                        <br> &mdash; <a href="https://mailarchive.ietf.org/arch/msg/cfrg/NhiGvOFzcEw108YLwF_ndyfB1k4" onclick="window.open(this.href); return false;">Thomas Peyrin, Fri, 10 May 2019 14:09 UTC</a>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mbr-section content4 cid-qvbjXQkUU7" id="content4-81" data-rv-view="8345">
+
+        <div class="container">
+            <div class="media-container-row">
+                <div class="title col-12 col-md-8">
+                    <h2 class="align-center pb-3 mbr-fonts-style display-5">
+                        What about HMAC</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mbr-section article content1 cid-qvbjomyZfb" id="content1-7y" data-rv-view="8341">
+        <div class="container">
+            <div class="media-container-row">
+                <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+                    HMAC is still ok?
+                    <br>
+                    <br>
+
+                    <blockquote class="twitter-tweet" data-lang="en">
+                        <p lang="en" dir="ltr">First SHA1 was shattered. <a href="https://t.co/CnnYJiLtxP">https://t.co/CnnYJiLtxP</a>
+                            <br>
+                            <br>Now it&#39;s reduced to shambles.
+                            <br>
+                            <br>It&#39;s time to stop using SHA1. (HMAC-SHA1 is still okay.)</p>&mdash; Scott Arciszewski (@CiPHPerCoder) <a href="https://twitter.com/CiPHPerCoder/status/1126901494811377664?ref_src=twsrc%5Etfw">10 mai 2019</a></blockquote>
+
+                    The compression function of HMAC successively applies several SHA-1s. Having the power to make collisions of SHA-1 does not predict the output of an HMAC.
+                    <br>
+                    <br> A much deeper break of SHA-1's round function would be needed to break HMAC. M. Bellare's New Proofs for NMAC and HMAC: <a href="https://eprint.iacr.org/2006/043.pdf" onclick="window.open(this.href); return false;"><b>Security without Collision-Resistance</b></a> shows that the security of HMAC holds assuming only weaker properties on its round function than needed for collision resistance of the corresponding hash.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="style2">
+
+    <section class="mbr-section article content1 cid-qvbjomyZfb" id="content1-7y" data-rv-view="8341">
+        <div class="container">
+            <div class="media-container-row">
+                <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+                    <strong>If you enjoyed this story, please recommend and share to help others find it! Feel free to contact me if you have any questions.</strong>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="style2">
+
+    <footer class="bg-191 color-ash pt-50 pb-20 text-left center-sm-text">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-md-4 col-lg-6 mb-30">
+                    <div class="card h-100">
+                        <div class="dplay-tbl">
+                            <div class="dplay-tbl-cell">
+                                <li><img src="../images/me.jpeg" class="img-fluid rounded-circle" style="max-width: 30%;"></li>
+                                <p class="color-ash mt-10">
+                                    Nicolas Béguier
+                                    <br> Copyright &copy;
+                                    <script type="text/javascript">
+                                        document.write(new Date().getFullYear());
+                                    </script>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2 mb-30 text-left">
+                </div>
+                <div class="col-md-4 col-lg-2 mb-30 text-center">
+                    <div class="card h-100">
+                        <div class="dplay-tbl">
+                            <div class="dplay-tbl-cell">
+                                <ul class="list-a-plr-10">
+                                    <li><a href="https://github.com/nbeguier/" onclick="window.open(this.href); return false;"><i class="ion-social-github"></i></a></li>
+                                    <li><a href="https://www.linkedin.com/in/nicolasbeguier/" onclick="window.open(this.href); return false;"><i class="ion-social-linkedin"></i></a></li>
+                                    <li><a href="mailto:nicolas_beguier@hotmail.com"><i class="ion-email"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/pub/bootstrap.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+
+</html>
