@@ -1,0 +1,410 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}  
+\usepackage[T1]{fontenc}
+
+\usepackage[hscale=0.7,vscale=0.8]{geometry}
+\usepackage{caption}
+
+\usepackage{amsmath, amssymb, extarrows, multirow}
+
+\begin{document}
+
+\begin{figure}[h]
+\centering
+\begin{small}
+\begin{tabular}{|rcl|}
+\hline
+\textbf{Destinataire} & & \textbf{Expéditeur}\\
+ & & \\
+Entrée $\sigma \in \{0,1\}$ & & Entrée $x_0, x_1$ \\
+ & & \\
+$k \in _R [1,q]$ & $\xleftarrow{\hspace{1.5em} C \hspace{1.5em}}$ & $C,r \in _R \mathbb{Z}_q$\\
+$\begin{cases} PK_{\sigma} = g^k \\ PK_{1-\sigma} = C/PK_{\sigma} \\ \end{cases}$ & $\xrightarrow{\hspace{1em} PK_0 \hspace{1em}}$ & $PK_1 = C / PK_0$  \\
+$x_{\sigma} = H((g^r)^k) \oplus E_{\sigma}$ & $\xleftarrow{E_0, E_1, g^r}$ & $\begin{cases} E_0 = H(PK_0^r) \oplus x_0 \\ E_1 = H(PK_1^r) \oplus x_1 \\ \end{cases}$ \hspace{-1.5em} \\
+ & & \\
+Sorties $x_{\sigma}$ & & Sorties $\varnothing$ \\
+\hline
+\end{tabular}
+\end{small}
+\captionsetup{labelformat=empty}
+\caption{Oblivious Transfer de Naor Pinkas [NP01]}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Destinataire} & & \textbf{Expéditeur}\\
+\textbf{Entrées} & $r = (r_1,...,r_m) \in \{0,1\}^m$ & & $\forall j \in [1,m], (x_j^0, x_j^1) \in \left( \{0,1\}^{\ell} \right) ^2$ \\
+\textbf{Aléas} & $\forall i \in [1,\kappa], (k_i^0, k_i^1) \in _R \left( \{0,1\}^{\kappa} \right) ^2$ & & $s=(s_1,...,s_{\kappa}) \in_R \{0,1\}^{\kappa}$\\
+\textbf{Initialisation} & $\forall i \in [1,\kappa], (k_i^0, k_i^1)$ & $\xleftrightarrow{\hspace{1em} \text{OTs} \hspace{1em}}$ & $\forall i \in [1,\kappa], s_i$ \\
+ & & & $\forall i \in [1,\kappa], k_i^{s_i}$ \\
+\textbf{Extension} & $\forall i \in [1,\kappa], t^i = G(k_i^0)$& & \\
+\multicolumn{2}{|r}{notation $T = [t^1|...|t^{\kappa}]=[t_1|...|t_m]^T$} & & \\
+ & $\forall i \in [1,\kappa], u^i = t^i \oplus G(k_i^1) \oplus r$ & $\xrightarrow{\hspace{1em} u^1, ..., u^{\kappa} \hspace{1em}}$ & $q^i = (s_i. u^i)\oplus G(k_i^{s_i}) = (s_i.r) \oplus t^i$ \\
+\multicolumn{4}{|r|}{notation $Q = [q^1|...|q^{\kappa}] = [q_1|...|q_m]^T$} \\
+ & $\forall j \in [1,m], x_j^{r_j} = y_j^{r_j} \oplus H(t_j)$ & $\xleftarrow{\forall j \in [1,m], (y_j^0, y_j^1)}$ & $\forall j \in [1,m], \begin{cases} y_j^0 = x_j^0 \oplus H(q_j) \\ y_j^1 = x_j^1 \oplus H(q_j \oplus s) \\ \end{cases}$ \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{OT extension [ALSZ13]}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Destinataire} & & \textbf{Expéditeur}\\
+\textbf{Entrées} & $r = (r_1,...,r_m) \in \{0,1\}^m$ & & $\Delta \in_R \{0, 1\}^l$ \\
+\textbf{Aléas} & $\forall i \in [1,\kappa], (k_i^0, k_i^1) \in _R \left( \{0,1\}^{\kappa} \right) ^2$ & & $s=(s_1,...,s_{\kappa}) \in_R \{0,1\}^{\kappa}$\\
+\textbf{Initialisation} & $\forall i \in [1,\kappa], (k_i^0, k_i^1)$ & $\xleftrightarrow{\hspace{1em} \text{OTs} \hspace{1em}}$ & $\forall i \in [1,\kappa], s_i$ \\
+ & & & $\forall i \in [1,\kappa], k_i^{s_i}$ \\
+\textbf{Extension} & $\forall i \in [1,\kappa], t^i = G(k_i^0)$& & \\
+\multicolumn{2}{|r}{notation $T = [t^1|...|t^{\kappa}]=[t_1|...|t_m]^T$} & & \\
+ & $\forall i \in [1,\kappa], u^i = t^i \oplus G(k_i^1) \oplus r$ & $\xrightarrow{\hspace{1em} u^1, ..., u^{\kappa} \hspace{1em}}$ & $q^i = (s_i. u^i)\oplus G(k_i^{s_i}) = (s_i.r) \oplus t^i$ \\
+\multicolumn{4}{|r|}{notation $Q = [q^1|...|q^{\kappa}] = [q_1|...|q_m]^T$} \\
+\multicolumn{2}{|r}{ $\forall j \in [1,m], \begin{cases} \text{ si } r_j =0 \text{ alors } x_j^0 = y_j \\ \text{ si } r_j =1 \text{ alors } x_j^{1} = y_j \oplus H(t_j) \end{cases} $} & $\xleftarrow{\forall j \in [1,m], y_j}$ & $\forall j \in [1,m], y_j = \Delta \oplus H(q_j) \oplus H(q_j \oplus s)$ \\
+\textbf{Sorties} & $\forall j \in [1,m], x_j^{r_j}$& & $\forall j \in [1,m], x_j^0 = H(q_j) \text{ et } x_j^1 = x_j^0 + \Delta$ \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{OTs corrélés [ALSZ13]}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{small}
+\begin{tabular}{|lll|}
+\hline
+ & \textbf{Destinataire} & \textbf{Expéditeur}\\
+\textbf{Entrées} & $(r_1, ..., r_m) \in [1,n]^m$ & $\forall i \in [1,m], (x_1^i, ..., x_n^i) \in (\{0, 1\}^l)^n$ \\
+\textbf{Sorties} & $(x_{r_1}^1, ..., x_{r_m}^m) \in [1,n]^m$ & $\varnothing$ \\
+\hline
+\end{tabular}
+\end{small}
+\captionsetup{labelformat=empty}
+\caption{$m$ Oblivious Transfers $1$ parmi $n$ sur des entiers de $l$ bits}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{cccc}
+\begin{tabular}{|ccc|}
+	\hline
+	$u$ & $v$ & $w$ \\
+	\hline
+	0 & 0 & 1 \\
+	0 & 1 & 0 \\
+	1 & 0 & 0 \\
+	1 & 1 & 0 \\
+	\hline
+\end{tabular} &
+\begin{tabular}{|ccc|}
+	\hline
+	$u$ & $v$ & $w$ \\
+	\hline
+	$k_u^0$ & $k_v^0$ & $k_w^1$ \\
+	$k_u^0$ & $k_v^1$ & $k_w^0$ \\
+	$k_u^1$ & $k_v^0$ & $k_w^0$ \\
+	$k_u^1$ & $k_v^1$ & $k_w^0$ \\
+	\hline
+\end{tabular} & 
+\begin{tabular}{|c|}
+	\hline
+	$E_{k_u^0, k_v^0}(k_w^1)$ \\
+	$E_{k_u^0, k_v^1}(k_w^0)$ \\
+	$E_{k_u^1, k_v^0}(k_w^0)$ \\
+	$E_{k_u^1, k_v^1}(k_w^0)$ \\
+	\hline
+\end{tabular} &
+\begin{tabular}{|c|}
+	\hline
+	$E_{k_u^1, k_v^0}(k_w^0)$ \\
+	$E_{k_u^0, k_v^0}(k_w^1)$ \\
+	$E_{k_u^1, k_v^1}(k_w^0)$ \\
+	$E_{k_u^0, k_v^1}(k_w^0)$ \\
+	\hline
+\end{tabular}
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Contruction d'une table confuse NOR}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{cccc}
+\begin{tabular}{|ccc|}
+	\hline
+	$u$ & $v$ & $w$ \\
+	\hline
+	0 & 0 & 1 \\
+	0 & 1 & 0 \\
+	1 & 0 & 0 \\
+	1 & 1 & 0 \\
+	\hline
+\end{tabular} &
+\begin{tabular}{|ccc|}
+	\hline
+	$u$ & $v$ & $w$ \\
+	\hline
+	$k_u^0$ & $k_v^0$ & $k_w^1$ \\
+	$k_u^0$ & $k_v^1$ & $k_w^0$ \\
+	$k_u^1$ & $k_v^0$ & $k_w^0$ \\
+	$k_u^1$ & $k_v^1$ & $k_w^0$ \\
+	\hline
+\end{tabular} & 
+\begin{tabular}{|ccc|}
+	\hline
+	$c_u$ & $c_v$ & $E$ \\
+	\hline
+	$\pi_u(0)$ & $\pi_v(0)$ & $E_{k_u^0, k_v^0}(k_w^1)$ \\
+	$\pi_u(0)$ & $\pi_v(1)$ & $E_{k_u^0, k_v^1}(k_w^0)$ \\
+	$\pi_u(1)$ & $\pi_v(0)$ & $E_{k_u^1, k_v^0}(k_w^0)$ \\
+	$\pi_u(1)$ & $\pi_v(1)$ & $E_{k_u^1, k_v^1}(k_w^0)$ \\
+	\hline
+\end{tabular} &
+\begin{tabular}{|ccc|}
+	\hline
+	$c_u$ & $c_v$ & $E$ \\
+	\hline
+	$\pi_u(1)$ & $\pi_v(0)$ & $E_{k_u^1, k_v^0}(k_w^0)$ \\
+	$\pi_u(0)$ & $\pi_v(0)$ & $E_{k_u^0, k_v^0}(k_w^1)$ \\
+	$\pi_u(1)$ & $\pi_v(1)$ & $E_{k_u^1, k_v^1}(k_w^0)$ \\
+	$\pi_u(0)$ & $\pi_v(1)$ & $E_{k_u^0, k_v^1}(k_w^0)$ \\
+	\hline
+\end{tabular}
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Point-and-permute technique sur une table confuse NOR}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Parite 1} & & \textbf{Partie 2}\\
+\textbf{Aléas} & $(a^0 , b^0 , c^0) \in_R(\{0, 1\})^3$ & & $(a^1 , b^1) \in_R(\{0, 1\})^2$\\
+\textbf{Protocole} & Calcule pour chaque couple $(a^1, b^1)$, & & \\
+ & $c^1 = ((a^0 \oplus a^1) \land (b^0 \oplus b^1)) \oplus c^0$ & $\xleftrightarrow{\hspace{1em} \text{OT 1 parmi 4} \hspace{1em}}$ & $(a^1, b^1)$ \\
+ & $\varnothing$ & & Reçoit $c^1$ \\
+\textbf{Sorties} & $(a^0 , b^0 , c^0)$ & & $(a^1 , b^1 , c^1)$ \\
+ & \multicolumn{3}{l|}{avec $c^0 \oplus c^1 = (a^0 \oplus a^1) \land (b^0 \oplus b^1)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Triple multiplicatif $c^0 \oplus c^1 = (a^0 \oplus a^1) \land (b^0 \oplus b^1)$}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Parite 1} & & \textbf{Partie 2}\\
+\textbf{Initialisation} & $(a^0 , b^0 , c^0)$ & $\xleftrightarrow{\text{triple multiplicatif}}$ & $(a^1 , b^1, c^1)$\\
+ & \multicolumn{3}{c|}{avec $c^0 \oplus c^1 = (a^0 \oplus a^1) \land (b^0 \oplus b^1)$} \\
+ & & & \\
+\textbf{Entrées} & $(u^0, v^0) \in (\{0, 1\})^2$ & & $(u^1, v^1) \in (\{0, 1\})^2$ \\
+ & & & \\
+\textbf{Protocole} & $d^0 = u^0 \oplus a^0$ et $e^0 = v^0 \oplus b^0$ & & $d^1 = u^1 \oplus a^1$ et $e^1 = v^1 \oplus b^1$ \\
+ & & $\xrightarrow{\hspace{1em} d^0 \text{ et } e^0 \hspace{1em}}$ & \\
+ & & $\xleftarrow{\hspace{1em} d^1 \text{ et } e^1 \hspace{1em}}$ & \\
+ & $d = d^0 \oplus d^1$ et $e = e^0 \oplus e^1$ & & $d = d^0 \oplus d^1$ et $e = e^0 \oplus e^1$ \\
+ & $w^0 = (d \land e) \oplus (b^0 \land d) \oplus (a^0 \land e) \oplus c^0$ & & $w^1 = (b^1 \land d) \oplus (a^1 \land e) \oplus c^1$ \\
+ & & & \\
+\textbf{Sorties} & $w^0$ & & $w^1$ \\
+& \multicolumn{3}{c|}{avec  $w^0 \oplus w^1 = (u^0 \oplus u^1) \land (v^0 \oplus v^1)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Evaluation d'une porte AND à l'aide d'un triple multiplicatif}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Parite 1} & & \textbf{Partie 2}\\
+\textbf{Protocole} & Choisit $a \in_R \{0, 1\}$ & & \\
+ & & $ \xleftrightarrow{\hspace{1em} \text{R-OT} \hspace{1em}}$ & \\
+ & Obtient $x_a \in \{0, 1\}$ & & Obtient $(x_0, x_1) \in (\{0, 1\})^2$  \\
+ & Notation: $u= x_a$ & & Notation: $b=x_0 \oplus x_1$ et $v = x_0$ \\
+ & & & \\
+\textbf{Sorties} & $(a, u)$ & & $(b, v)$ \\
+ & \multicolumn{3}{l|}{avec $a \land b = u \oplus v$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Protocole pour obtenir $(a, u)$ et $(b, v)$ aléatoire tel que $a \land b = u \oplus v$}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Parite 1} & & \textbf{Partie 2}\\
+\textbf{Initialisation} & $(a^0, u^0) \in (\{0, 1\})^2$ & & $(b^1, v^1) \in (\{0, 1\})^2$\\
+ & \multicolumn{3}{c|}{avec $a^0 \land b^1 = u^0 \oplus v^1$} \\
+  & $(b^0, v^0) \in (\{0, 1\})^2$ & & $(a^1, u^1) \in (\{0, 1\})^2$\\
+ & \multicolumn{3}{c|}{avec $a^1 \land b^0 = u^1 \oplus v^0$} \\
+\textbf{Protocole} & Calcule $c^0 = (a^0 \land b^0) \oplus u^0 \oplus v^0$ & & Calcule $c^1 = (a^1 \land b^1) \oplus u^1 \oplus v^1$ \\
+\textbf{Sorties} & $(a^0, b^0, c^0)$ & & $(a^1, b^1, c^1)$ \\
+  & \multicolumn{3}{c|}{avec $c^0 \oplus c^1 = (a^0 \oplus a^1) \land (b^0 \oplus b^1)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Triple multiplicatif optimisé}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Partie 1} & & \textbf{Partie 2}\\
+\textbf{Entrées} & $X =(x_1, ..., x_n) \in \{0, 1\}^n$ & & $Y =(y_1, ..., y_n) \in \{0, 1\}^n$\\
+\textbf{Protocole} & $\forall i \in [1, n], r_i \in_R \mathbb{Z}_{n+1}$ & & \\
+ & $\forall i \in [1, n], (r_i+x_i, r_i + \overline{x_i})$ & $\xleftrightarrow{\hspace{1em} \text{OT}\hspace{1em} }$ & $\forall i \in [1,n], y_i$ \\
+ & & & Reçoit $\forall i \in [1,n], t_i = \begin{cases} r_i+x_i \text{ si } y_i = 0 \\ r_i + \overline{x_i} \text{ si } y_i = 1 \end{cases}$\\
+\multicolumn{4}{|r|}{$= r_i + (x_i \oplus y_i)$} \\
+ & Calcule $R = \sum_{i=1}^n r_i$ & & Calcule $T = \sum_{i=1}^n t_i$ \\
+\textbf{Sorties} & $R$ & & $T$ \\
+ & \multicolumn{3}{c|}{avec $T - R = HD(X, Y)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Protocole SHADE}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Partie 1} & & \textbf{Partie 2}\\
+\textbf{Entrées} & $\forall j \in [1, m], X^j =(x_1^j, ..., x_n^j) \in \{0, 1\}^n$ & & $Y =(y_1, ..., y_n) \in \{0, 1\}^n$\\
+\textbf{Protocole} & $\forall (i,j) \in [1, n] \times[1,m], r_i^j \in_R \mathbb{Z}_{n+1}$ & & \\
+ & $\forall i \in [1, n], (r_i^1+x_i^1 || ... || r_i^m+x_i^m,$  & &  \\
+ & $ r_i^1 + \overline{x_i^1} || ... || r_i^m + \overline{x_i^m} )$ & $\xleftrightarrow{\hspace{2em} \text{OT}\hspace{2em} }$ & $\forall i \in [1,n], y_i$\\
+ & & & Reçoit $\forall i \in [1,n], t_i = (t_i^1 || ... || t_i^m)$\\
+\multicolumn{4}{|r|}{avec $t_i^j= r_i^j + (x_i^j \oplus y_i)$} \\
+ & Calcule $\forall j \in [1,m], R^j = \sum_{i=1}^n r_i^j$ & & Calcule $\forall j \in [1,m], T^j = \sum_{i=1}^n t_i^j$ \\
+\textbf{Sorties} & $\forall j \in [1, m], R^j$ & & $\forall j \in [1, m], T^j$ \\
+ & \multicolumn{3}{c|}{avec $\forall j \in [1,m], T^j - R^j = HD(X^j, Y)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Extension du protocole SHADE}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Parite 1} & & \textbf{Partie 2}\\
+\textbf{Entrées} & $X =(x_1, ..., x_n) \in \{0, 1\}^n$ & & $Y$\\
+\textbf{Protocole} & & & $\forall i \in [1, n], r_i \in_R \mathbb{Z}_{m}$ \\
+ & $\forall i \in [1, n], x_i$ & $\xleftrightarrow{\hspace{1em} \text{OT}\hspace{1em} }$ & $\forall i \in [1,n], (r_i + f_i(0, Y), r_i + f_i(1, Y))$ \\
+ & Reçoit $\forall i \in [1,n], t_i = r_i + f_i(x_i, Y)$ & & \\
+ & Calcule $T = f_X(X) + \sum_{i=1}^n t_i$ & & Calcule $R = -f_Y(Y) + \sum_{i=1}^n r_i$ \\
+\textbf{Sorties} & $T$ & & $R$ \\
+ & \multicolumn{3}{c|}{avec $T-R = f(X, Y)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Protocole GSHADE}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Partie 1} & & \textbf{Partie 2}\\
+\textbf{Entrées} & $X =(x_1, ..., x_n) \in \{0, 1\}^n$ & & $Y^1, ..., Y^d$\\
+\textbf{Protocole} & & & $\forall (i,j) \in [1, n] \times [1,d], r_i^j \in_R \mathbb{Z}_{m}$ \\
+ & & & $\forall i \in [1,n], ((r_i^1 + f_i(0, Y^1 || ... || r_i^d + f_i(0, Y^d)),$ \\
+ & $\forall i \in [1, n], x_i$ & $\xleftrightarrow{\hspace{1em} \text{OT}\hspace{1em} }$ &  $(r_i^1+ f_i(1, Y^1)) || ... || r_i^d+ f_i(1, Y^d)))$ \\
+\multicolumn{2}{|r}{Reçoit $\forall (i, j) \in [1,n] \times [1,d], t_i^j = r_i^j + f_i(x_i, Y^j)$} & & \\
+ & Calcule $\forall j \in [1,d], T^j = f_X(X) + \sum_{i=1}^n t_i^j$ & & Calcule $\forall j \in [1,d], R^j = -f_Y(Y^j) + \sum_{i=1}^n r_i^j$ \\
+\textbf{Sorties} & $\forall j \in [1,d], T^j$ & & $\forall j \in [1,d], R^j$ \\
+ & \multicolumn{3}{c|}{avec $\forall j \in [1, d], T^j-R^j = f(X, Y^j)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Extension du protocole GSHADE}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Partie 1} & & \textbf{Partie 2}\\
+\textbf{Entrées} & $X =(x_1, ..., x_n) \in \{0, 1\}^n$ & & $Y$\\
+\textbf{Protocole} & $\forall i \in [1, n], x_i$& $\xleftrightarrow{\hspace{1em} \text{C-OT}\hspace{1em} }$ & $\forall i \in [1, n], \Delta_i = f_i(1, Y) - f_i(0, Y)$ \\
+ & Reçoit $\forall i \in [1,n], t_i$ & & Reçoit $\forall i \in [1,n], r_i$ \\
+ & \multicolumn{3}{c|}{avec $t_i = r_i -f_i(0, Y) + f_i(x_i, Y)$} \\
+ & Calcule $T = f_X(X) + \sum_{i=1}^n t_i$ & & Calcule $R = -f_Y(Y) + \sum_{i=1}^n (r_i - f_i(0, Y))$ \\
+\textbf{Sorties} & $T$ & & $R$ \\
+ & \multicolumn{3}{c|}{avec $T-R = f(X, Y)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{GSHADE avec des transferts inconscients corrélés}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{tabular}{|lrcl|}
+\hline
+ & \textbf{Partie 1} & & \textbf{Partie 2}\\
+\textbf{Entrées} & $X =(x_1, ..., x_n) \in \{0, 1\}^n$ & & $Y$\\
+\textbf{Protocole} & & & $\forall i \in [1, n], r_i \in_R \mathbb{Z}_{m}^*$ \\
+ & $\forall i \in [1, n], x_i$ & $\xleftrightarrow{\hspace{1em} \text{OT}\hspace{1em} }$ & $\forall i \in [1,n], (r_i \times f_i(0, Y), r_i \times f_i(1, Y))$ \\
+ & Reçoit $\forall i \in [1,n], t_i = r_i \times f_i(x_i, Y)$ & & \\
+ & Calcule $T = f_X(X) \times \prod_{i=1}^n t_i$ & & Calcule $R = (f_Y(Y))^{-1} \times \prod_{i=1}^n r_i$ \\
+\textbf{Sorties} & $T$ & & $R$ \\
+ & \multicolumn{3}{c|}{avec $T \times R^{-1} = f(X, Y) = f_X(X) \times f_Y(Y) \times \prod_{i=1}^n f_i(x_i, Y)$} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{Protocole GSHADE multiplicatif}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tabular}{|cccc|}
+\hline
+\textbf{Paramètres} & \multicolumn{3}{l|}{$m$ est un nombre premier} \\
+ & \multicolumn{3}{l|}{le co-domaine de $f$ est inclus dans $\mathbb{Z}_m$}\\
+ & & & \\
+& \textbf{Partie 1} & & \textbf{Partie 2}\\
+ & & & \\
+\textbf{Entrées} & $X=(x_1,...,x_n) \in \{0,1\}^n$ & & $Y=(y_1,...,y_n) \in \{0,1\}^n$ \\
+ & & & \\
+\textbf{1er GSHADE} & Partie 1 = Client & & Partie 2 = Serveur \\
+ &  & & $\forall i \in [1,n], r_{i,1} \in _R \mathbb{Z}_m, a_1 \in _R \mathbb{Z}_m^* $  \\
+ & $x_i$ & $\xleftrightarrow{\forall i \in [1,n], \text{ OT }}$ & $\left( a_1(r_{i,1} + f_i(0,Y)), a_1(r_{i,1} + f_i(1,Y)) \right)$ \\
+ & $t_{i,1} = a_1 (r_{i,1} + f_i(x_i,Y))$ & & \\
+ & Sortie: $T_1 = \sum_i t_{i,1}$ & & Sorties: $R_1 = a_1 \sum_i r_{i,1}$ et $a_1$ \\
+ & \multicolumn{3}{c|}{tel que $T_1-R_1 = a_1 \cdot f(X,Y)$} \\
+  & & & \\
+\textbf{2ème GSHADE} & Partie 1 = Serveur & & Partie 2 = Client \\
+ & $\forall i \in [1,n], r_{i,2} \in _R \mathbb{Z}_m, a_2 \in _R \mathbb{Z}_m^* $ & &   \\
+\multicolumn{2}{|r}{$\left( a_2(r_{i,2} + f_i(0,X)), a_2(r_{i,2} + f_i(1,X)) \right)$} & $\xleftrightarrow{\forall i \in [1,n], \text{ OT }}$ & $y_i$ \\
+ & & & $t_{i,2} = a_2 (r_{i,2} + f_i(y_i,X))$ \\
+ & Sorties: $R_2 = a_2 \sum_i r_{i,2}$ et $a_2$ & & Sortie: $T_2 =  \sum_i t_{i,2}$ \\
+ & \multicolumn{3}{c|}{tel que $T_2-R_2 = a_2 \cdot f(X,Y)$} \\
+  & & & \\
+\textbf{Test d'égalité} & Entrées: $T_1, R_2, a_2$ & $\xleftrightarrow{\hspace{0.5cm} \text{Test} \hspace{0.5cm}}$ & Entrées: $R_1, T_2, a_1$\\
+ & Sortie: $t$ & & Sortie: $t$ \\
+ & \multicolumn{3}{c|}{tel que $t=1$ si $(T_1-R_1)a_2 = (T_2-R_2)a_1$ et $t=0$ sinon} \\ 
+  & & & \\
+\textbf{Sortie} & \multicolumn{3}{c|}{Si $t=1$, échanger $T_i, R_i, a_i$ afin d'obtenir $f(X,Y)$}\\
+ & \multicolumn{3}{c|}{$f(X,Y) = (T_1-R_1)a_1^{-1} = (T_2-R_2)a_2^{-1}$} \\
+ & \multicolumn{3}{c|}{Si $t=0$, arrêter le protocole} \\
+\hline
+\end{tabular}
+\captionsetup{labelformat=empty}
+\caption{GSHADE sécurisé contre les adversaires malicieux}
+\end{figure}
+
+
+\end{document}

@@ -1,0 +1,36 @@
+<h1>Introduction</h1>
+
+<p>Le calcul multipartite sécurisé (Secure Multiparty Computation SMC) est une branche de la cryptographie qui permet l'évaluation d'une fonction publique dont les entrées privées sont détenues par différentes parties. Par exemple, Alice et Bob veulent savoir qui est le plus riche sans révéler leur richesse à l'autre. Mathématiquement, la première entité détient une entrée secrète \(x\), la deuxième entité détient une entrée secrète \(y\) et les deux entités veulent obtenir \(f(x, y)\) l'évaluation d'une fonction publique \(f\) sur leurs entrées sans révéler aucune information sur leurs entrées respectives (à l'exception de ce qui peut être déduit de la sortie \(f(x, y)\)).</p>
+
+<p>Dans cet article, nous allons nous concentrer sur le secure two-party computation S2PC qui est la restriction du SMC à uniquement deux parties. La plupart des protocoles de S2PC sont basés sur des transferts inconscients (oblivious transfers OT) ou du chiffrement homomorphique (homomorphic encryption HE). Avec le chiffrement homomorphique, la première partie choisie les clés de chiffrement, chiffre son entrée et envoie son entrée chiffrée à la deuxième partie. La deuxième partie évalue la fonction dans le domaine chiffré et renvoie le chiffrement de la sortie à la première partie. La première partie peut alors déchiffrer le résultat afin d'obtenir la sortie. </p>
+
+<div class="text-center">
+<img src="../../img/smc/smc.png" class="img-fluid" alt="smc">
+</div>
+
+<br>
+
+<h4>Les différents types d'attaquants</h4>
+
+<p>Traditionnellement en cryptographie, le but est de sécuriser l'échange ou le stockage de données et l'attaquant ne fait pas partie des participants. En SMC, le but est de sécuriser les entrées des différentes parties et l'attaquant peut être une des entités. Il existe trois types d'attaquants:
+<ul>
+	<li>Semi-honnête (semi-honest ou honest but curious) : un attaquant semi-honnête ne va jamais dévier du protocole mais il va essayer de récupérer le plus d'informations possible de l'ensemble des messages qu'il voit.</li>
+	<li>Malhonnête (malicious) : un attaquant malhonnête peut dévier du protocole afin de récupérer le plus d'informations possible.</li>
+	<li>Secret (covert) : un attaquant secret peut dévier du protocole mais il ne veut pas être pris car cela peut par exemple nuire à sa réputation. L'attaquant secret accepte donc de tricher que si la probabilité de se faire attraper est très faible. Un protocole est sécurisé contre ce type d'attaquant, si pour chaque attaque possible de l'attaquant, les autres entités détecteront quasiment tout le temps l'attaque.</li>
+</ul></p>
+
+<p>Les protocoles sécurisés uniquement contre les adversaires semi-honnêtes sont les protocoles les plus simples et les plus efficaces/rapides. Dans le monde réel, les attaquants ne sont pas seulement semi-honnêtes mais ils peuvent être malicieux. Malheureusement, les protocoles sécurisés contre les adversaires malicieux sont le plus souvent assez lents. Les protocoles sécurisés contre les adversaires secrets sont un bon compromis entre rapidité d'exécution du protocole et sécurité.</p>
+
+<br>
+
+<h4>Propriétés de sécurité</h4>
+
+<p>Un attaquant a deux principaux objectifs, soit récupérer de l'information sur l'entrée des autres parties, soit rendre le résultat incorrect. Nous allons présenter les différentes propriétés d'un protocole SMC (confidentialité, exactitude et équité). Pour faciliter la compréhension de ces concepts, nous allons les expliciter dans le cas d'une enchère électronique dans laquelle chaque participant choisit secrètement le montant de son enchère et il est révélé à tous les participants le montant de l'enchère la plus haute ainsi que le nom du participant ayant effectué cette enchère.
+<ul>
+	<li>Confidentialité (privacy) : Chaque partie ne doit apprendre rien d'autre que sa sortie (et ce qu'il peut inférer à partir de sa sortie et de son entrée). Pour les enchères électroniques, chaque participant apprend le montant de l'enchère gagnante et le nom du participant ayant fait cette enchère. Il peut en déduire que toutes les autres enchères étaient inférieures à l'enchère gagnante. Mais il ne peut apprendre rien d'autre sur les enchères des autres participants.</li>
+	<li>Exactitude (correctness) : Chaque partie doit recevoir sa sortie exacte/correcte. Dans le cas des enchères électroniques, la sortie de chaque participant est la même: le montant de l'enchère gagnante et l'identité du participant ayant effectué cette enchère. Un protocole est exact si un attaquant ne peut pas influencer le résultat: modifier le montant de l'enchère gagnante ou le nom du gagnant.</li>
+	<li>Equité (fairness) : soit toutes les parties obtiennent leurs sorties, soit aucune partie n'obtient sa sortie. Un attaquant ne peut donc pas obtenir sa sortie alors qu'une partie honnête n'obtient pas sa sortie.</li>
+</ul>
+</p>
+
+

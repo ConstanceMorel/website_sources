@@ -1,0 +1,38 @@
+<h1>Ideal/real simulation paradigm</h1>
+
+<p>Pour prouver la sécurité des protocoles de SMC, le ideal/real simulation paradigm est souvent utilisé. Dans ce paradigme, un "monde idéal" dans lequel une partie de confiance aide à l'obtention du résultat est utilisé. Dans ce "monde idéal", chaque entité envoie son entrée secrète à travers un canal sécurisé à la partie de confiance, la partie de confiance calcule les sorties de chaque partie et renvoie à chaque partie sa sortie à travers le canal sécurisé. Dans ce "monde idéal", le protocole est sécurisé car chaque partie apprend uniquement sa sortie et rien d'autre et le protocole est exact car la partie de confiance ne peut pas être corrompue et elle renvoie donc un résultat correct à chaque partie.</p>
+
+<div class="text-center">
+<img src="../../img/smc/ideal_real_simulation.png" class="img-fluid" alt="ideal-real-simulation">
+</div>
+
+<p>Dans le monde réel, il n'existe pas de partie de confiance. Un protocole est sécurisé si dans le monde réel, aucun attaquant ne peut faire plus de mal qu'un attaquant dans le "monde idéal". Vue qu'aucune attaque n'est possible dans le "monde idéal", aucune attaque n'est alors possible dans le monde réel. Pour prouver la sécurité d'un protocole, il faut comparer l'ensemble des informations que voit chaque partie lors de l'exécution du protocole dans le "monde idéal" et dans le monde réel. Ces informations sont appelées une vue. Il faut que les distributions de cette vue dans le "monde idéal" et de cette vue dans le monde réel soient indiscernables (indistinguishable).</p>
+
+<br>
+
+<h4>Notations et définitions</h4>
+
+<p>Notations:
+<ul>
+	<li> \(f = (f_1, f_2)\) est la fonction à évaluer et \(\pi\) est le protocole de SMC évaluant cette fonction \(f\)</li>
+	<li> La vue de la i-ième partie pendant l'exécution dans le monde réel de \(\pi\) sur \((x, y)\) est notée \(view_{i,\pi} (x, y)\). Elle contient l'entrée de la i-ième partie, ainsi que l'ensemble des messages inconscients que voit la i-ième partie pendant l'exécution du protocole \(\pi\) et la sortie obtenue par la i-ième partie.</li>
+	<li> La vue de la i-ième partie pendant l'exécution dans le monde idéal de \(f\) sur \((x, y)\) est notée \(view_{i, f} (x, y)\). Elle contient l'entrée de la i-ième partie et la sortie obtenue par la i-ième partie.</li>
+</ul></p>
+
+<p>Un protocole \(\pi\) évalue de manière sécurisée la fonction \(f\) si pour tout attaquant \(A\) dans le monde réel prenant la place de la i-ième partie, il existe un algorithme \(S\) probabiliste calculable en temps polynomial (probabilitic polynomial-time algorithm) dans le monde idéal (appelé simulateur) tel que la vue de l'attaquant \(A\) lors d'une exécution de \(\pi\) dans le monde réel est calculatoirement indiscernable (computationally indistinguishable) de la vue de l'attaquant \(S\) dans le monde idéal.
+$$view_{i, \pi}^{A} (x, y) \equiv_c view_{i, f}^{S} (x, y)$$
+</p>
+
+<p>Un <b>algorithme probabiliste</b> est un algorithme dont le résultat dépend des données en entrée et aussi de valeurs obtenues par un générateur de nombres aléatoires. Par conséquent, un algorithme probabiliste peut donner des résultats différents même si les mêmes entrées sont utilisées pour chaque exécution.</p>
+
+<p>Un <b>algorithme est calculable en temps polynomial</b> si son temps d'exécution est en \(O(n^k)\) avec \(n\) la taille des entrées.</p>
+
+<p>Deux distributions \(X = \{X(a,n)\}_{a\{0,1\}^*,n\in \mathbb{N}}\) et \(Y = \{Y(a,n)\}_{a\{0,1\}^*,n\in \mathbb{N}}\) sont <b>calculatoirement indiscernables</b> si pour tout algorithme \(D\) non uniforme en temps polynomial (non-uniform polynomial-time algorithm), il existe une <b>fonction négligeable</b> \(\mu\) tel que pour tout \(a\) et tout \(n\), 
+$$|Pr[D(X(a,n)) = 1] - Pr[D(Y(a,n)) = 1]| \leq \mu (n)$$
+Une fonction \(\mu\) est <b>négligeable</b> si pour tout polynôme positif \(p\) et pour chaque \(n\) suffisamment grand, nous avons \(\mu(n) < 1/p(n)\).</p>
+
+<br>
+
+<h3>Références</h3>
+
+<p> [Lin16] Y. Lindell. How to simulate it - A tutorial on the simulation proof technique. IACR Cryptology ePrint Archive, 2016.</p>

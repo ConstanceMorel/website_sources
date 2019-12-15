@@ -1,0 +1,119 @@
+<h1>Les protocoles SHADE et GSHADE</h1>
+
+<br>
+
+<h4>Présentation de SHADE</h4>
+
+<p>Le protocole Secure HAmming DistancE SHADE a été présenté en 2013 dans <cite>[BCP13]</cite>. Ce protocole permet de calculer efficacement de manière sécurisée la distance de Hamming entre les entrées de deux parties. Ce protocole est basé uniquement sur des transferts inconscients. Il est efficace grâce aux nombreuses optimisations sur les transferts inconscients.</p>
+
+<p>Plus précisément, la partie 1 détient un vecteur de bits de taille \(n\) noté \(X=(x_1, ..., x_n) \in \{0,1\}^n\) et la partie 2 détient un vecteur de bits de même taille \(n\) noté \(Y=(y_1, ..., y_n) \in \{0,1\}^n\). Elles veulent obtenir la distance de Hamming entre \(X\) et \(Y\) notée \(HD(X, Y) = \sum_{i=1}^n x_i \oplus y_i\) mais la partie 1 ne veut pas révéler \(X\) à la partie 2 et la partie 2 ne veut pas révéler \(Y\) à la partie 1.</p>
+
+<p>L'idée principale de cet algorithme est de combiner des masquages additifs à des transferts inconscients. L'ensemble des calculs dans ce protocole sont effectués dans \(\mathbb{Z}_{n+1}\) (modulo \((n+1)\)). La partie 1 choisit aléatoirement \(n\) masques \(r_1, ..., r_n \in_R \mathbb{Z}_{n+1}\). Ces masques vont servir à cacher chaque bit \(x_i\) de la partie 1 lors des transferts inconscients. Plus précisément, la partie 1 va jouer le rôle d'envoyeur dans \(n\) transferts inconscients avec comme entrée pour chaque transfert inconscient \((r_i+x_i, r_i + \overline{x_i})\) avec \(\overline{x_i} = 1 - x_i\). Dans chaque transfert inconscient, la partie 2 joue le rôle du receveur et a pour entrée \(y_i\) et reçoit \(r_i + x_i\) si \(y_i = 0\) et \(r_i + \overline{x_i}\) si \(y_i = 1\). On peut facilement vérifier que la partie 2 obtient \(r_i + (x_i \oplus y_i)\). En effet, si \(y_i=0\), alors \(x_i \oplus y_i = x_i\) et si \(y_i = 1\), alors \(x_i \oplus y_i = \overline{x_i}\). Puis la partie 2 va additionner chacune des données reçues \(T = \sum_{i=1}^n r_i + (x_i \oplus y_i) \mod n+1\). La partie 1 va additionner chacun des masques \(R = \sum_{i=1}^n r_i\). Pour obtenir la distance de Hamming, soit la partie 1 envoie \(R\) à la partie 2, soit la partie 2 envoie \(T\) à la partie 1. La distance de Hamming est égale à \(T-R\).</p>
+
+<div class="text-center">
+<img src="../../img/smc/shade.png" class="img-fluid" alt="shade">
+</div>
+
+<br>
+
+<p>Si les transferts inconscients utilisés dans ce protocole sont sécurisés contre des adversaires malicieux, alors ce protocole est sécurisé contre des adversaires malicieux. Une preuve détaillée de sécurité est présentée dans l'article <cite>[BCP13]</cite>. Ce protocole repose uniquement sur \(n\) transferts inconscients dans lesquels la partie 1 joue le rôle de l'envoyeur et la partie 2 joue le rôle du receveur. La partie 1 n'obtient aucune information car elle joue le rôle de l'envoyeur dans les transferts inconscients. La partie 2 obtient pour chaque transfert inconscient la donnée \(r_i + (x_i \oplus y_i)\) mais cela ne révèle aucune information sur l'entrée \(x_i\) de la partie 1 car \(r_i\) a été choisi aléatoirement dans \(\mathbb{Z}_{n+1}\). Par conséquent, \(r_i + (x_i \oplus y_i)\) est une valeur aléatoire de \(\mathbb{Z}_{n+1}\).</p>
+
+<p>Ce protocole peut facilement être adapté pour calculer plusieurs distances de Hamming avec un surcoût faible par rapport au calcul sécurisé d'une unique distance de Hamming. La partie 1 a en entrée plusieurs vecteurs de bits \(X^1, ..., X^m\) et la partie 2 a un unique vecteur de bits \(Y\). Les deux parties veulement obtenir l'ensemble des distances de Hamming \(\forall j \in [1,m],\) \(HD(X^j, Y)\). La partie 1 doit alors créer \(m \cdot n\) masques aléatoires \(\forall (i,j) \in [1,n]\times[1,m],\) \(r_i^j \in_R \mathbb{Z}_{n+1}\). Puis les deux parties effectuent \(n\) transferts inconscients dans lesquels la partie 1 a pour entrée \(((r_i^1 + x_i^1 || .. || r_i^m + x_i^m),\) \((r_i^1 + \overline{x_i^1} || .. || r_i^m + \overline{x_i^m}))\) et la partie 2 a pour entrée \(y_i\). La partie 2 obtient donc \((r_i^1 + (x_i^1 \oplus y_i) || ... || r_i^m + (x_i^m \oplus y_i))\). Enfin la partie 2 calcule pour chaque \(j \in [1,m]\) la valeur \(T^j = \sum_{i=1}^n r_i^j + (x_i^j \oplus y_i)\). La partie 1 calcule pour chaque \(j \in [1,m]\) la valeur \(R^j = \sum_{i=1}^n r_i^j\). Enfin soit la partie 1 envoie les \(R^j\) à la partie 2, soit la partie 2 envoie les \(T^j\) à la partie 1. Les distances de Hamming sont égales à \(HD(X^j, Y) = T^j - R^j\).</p>
+
+<div class="text-center">
+<img src="../../img/smc/shade_extension.png" class="img-fluid" alt="shade_extension">
+</div>
+
+<br>
+
+<p>Par rapport au protocole de base, cette extension remplace les transferts inconscients 1 parmi 2 sur des entrées sur 1 bit par des transferts inconscients sur des entrées sur \(m\) bits. Cette extension est très utile dans le domaine de la biométrie où il est souvent nécessaire de calculer la distance entre une donnée de référence et l'ensemble des données d'une base de données afin de savoir si la donnée de référence est suffisamment proche d'au moins une donnée dans la base.</p> 
+
+<br>
+
+<h4>Présentation de GSHADE</h4>
+
+<p>GSHADE a été introduit en 2014 dans <cite>[BCFP14]</cite>. GSHADE est une extension du protocole SHADE qui permet de calculer de manière sécurisée de nombreuses distances comme la distance Euclidienne et la distance de Mahalanobis. Plus précisément, GSHADE permet d'évaluer de manière sécurisée toute fonction qui peut se mettre sous la forme suivante 
+$$f(X, Y) = f_X(X) + f_Y(Y) + \sum_i f_i(x_i, Y)$$
+avec \(X = (x_1, ..., x_n) \in \{0, 1\}^n\) l'entrée de la partie 1 et \(Y\) l'entrée de la partie 2. Tous les calculs sont effectués dans \(\mathbb{Z}_m\) avec \(m\) choisi tel que le codomaine de la fonction \(f\) est inclus dans \(\mathbb{Z}_m\). Comme le protocole SHADE, ce protocole est uniquement basé sur des transferts inconscients.</p>
+
+<div class="text-center">
+<img src="../../img/smc/gshade.png" class="img-fluid" alt="gshade">
+</div>
+
+<br>
+
+<p>Ce protocole permet d'évaluer de nombreuses distances. Pour calculer la distance de Hamming entre les deux vecteurs de bits \(X = (x_1, ..., x_n) \in \{0, 1\}^n\) et \(Y = (y_1, ..., y_n) \in \{0, 1\}^n\), nous avons \(f_X = f_Y = 0\) et \(\forall i \in [1, n], f_i(x_i, Y) = x_i \oplus y_i\). Pour calculer la distance Euclidienne au carré entre deux vecteurs d'entiers \(X = (X_1, ...., X_K)\) et \(Y = (Y_1, ..., Y_K)\), il faut tout d'abord binariser chaque entier du vecteur \(X\) : \(\forall i \in [1, K], X_i = \sum_{j=1}^l 2^{j-1} x_{K(i-1)+j}\). Nous avons alors \(f_X(X) = \sum_{i=1}^K (X_i)^2\), \(f_Y(Y) = \sum_{i=1}^K (Y_i)^2\) et \(\forall (i,j) \in [1,K] \times [1,l]\), \(f_{K(i-1) + j} (x_{K(i-1) + j}, Y) = -2^j \times  x_{K(i-1) + j} \times Y_i\).</p>
+
+<p>Comme le protocole SHADE, ce protocole est sécurisé contre les adversaires semi-honnêtes à condition que les transferts inconscients utilisés soient sécurisés contre les adversaires semi-honnêtes. L'extension pour calculer plusieurs distances avec un faible surcoût peut encore être appliquée au protocole GSHADE. L'idée est de concaténer les différents résultats partiels des transferts inconscients pour chaque distance dans une seule donnée.</p>
+
+<div class="text-center">
+<img src="../../img/smc/gshade_extension.png" class="img-fluid" alt="gshade_extension">
+</div>
+
+<br>
+
+<p>Afin de réduire la bande passante utilisée par ce protocole, les transferts inconscients peuvent être remplacés par des transferts inconscients corrélés. La fonction de corrélation est définie par \(f_{\Delta_i} (x) = x + \Delta_i\) avec \(\Delta_i = f_i(1, Y) - f_i (0, Y)\). Pour chaque \(i \in [1,n]\), les deux parties effectuent un transfert inconsient corrélé dans lequel:
+<ul>
+	<li> la partie 1 joue le rôle du receveur avec l'entrée \(x_i\)</li>
+	<li> la partie 2 joue le rôle de l'envoyeur avec l'entrée \(\Delta_i = f_i(1, Y) - f_i(0, Y)\)</li>
+	<li> la fonction de corrélation est \(f_{\Delta_i}(x) = x + \Delta_i\)</li>
+	<li> la partie 2 obtient la sortie \(r_i \in_R \mathbb{Z}_m\)</li>
+	<li> la partie 1 obtient la sortie \(t_i = \begin{cases} r_i \text{ si } x_i = 0 \\ r_i + \Delta_i \text{ si } x_i = 1 \end{cases}\). On peut facilement vérifier que \(t_i = r_i -f_i(0, Y) + f_i(x_i, Y)\)</li>
+</ul>
+</p>
+
+<p>Pour obtenir le résultat final, la partie 1 calcule \(T = f_X(X) + \sum_{i=1}^n t_i\) et la partie 2 calcule \(R = -f_Y(Y) + \sum_{i=1}^n (r_i - f_i(0, Y))\). Nous avons bien \(T-R = f_X(X) + f_Y(Y) + \sum_{i=1}^n f_i(x_i, Y) \).</p>
+
+<div class="text-center">
+<img src="../../img/smc/gshade_cot.png" class="img-fluid" alt="gshade_cot">
+</div>
+
+<br>
+
+<p>L'optimisation de GSHADE en bande passante à l'aide des transferts inconscients corrélés est aussi compatible avec l'extension de GSHADE 1-vs-N qui permet d'évaluer efficacement de manière sécurisée les N valeurs \((f(X, Y^1),\) \(...,\) \(f(X, Y^N))\).</p>
+
+<p>Le protocole GSHADE a été introduit afin de faciliter l'authentification biométrique sécurisée. Nous voulons par exemple savoir si un individu appartient à un groupe d'individus. Nous avons au préalablement récupéré les données biométriques de chacun des individus du groupe. Il faut comparer de manière sécurisée la donnée biométrique de l'individu à l'ensemble des données biométriques de la base de données afin de savoir si au moins une donnée de la base de données est "proche" de la donnée biométrique de l'individu. Pour résoudre ce problème, le protocole GSHADE peut être utilisé pour calculer la distance entre la donnée biométrique de l'individu et l'ensemble des données biométriques de la base de données puis le protocole de Yao peut être utilisé pour comparer chacune de ces distances à un seuil et retourner "oui" si au moins une de ces distances est inférieure au seuil. Dans l'article <cite>[BCFP14]</cite>, les performances de GSHADE sont comparées aux performances du chiffrement homomorphe (HE), du protocole de Yao (GC) et du protocole de GMW pour l'authentification biométrique sécurisée. On peut constater que le protocole GSHADE est plus rapide et consomme moins de bande passante que les autres protocoles.</p>
+
+<br>
+
+<h4>Extension de GSHADE</h4>
+
+<p>Dans l'article <cite>[BCEM16]</cite>, une extension du protocole GSHADE a été présentée afin d'agrandir son domaine d'application. Avec cette extension, toutes les fonctions de la forme \(f(X, Y) = f_X(X) \cdot f_Y(Y) \cdot \prod_{i=1}^n f_i(x_i, Y)\) peuvent être évaluées de manière sécurisée. L'idée principale est de remplacer les additions du protocole GSHADE par des multiplications et de remplacer le masquage additif par un masquage multiplicatif. Pour des raisons de sécurité, nous voulons que chaque \(r_i \times f_i(x_i, Y)\) suivent une distribution uniforme sur \(\mathbb{Z}_m^*\). Donc nous devons choisir \(m\) tel que \(m\) soit un nombre premier et que le codomaine de \(f\) appartienne à \(\mathbb{Z}_m ^*\) (cela implique que \(f_X(X)\), \(f_Y(Y)\) et \(f_i(x_i, Y)\) ne peuvent pas être égaux à 0).</p>
+
+<div class="text-center">
+<img src="../../img/smc/gshade_multiplicatif.png" class="img-fluid" alt="gshade_multiplicatif">
+</div>
+
+<br>
+
+<p>Ce nouveau protocole GSHADE multiplicatif est compatible avec l'extension utilisant des transferts inconscients corrélés et l'optimisation 1-vs-N. Les performances de ce nouveau protocole sont similaires à celles du protocole GSHADE additif. Comme le protocole GSHADE additif, ce nouveau protocole est sécurisé contre les adversaires semi-honnêtes.</p>
+
+<br>
+
+<h4>Sécurisation de GSHADE contre les adversaires malicieux</h4>
+
+<p>Dans l'article <cite>[BCEM16]</cite>, il est proposé une extension de GSHADE pour le sécuriser contre les adversaires malicieux. Cette extension est basée sur la combinaison d'une duale exécution <cite>[HKE12]</cite> avec un masquage multiplicatif. Afin d'obtenir la propriété d'exactitude, le domaine d'application doit être réduit aux fonctions de la forme \(f(X, Y) = \sum_{i=1}^n f_i(x_i, Y) = \sum_{i=1}^n f_i(y_i, X)\) avec \(X = (x_1, ..., x_n) \in \{0, 1\}^n\) l'entrée de la partie 1 et \(Y = (y_1, ..., y_n) \in \{0, 1\}^n\) l'entrée de la partie 2.</p>
+
+<p>L'utilisation uniquement d'une duale exécution ne permet pas de sécuriser le protocole GSHADE contre les adversaires malicieux car cela ne permet pas d'obtenir la propriété d'exactitude. En effet, la méthode de duale exécution consiste à effectuer deux fois le protocole GSHADE en inversant les rôles des parties entre chaque exécution. Lors de la première exécution, la partie 1 obtient \(T_1\) et la partie 2 obtient \(R_1\) tels que \(T_1 - R_1 = f(X, Y)\). Lors de la deuxième exécution, la partie 1 obtient \(R_2\) et la partie 2 obtient \(T_2\) tels que \(T_2 - R_2 = f(X, Y)\). Puis les deux parties effectuent un test d'égalité sécurisé afin de vérifier que \(T_1 - R_1 = T_2 - R_2\). Si le test d'égalité échoue, alors l'une des parties à tricher et on arrête le protocole. Supposons que la partie 1 est la partie recevant le résultat final \(f(X, Y)\). Alors si le test d'égalité est un succès, la partie 2 envoie \(R_1\) et \(T_2\) à la partie 1. Puis la partie 1 vérifie que \(T_1 - R_1 = T_2 - R_2\) (si ce n'est pas le cas, l'une des deux parties à tricher). Cette valeur est égale à \(f(X, Y)\). On peut facilement constater que la duale exécution ne permet pas d'atteindre la propriété d'exactitude du résultat dans le cas d'un attaquant malicieux. En effet, après le test d'égalité, la partie 2 peut envoyer \((R_1 -r, T_2 + r)\) au lieu de \((R_1, T_2)\) à la partie 1. La partie 1 obtiendra alors le résultat \(f(X, Y) + r\) sans détecter de tricherie de la part de la partie 2.</p>
+
+<p>Dans l'article <cite>[BCEM16]</cite>, il est proposé de combiner une duale exécution à un masquage multiplicatif afin d'obtenir la propriété d'exactitude contre les adversaires malicieux. Lors de la première exécution de GSHADE, un masque multiplicatif \(a_1\) est choisi par la partie 2 (toutes les entrées des transferts inconscients de la partie 2 sont multipliées par \(a_1\)). A la fin de cette première exécution de GSHADE, la partie 1 obtient \(T_1\) et la partie 2 obtient \(R_1\) et \(a_1\) tels que \(T_1 - R_1 = a_1 \cdot f(X, Y)\). Symétriquement, lors de la deuxième exécution de GSHADE, un masque multiplicatif \(a_2\) est choisi par la partie 1 (toutes les entrées des transferts inconscients de la partie 1 sont multipliées par \(a_2\)). A la fin de cette première exécution de GSHADE, la partie 1 obtient \(R_2\) et \(a_2\) et la partie 2 obtient \(T_2\) tels que \(T_2 - R_2 = a_2 \cdot f(X, Y)\). Un test d'égalité est alors effectué pour vérifier que \(a_2 (T_1 - R_1) = a_1 (T_2 - R_2)\). Si le test d'égalité échoue, alors l'une des deux parties à tricher et le protocole est arrêté. Sinon la partie 2 envoie \(R_1\), \(a_1\) et \(T_2\) à la partie 1. La partie 1 vérifie alors que \(a_2 (T_1 - R_1) = a_1 (T_2 - R_2)\). Si c'est le cas, la sortie de la partie 1 est égale à \(a_1 ^{-1} (T_1 - R_1)\). Sinon, la partie 2 a triché. Avec le masquage multiplicatif, la partie 2 a une probabilité de \(1/m\) de tricher sans être attrapée.</p>
+
+<div class="text-center">
+<img src="../../img/smc/gshade_malicious.png" class="img-fluid" alt="gshade_malicious">
+</div>
+
+<br>
+
+<p>De manière similaire, le protocole GSHADE multiplicatif peut être sécurisé contre les adversaires malicieux en réduisant son domaine d'application aux fonctions \(f(X, Y) = \prod_{i=1}^n f_i(x_i, Y) = \prod_{i=1}^n f_i(y_i, X)\). La méthode de sécurisation est l'utilisation d'une duale exécution avec un masquage exponentiel.</p>
+
+<br>
+
+<h3>Références</h3>
+
+<p>[BCEM16] J. Bringer, O. El Omri, C. Morel, and H. Chabanne. Boosting GSHADE Capabilities: New Applications and Security in Malicious Setting. In SACMAT 2016.</p>
+
+<p>[BCP13] J. Bringer, H. Chabanne, and A. Patey. SHADE: Secure HAmming DistancE Computation from Oblivious Transfer. In Financial Cryptography Workshops, 2013.</p>
+
+<p>[BCFP14] J. Bringer, H. Chabanne, M. Favre, A. Patey, T. Schneider, and M. Zohner. GSHADE: faster privacy-preserving distance computation and biometric identification. In IH&MMSec, 2014.</p>
+
+<p>[HKE12] Y. Huang, J. Katz, and D. Evans. Quid-pro-quo-tocols: Strengthening semi-honest protocols with dual execution. In IEEE Symposium on Security and Privacy, 2012.</p>

@@ -1,0 +1,161 @@
+<h1>Le protocole de Yao</h1>
+
+<br>
+
+<h4>Présentation du protocole de Yao</h4>
+
+<p>Le <b>protocole de Yao</b> a été présenté pour la première fois en 1986 dans <cite>[Yao86]</cite>. C'est un protocole qui permet d'évaluer de manière sécurisée tous les circuits booléens. Ce protocole s'effectue entre deux parties: un constructeur et un évaluateur. Chaque partie détient certaines entrées du circuit booléen à évaluer. Elles veulent obtenir la sortie du circuit booléen sans révéler d'information sur leurs entrées respectives.</p>
+
+<p>Pour simplifier la présentation, nous allons présenter le fonctionnement du protocole de Yao sur un petit circuit booléen. Nous supposons que chacune des parties a une entrée sur deux bits notée \(X=(x_1,x_0) \in \{0,1\}^2\) pour le constructeur et \(Y=(y_1,y_0) \in \{0,1\}^2\) pour l'évaluateur. Les deux parties veulent savoir si leurs entrées sont égales (\(X\stackrel{?}{=}Y\)). La sortie du circuit est
+$$z = \begin{cases} 1 \text{ si } x_1=y_1 \text{ et } x_0=y_0 \\ 0 \text{ sinon}\end{cases}$$
+</p>
+
+<div class="text-center">
+<img src="../../img/smc/circuit.png" class="img-fluid" alt="circuit">
+</div>
+
+
+<p>Tout d'abord, le constructeur construit un circuit confus (garbled circuit) en associant à chaque fil du circuit une paire de clés \((k^0, k^1) \in (\{0,1\}^{\kappa})^2\). Chaque clé correspond à une valeur possible du fil (soit 0, soit 1). Le circuit sera évalué sur ces clés afin de ne pas révéler les valeurs intermédiaires. Pour des raisons de sécurité, uniquement le constructeur connait la correspondance entre chaque clé et le bit qu'il représente.</p> 
+
+<div class="text-center">
+<img src="../../img/smc/circuit_keys.png" class="img-fluid" alt="circuit_keys">
+</div>
+
+<p>Puis, il construit pour chaque porte du circuit une table confuse (garbled tables) qui permettra à l'évaluateur d'évaluer la porte dans le domaine chiffré. Pour cela, il part de la table de vérité de la porte, il remplace les valeurs par les clés correspondantes, il chiffre les clés de sorties à l'aide des clés d'entrée correspondantes et enfin il permute les lignes de la table obtenues. Par la suite, nous noterons \(E_{k_1, k_2}(k_3)\) le chiffrement de \(k_3\) avec le couple de clés \((k_1, k_2)\). Ci-dessous, nous présentons la création d'une table confuse pour une porte NOR dont les fils en entrée sont \(u\) et \(v\) et le fil de sortie est \(w\).</p>
+
+<div class="text-center">
+<img src="../../img/smc/garbled_table.png" class="img-fluid" alt="garbled_table">
+</div>
+
+<br>
+
+<p>Enfin, le constructeur envoie l'ensemble des tables confuses permutées à l'évaluateur. De plus, il envoie les clés correspondant à ses entrées \(k_0^{x_1}\) et \(k_1^{x_0}\). Par exemple, si \(x_0=1\) et \(x_1=0\) alors il envoie \(k_0^1\) et \(k_1^0\). L'évaluateur obtient les clés correspondant à ses entrées \(k_2^{y_1}\) et \(k_3^{y_0}\) à l'aide de transferts inconscients. Par exemple, l'évaluateur et le constructeur effectuent un transfert inconscient dans lequel l'évaluateur a l'entrée \(y_1 \) et le constructeur a l'entrée \((k_2^0, k_2^1)\). A la fin de ce transfert inconscient, l'évaluateur obtient \(k_2^{y_1}\).Enfin l'évaluateur évalue le circuit booléen dans le domaine chiffré. Pour chaque porte, il a une clé pour chaque fil en entrée, il essaie de déchiffrer les quatre valeurs de la table confuse. Il arrive à déchiffrer uniquement une seule valeur qui correspond à la clé de sortie de la porte. Supposons que l'évaluateur a les clés suivantes \((k_0^1, k_1^0, k_2^1, k_3^0)\). Avec les clés \((k_0^1, k_2^1)\), il obtient la clé \(k_4^0\). Avec les clés \((k_1^0, k_3^0)\), il obtient la clé \(k_5^0\). Avec les clés \((k_4^0, k_5^0)\), il obtient la clé \(k_6^1\). Il a obtenu la valeur de la clé de sortie mais il ne sait pas si elle correspond au bit 0 ou au bit 1. Nous avons alors deux choix, soit le constructeur, soit l'évaluateur obtient la sortie déchiffrée. Si le constructeur obtient la sortie déchiffrée, alors l'évaluateur envoie au constructeur la clé obtenue \(k_6\) et le constructeur en déduit la valeur de sortie car il connait la correspondance entre chaque clé et le bit qu'il représente. Si l'évaluateur obtient la sortie déchiffrée, alors le constructeur envoie à l'évaluateur la table de correspondance pour le fil de sortie. Cette table contient les deux couples \((0, k_6^0)\) et \((1, k_6^1)\). Enfin, l'évaluateur compare sa clé de sortie avec la table de correspondance des sorties et obtient la valeur du bit de sortie.</p>
+
+<p>Le protocole de Yao est sécurisé contre des adversaires semi-honnêtes. Le constructeur envoie les clés correspondant à ses entrées à l'évaluateur. L'évaluateur ne peut en déduire aucune information sur les entrées du constructeur car il ne connait pas les correspondances entre les clés et les bits qu'elles représentent. L'évaluateur obtient les clés correspondant à ses entrées à l'aide de transferts inconscients. Par définition des OTs, le constructeur obtient aucune information sur les entrées de l'évaluateur. L'évaluateur évalue chaque porte à l'aide des clés en entrée et obtient la clé de sortie. Cette évaluation lui donne aucune information car la table confuse a été permutée aléatoirement (donc le numéro de la ligne déchiffrée ne donne aucune information) et car l'évaluateur ne connait pas la correspondance entre chaque clé et le bit qu'elle représente.</p>
+
+<p>Un circuit confus peut être utilisé une unique fois. En effet, supposons qu'on utilise le même circuit pour deux évaluations sur des entrées différentes. En comparant les clés des entrées du constructeur entre les deux évaluations, l'évaluateur peut savoir quels sont les bits en entrée que le constructeur a modifiés entre les deux évaluations. De plus, l'évaluateur pourra déchiffrer plusieurs lignes dans les tables confuses ce qui peut laisser fuir de l'information.</p>
+
+<br>
+
+<h4>Les optimisations du protocole de Yao</h4>
+
+<p>Depuis quelques années, de nombreuses optimisations ont été proposées pour rendre le protocole de Yao utilisable dans des cas d'utilisation réels. Il y a eu de nombreux travaux pour améliorer l'efficacité des transferts inconscients (voir Section <u><a href="?page=2" class="home">Transferts inconscients</a></u>) et des optimisations spécifiques au protocole de Yao : un chiffrement rapide pour les tables confuses <cite>[LPS08] [PSSW09]</cite>, la technique point-and-permute <cite>[NPS99]</cite>, l'optimisation Free-XOR <cite>[KS08]</cite> et la Garbled Row Reduction Technique <cite>[PSSW09]</cite>.</p>
+
+<p><b><u>Chiffrement rapide pour les tables confuses</u></b></p>
+
+<p>Dans <cite>[LPS08] [PSSW09]</cite>, il a été proposé d'utiliser un chiffrement basé sur une fonction de hachage pour la construction des tables confuses. Notons \(H\) cette fonction de hachage. Le chiffrement pour le fil \(u\) de la clé \(k_3\) à partir des clés \(k_1\) et \(k_2\) est \(E^u_{k_1, k_2}(k_3) = k_3 \oplus H(k_1 || k_2 ||u)\) avec \(||\) qui représente la concaténation. Ce chiffrement est sécurisé dans le modèle de l'oracle aléatoire.</p>
+
+<p><b><u>Point-and-permute technique</u></b></p>
+
+<p>La technique Point-and-permute a été introduite en 1999 dans <cite>[NPS99]</cite>. Cette technique permet à l'évaluateur de savoir quelle ligne de chaque table confuse il doit déchiffrer. Par conséquent, il effectue plus qu'un unique déchiffrement pour chaque porte au lieu de quatre. Cette technique n'a aucun impact sur la sécurité du protocole de Yao. Dans cette technique un bit est ajouté à chaque clé. Les bits ajoutés aux deux clés en entrée indiquent quelle ligne il faut déchiffrer dans la table confuse.</p>
+
+<p>Plus précisément, pour chaque fil \(u\) une permutation \(\pi_u\) de l'ensemble \(\{0,1\}\) dans l'ensemble \(\{0,1\}\) est créée. Cette permutation est soit égale à l'identité \(\pi_u(b) = b\) soit égale à la porte NOT \(\pi_u(b) = 1-b\). Chaque clé est la concaténation de la clé précédente avec la sortie de la permutation \(k_u^0 = k_u^0 (old) || \pi_u(0)\) et \(k_u^1 = k_u^1 (old) || \pi_u(1)\). Les valeurs des bits de permutations sont conservées dans les tables confuses. Ces nouveaux bits ne font fuir aucune information car les permutations \(\pi_u\) sont aléatoires et uniquement le constructeur les connait.</p>
+
+<div class="text-center">
+<img src="../../img/smc/point_and_permute.png" class="img-fluid" alt="point_and_permute">
+</div>
+
+<br>
+
+<p><b><u>Optimisation Free-XOR</u></b></p>
+
+<p>L'optimisation Free-XOR permet de rendre le coût des portes XOR quasiment nul. Cette optimisation permet l'évaluation sécurisée des portes XOR sans table confuse. Pour cela une valeur aléatoire \(\Delta \in_R \{0,1\}^{\kappa}\) est choisie pour l'ensemble du circuit par le constructeur. Lors de la construction du circuit, pour chaque fil \(u\), le constructeur choisit aléatoirement uniquement la première clé \(k^0_u \in_R \{0, 1\}^{\kappa}\) et calcule la deuxième clé \(k_u^1 = k_u^0 \oplus \Delta\). De plus, la première clé en sortie de chaque porte XOR n'est pas choisie aléatoirement. Supposons que nous avons une porte XOR dont les fils d'entrée sont \(u\) et \(v\) et le fil de sortie est \(w\), alors le constructeur calcule les clés du fil de sortie \((k_w^0, k_w^1)\) à partir des clés des fils d'entrée \((k_u^0, k_u^1, k_v^0, k_v^1)\) et de la valeur de \(\Delta\)
+$$\begin{cases} k_w^0 = k_u^0 \oplus k_v^0 \\ k_w^1 = k_w^0 \oplus \Delta \end{cases}$$
+</p>
+
+<div class="text-center">
+<img src="../../img/smc/free_XOR.png" class="img-fluid" alt="free_XOR">
+</div>
+
+<p>Le constructeur construit ensuite les tables confuses uniquement pour les portes qui ne sont pas des portes XOR. Lors de l'évaluation du circuit, si l'évaluateur doit évaluer une porte XOR, il calcule uniquement le XOR des clés des fils d'entrée. Nous pouvons facilement vérifier qu'il obtient bien la clé de sortie voulue
+$$\begin{cases} k_u^0 \oplus k_v^0 = k_w^0 \\
+k_u^0 \oplus k_v^1 = k_u^0 \oplus k_v^0 \oplus \Delta = k_w^0 \oplus \Delta = k_w^1 \\
+k_u^1 \oplus k_v^0 = k_u^0 \oplus \Delta \oplus k_v^0 = k_w^0 \oplus \Delta = k_w^1 \\
+k_u^1 \oplus k_v^1 = k_u^0 \oplus \Delta \oplus k_v^0 \oplus \Delta = k_u^0 \oplus k_v^0 \Delta
+\end{cases}$$
+</p>
+
+<p>Avec cette optimisation, nous réduisons les calculs et la bande passante utilisée. En effet, lors de la construction du circuit confus, le constructeur n'a plus besoin de calculer des chiffrements pour les portes XOR. L'envoi du circuit confus à l'évaluateur est réduit car il n'y a plus de tables confuses pour les portes XOR. Lors de l'évaluation du circuit, pour chaque porte XOR, le déchiffrement est remplacé par un XOR qui est une opération beaucoup moins couteuse.</p>
+
+<p>Cette optimisation a un impact sur la manière de transformer la fonction à évaluer \(f\) en un circuit booléen car le coût d'une porte XOR est négligeable par rapport aux coûts des autres portes. Par conséquent, il est nécessaire de minimiser le nombre de portes non XOR dans le circuit quitte à ajouter des nombreuses portes XOR. L'article <cite>[KSS09]</cite> présente des optimisations de circuit classique pour minimiser au maximum le nombre de portes non XOR.</p>
+
+<p><b><u>Garbled Row Reduction Technique</u></b></p>
+
+<p>Cette technique permet de réduire la taille des tables confuses de quatre lignes à trois lignes. Le but est de réduire la bande passante du protocole. Nous allons présenter cette technique dans le cas où nous voulons aussi utiliser la technique point-and-permute et l'optimisation Free-XOR. Lors de la construction d'une porte non XOR dont les fils d'entrée sont \(u\) et \(v\) et le fil de sortie est \(w\), le constructeur calcule \(PRF(k_u^{\pi_u^{-1}(0)}, k_v^{\pi_v^{-1}(0)}))\) et assigne son dernier bit à \(c_w\) et les autres bits à la clé \(k_w^{G(\pi_u^{-1}(0), \pi_v^{-1}(0))}\)
+$$k_w^{G(\pi_u^{-1}(0), \pi_v^{-1}(0))} || c_w \leftarrow PRF(k_u^{\pi_u^{-1}(0)}, k_v^{\pi_v^{-1}(0)})$$
+</p>
+
+<p>où \(PRF\) est une pseudo-random function et \(G\) est une fonction représentant la porte. Par exemple, si la porte à construire est une porte AND, alors
+$$\begin{cases} G(0,0) = 0 \\
+G(0,1) = 0 \\
+G(1,0) = 0 \\
+G(1,1) = 1 \end{cases}$$
+</p>
+
+<p>La permutation \(\pi_w\) est alors définie par \(\pi_w(G(\pi_u^{-1}(0), \pi_v^{-1}(0))) = c_w\) et \(\pi_w(1 - G(\pi_u^{-1}(0), \pi_v^{-1}(0))) = 1 - c_w\) (afin de pouvoir utiliser la technique point-and-permute). La deuxième clé pour le fil de sortie est définie telle que \(k_ w^0 \oplus k_w^1 = \Delta\) (afin de pouvoir utiliser l'optimisation Free-XOR). Par conséquent, le constructeur n'a plus à choisir aléatoirement la permutation \(\pi_w\) et la clé \(k_w^0\) mais il doit les calculer à l'aide de la fonction \(PRF\). Puis le constructeur peut calculer l'ensemble des lignes de la table confuse. Il enverra à l'évaluateur toutes les lignes sauf celle pour laquelle les deux premières colonnes \(c_u\) et \(c_v\) sont égales à \(0\).</p>
+
+<p>Lors de l'évaluation d'une porte non XOR, si \((c_u, c_v) \neq (0, 0)\), alors l'évaluateur évalue la porte comme précédemment. Sinon il calcule \(k_w\) et \(c_w\) avec la formule suivante \(k_w || c_w \leftarrow PRF(k_u, k_v)\). Pour prouver qu'il obtient le bon résultat, nous allons noter \(b_u\) le bit correspondant au fil \(u\) et \(b_v\) le bit correspondant au fil \(v\). Pour rappel, les clés détenues par l'évaluateur sont \((k_u^{b_u}, k_v^{b_v})\) et par définition, \((c_u, c_v)=(\pi_u(b_u), \pi_v(b_v))\). Vu que nous sommes dans le cas \((c_u, c_v) = (0, 0)\), alors \((b_u, b_v) = (\pi_u^{-1}(0), \pi_u^{-1}(0))\). Nous pouvons alors finir la preuve
+$$\begin{align}
+PRF(k_u^{b_u}, k_v^{b_v}) &= PRF(k_u^{\pi_u^{-1}(0)}, k_v^{\pi_v^{-1}(0)})\\
+&= k_w^{G(\pi_u^{-1}(0), \pi_v^{-1}(0))} || \pi_w({G(\pi_u^{-1}(0), \pi_v^{-1}(0)}))\\
+&= k_w^{G(b_u, b_v)} || \pi_w({G(b_u, b_v)}) \end{align}$$
+</p>
+
+<br>
+
+<h4>Le protocole de Yao sécurisé contre des adversaires malicieux</h4>
+
+<p>Le protocole de Yao est sécurisé contre un constructeur semi-honnête et un évaluateur malicieux. Il existe deux grandes méthodes pour sécuriser le protocole de Yao contre les constructeurs malicieux : la construction cut-and-choose <cite>[LP07]</cite> et la duale exécution <cite>[HKE12]</cite>. La duale exécution consiste à exécuter deux fois le protocole de Yao en inversant le role de chaque partie entre les deux exécutions et à révéler le résultat uniquement si les deux exécutions ont abouti au même résultat. Dans la construction cut-and-choose, le constructeur crée de nombreux circuits confus et les envoie à l'évaluateur, puis l'évaluateur demande au constructeur d'ouvrir une partie des circuits confus reçus afin de vérifier qu'ils ont été créés correctement, enfin l'évaluateur évalue les circuits confus non ouverts et vérifie qu'ils donnent tous le même résultat.</p>
+
+<p><b><u>La construction cut-and-choose</u></b></p>
+
+<p>Cette construction permet de vérifier que le circuit confus a été construit correctement et donc sécurise le protocole de Yao contre un constructeur malicieux. Dans cette construction, la sortie est obtenue par l'évaluateur. Dans cette construction, le constructeur crée plusieurs circuits confus et les envoie à l'évaluateur. L'évaluateur choisit aléatoirement la moitié des circuits reçus et demande au constructeur de les ouvrir (de révéler la correspondance entre chaque clé et le bit qu'elle représente) afin de vérifier que les circuits ont été construits correctement. Si au moins l'un des circuits ouverts est incorrect, alors l'évaluateur arrête le protocole car il a remarqué que le constructeur a triché. Sinon l'évaluateur évalue les circuits non ouverts. Pour cela, il fait comme dans le protocole classique
+<ol>
+	<li>le constructeur envoie à l'évaluateur les clés correspondant à ses propres entrées uniquement sur les circuits non ouverts (si le constructeur envoie ses clés sur les circuits ouverts alors l'évaluateur pourrait en déduire l'entrée du constructeur)</li>
+	<li>l'évaluateur obtient les clés correspondant à ses entrées sur les circuits non ouverts à l'aide de transferts inconscients</li>
+	<li>l'évaluateur a alors toutes les données pour évaluer les circuits non ouverts</li>
+</ol></p>
+
+<p>L'évaluateur vérifie alors que tous les circuits évalués donnent le même résultat. Si jamais ce n'est pas le cas, l'évaluateur en déduit que le constructeur a triché. Un constructeur peut donc tricher sans se faire prendre uniquement si tous les circuits ouverts sont corrects et si tous les circuits évalués donnent le même résultat incorrect. Cela peut se produire qu'avec une probabilité très faible. Cette probabilité est d'autant plus faible que le nombre de circuits créés par le constructeur est grand.</p>
+
+<p>Cette construction n'est pas très efficace à cause des nombreux circuits à créer, à vérifier et à évaluer. De nombreuses optimisations ont permis de réduire le nombre de circuits à créer tout en gardant une sécurité équivalente <cite>[Lin13] [LP12]</cite>. Malheureusement ce protocole reste inefficace pour une utilisation sur des applications réelles.</p>
+
+<p><u><b>La duale exécution</b></u></p>
+
+<p>L'idée principale de la duale exécution est d'effectuer deux protocoles de Yao classiques (sécurisés contre un constructeur semi-honnête et un évaluateur malhonnête) en échangeant les rôles des deux parties entre les deux exécutions et de vérifier de manière sécurisé que les deux exécutions ont abouti au même résultat avant de révéler le résultat.</p>
+
+<p>Plus précisément, la première partie a l'entrée X et la deuxième partie a l'entrée Y et ils veulent évaluer un circuit sur leurs entrées. Pour cela, la première partie crée un circuit confus \(GC_1\) et l'envoie à la deuxième partie. En même temps, la deuxième partie crée un circuit confus \(GC_2\) et l'envoie à la première partie. Puis la première partie évalue \(GC_2\) et obtient la sortie confuse \(G_2(out_2)\) avec \(out_2\) la sortie en clair de l'évaluation du circuit booléen et \(G_2\) un mapping connu uniquement du constructeur du circuit (ici la deuxième partie). En même temps, la deuxième partie évalue \(GC_1\) et obtient la sortie confuse \(G_1(out_1)\) avec \(out_1\) la sortie en clair de l'évaluation du circuit booléen et \(G_1\) un mapping connu uniquement du constructeur du circuit (ici la première partie). Vues que les sorties sont confuses, les parties n'ont aucune information à cet instant sur la valeur en clair de la sortie. Finalement, les deux parties effectuent un test d'égalité sécurisé afin de vérifier que les deux sorties confuses correspondent à la même sortie. Si c'est le cas, la sortie peut être révélée (la première partie révèle son mapping de sortie à la deuxième partie ou la deuxième partie révèle son mapping de sortie à la première partie). Si jamais, le test d'égalité échoue, alors l'une des deux parties à tricher. La figure ci-dessous représente cette technique. Les traits pleins correspondent aux entrées, valeurs intermédiaires et sorties de la première partie et les traits en pointillés correspondent celles de la deuxième partie.</p>
+
+<div class="text-center">
+<img src="../../img/smc/dual_ex.png" class="img-fluid" alt="dual_ex">
+</div>
+
+<p>Ce protocole a une efficacité similaire à celle du protocole Yao classique car les deux exécutions du protocole de Yao peuvent être effectuées en parallèle et nous avons uniquement le surcoût du test d'égalité sécurisé qui est un protocole de faible coût. Ce protocole fait fuir un bit d'information. En effet, un adversaire malicieux peut créer son circuit de telle sorte que le résultat du test d'égalité (échec ou réussite) lui révèle un bit d'information sur les entrées de l'autre partie.</p>
+
+<!-- présenter un exemple de test d'égalité sécurisé -->
+
+<br>
+
+<h3>Références</h3>
+
+<p>[HKE12] Y. Huang, J. Katz, and D. Evans. Quid-pro-quo-tocols: Strengthening semi-honest
+protocols with dual execution. In IEEE Symposium on Security and Privacy, 2012.</p>
+
+<p>[KS08] V. Kolesnikov and T. Schneider. Improved Garbled Circuit: Free XOR Gates and Applications. In International Colloquium on Automata, Languages, and Programming (ICALP), 2008.</p>
+
+<p>[KSS09] Vladimir Kolesnikov, Ahmad-Reza Sadeghi, and Thomas Schneider. Improved Garbled Circuit Building Blocks and Applications to Auctions and Computing Minima. In Cryptology and Network Security, 2009.</p>
+
+<p>[Lin13] Y. Lindell. Fast cut-and-choose based protocols for malicious and covert
+adversaries. In CRYPTO, 2013.</p>
+
+<p>[LP07] Y. Lindell and B. Pinkas. An efficient protocol for secure two-party computation in the presence of malicious adversaries. In EUROCRYPT, 2007. </p>
+
+<p>[LP12]  Y. Lindell and Benny Pinkas. Secure two-party computation via cut-and-choose oblivious transfer. Journal of Cryptology, 2012.</p>
+
+<p>[LPS08] Y. Lindell, B. Pinkas, and N. Smart. Implementing Two-party Computation Efficiently with Security against Malicious Adversaries. In International Conference on Security and Cryptography for Networks, 2008. </p>
+
+<p>[NPS99] M. Naor, B. Pinkas, and R. Sumner. Privacy preserving auctions and mechanism design. In ACM Conference on Electronic Commerce, 1999.</p>
+
+<p>[PSSW09] B. Pinkas, T. Schneider, N. Smart, and S. Williams. Secure Two-party Computation is Practical. In Asiacrypt, 2009.</p>
+
+<p> [Yao86] A. Yao. How to Generate and Exchange Secrets. In 27th Symposium on Foundations of Computer Science, 1986.</p>

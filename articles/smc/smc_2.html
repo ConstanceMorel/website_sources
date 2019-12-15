@@ -1,0 +1,82 @@
+<h1>Transferts inconscients</h1>
+
+<p>Un <b>transfert inconscient (oblivious transfer OT)</b> est un protocole entre deux parties, un expéditeur et un destinataire. L'expéditeur a plusieurs données en entrée et le destinataire choisit l'indice de l'entrée qu'il veut récupérer. A la fin du protocole, le destinataire récupère l'entrée correspondant à l'indice choisit et n'a aucune information sur les autres entrées détenues par l'expéditeur et l'expéditeur n'obtient rien, il n'a aucun moyen de savoir quelle entrée a choisi le destinataire. Ce protocole est largement utilisé en SMC.</p>
+
+<br>
+
+<h4>Transfert inconscient 1 parmi 2 noté \(\left( \begin{smallmatrix} 2 \\ 1 \end{smallmatrix} \right) OT\)</h4>
+
+<p>Les transferts inconscients les plus utilisés sont les <b>transferts inconscients 1 parmi 2</b> noté \(\left( \begin{smallmatrix} 2 \\ 1 \end{smallmatrix} \right) OT\). Dans ce protocole, l'expéditeur a uniquement deux entrées notées \((x_0, x_1)\) et le destinataire prend en entrée un bit \(b\). A la fin du protocole, le destinataire obtient \(x_b\) et aucune information sur la deuxième entrée de l'expéditeur. De plus, l'expéditeur n'obtient aucune information sur la valeur du bit \(b\).</p>
+
+<div class="text-center">
+<img src="../../img/smc/ot.png" class="img-fluid" alt="ot">
+</div>
+
+<br>
+
+<p>Il existe différents protocoles permettant d'effectuer un \(\left( \begin{smallmatrix} 2 \\ 1 \end{smallmatrix} \right) OT\) mais le protocole le plus connu est le protocole de Naor Pinkas <cite>[NP08]</cite>. Ce protocole fonctionne sur un groupe \(\mathbb{Z}_q\) d'ordre premier avec \(g\) un élément générateur de ce groupe. Ce protocole utilise une fonction de hachage \(H\).</p>
+
+<div class="text-center">
+<img src="../../img/smc/OT.png" class="img-fluid" alt="OT">
+</div>
+
+<br>
+
+<p>Ce protocole est sécurisé contre les adversaires malicieux si \(H\) est un oracle aléatoire (une fonction de hachage "sécurisée"). La sécurité de ce protocole repose sur le Computational Diffie-Hellman CDH problème.</p>
+
+<br>
+
+<h4>Extension du protocole de transfert inconscient</h4>
+
+<p>En pratique, nous avons souvent besoin d'effectuer de nombreux OTs en parallèle. L'<b>OT extension</b> permet d'évaluer de nombreux OTs à partir de quelques OTs (souvent environ \(\kappa=80\)) et l'évaluation de quelques fonctions cryptographiques symétriques <cite>[ALSZ13]</cite>. Dans un protocole d'OT extension, l'expéditeur a en entrée \(m\) paires de vecteurs \(\forall j \in [1,m], (x_j^0, x_j^1) \in (\{0,1\}^l)^2\) et le destinataire a en entrée \(m\) bits \(r_1\), ..., \(r_m\). A la fin du protocole, le destinataire reçoit  \(\forall j \in [1,m], x_j^{r_j}\) et rien d'autre et l'expéditeur ne reçoit rien. Dans ce protocole, les fonctions \(H:\{0,1\}^{\kappa} \rightarrow \{0,1\}^l\) et \(G:\{0,1\}^{\kappa} \rightarrow \{0,1\}^m\) sont des oracles aléatoires. Ce protocole est sécurisé contre les adversaires semi-honnêtes.</p>
+
+<div class="text-center">
+<img src="../../img/smc/OTextension.png" class="img-fluid" alt="OTextension">
+</div>
+
+<br>
+
+<h4>Transferts inconscients corrélés</h4>
+
+<p>Dans les protocoles basés sur les transferts inconscients, la communication est souvent le problème qui ralentit le plus le protocole. Les <b>transferts inconscients corrélés</b> (Correlated OTs) permettent de réduire la communication lorsque les entrées des OTs sont corrélées \(x_1 = f_{\Delta}(x_0)\). Cette optimisation a été présentée pour la première fois dans l'article <cite>[ALSZ13]</cite> pour améliorer les performances du protocole Yao.</p>
+
+<p>Dans le protocole de Yao avec l'optimisation free-XOR, les entrées des OTs sont corrélées avec la fonction XOR. Une valeur aléatoire globale \(\Delta\) est choisie par l'expéditeur. Les entrées du j-ième OT \((x_j^0, x_j^1)\) sont corrélées \(x_j^1 = x_j^0 \oplus \Delta\) avec \(x_j^0\) une valeur aléatoire. Par conséquent, les entrées de l'expéditeur ne sont pas des entrées fixes mais sont des entrées aléatoires et corrélées. Dans la dernière étape du protocole d'OT extension, l'expéditeur peut choisir \(x_j^0 = H(q_k)\) et envoyer uniquement la valeur \(y_j = \Delta \oplus H(q_j) \oplus H(q_j \oplus s)\) au lieu de \((y_j^0, y_j^1)\). La sortie du destinataire est égale à \(H(t_j)\) si \(r_j=0\) et \(y_j \oplus H(t_j)\) si \(r_j=1\). La sortie est correcte car si \(r_j=0\) alors nous avons \(t_j = q_j\) et donc \(H(t_j) = x_j^0\). Sinon, si \(r_j = 1\), alors nous avons \(H(t_j) = H(q_j \oplus s)\) et donc \(y_j \oplus H(t_j) = \Delta \oplus H(q_j) = x_j^0 \oplus \Delta = x_j^1\).</p>
+
+<div class="text-center">
+<img src="../../img/smc/OTcorrelated.png" class="img-fluid" alt="OTcorrelated">
+</div>
+
+<br>
+
+<h4>Autres extensions</h4>
+
+<p>De nombreuses autres extensions des transferts inconscients existent. Par exemple, Beaver <cite>[Bea95]</cite> propose de déléguer tous les calculs lors d'une phase d'initialisation. Son protocole consiste à faire des OTs sur des données aléatoires lors d'une phase d'initialisation et d'utiliser le résultat de ces transferts inconscients comme des masques lors de la phase online du protocole. Les calculs lors de la phase online sont alors réduits à l'évaluation de XOR.</p>
+
+<p> Notons \(\left( \begin{smallmatrix} n \\ 1 \end{smallmatrix} \right) OT_l^m\) pour \(m\) transferts inconscients 1 parmi \(n\) sur des entiers de \(l\) bits chacun.</p>
+
+<div class="text-center">
+<img src="../../img/smc/OT1N.png" class="img-fluid" alt="OT1N">
+</div>
+
+<br>
+
+<p>Ils existent de nombreuses extensions qui permettent de calculer de nombreux OTs efficacement:
+<ul>
+	<li><cite>[LLXX05]</cite> protocole utilisant \(\left( \begin{smallmatrix} n \\ 1 \end{smallmatrix} \right) OT_m^k\) pour créer \(\left( \begin{smallmatrix} n \\ 1 \end{smallmatrix} \right) OT_l^m\)</li>
+	<li><cite>[NP05]</cite> protocole utilisant \(\left( \begin{smallmatrix} \sqrt{n} \\ 1 \end{smallmatrix} \right) OT_k^2\) pour créer \(\left( \begin{smallmatrix} n \\ 1 \end{smallmatrix} \right) OT_l^1\)</li>
+	<li><cite>[NP05]</cite> protocole utilisant \(\left( \begin{smallmatrix} 2 \\ 1 \end{smallmatrix} \right) OT_k^{\lceil \log n \rceil}\) pour créer \(\left( \begin{smallmatrix} n \\ 1 \end{smallmatrix} \right) OT_l^1\)</li>
+</ul></p>
+
+<br>
+
+<h3>Références</h3>
+
+<p>[ALSZ13] G. Asharov, Y. Lindell, T. Schneider, and M. Zohner. More efficient oblivious transfer and extensions for faster secure computation. In ACM SIGSAC Conference on Computer and Communications Security, 2013.</p>
+
+<p>[Bea95] D. Beaver. Precomputing oblivious transfer. In CRYPTO, 1995.</p>
+
+<p>[LLXX05] B. Li, H. Li, G. Xu, and H. Xu. Efficient reduction of 1 out of n oblivious transfers in random oracle model. In IACR Cryptology ePrint Archive, 2005.</p>
+
+<p>[NP01]  M. Naor and B. Pinkas. Efficient oblivious transfer protocols. In Proceedings of the Twelfth Annual Symposium on Discrete Algorithms, 2001.</p>
+
+<p>[NP05] M. Naor and B. Pinkas. Computationally secure oblivious transfer. In Journal of cryptology, 2005.</p>
