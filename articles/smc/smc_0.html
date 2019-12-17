@@ -33,4 +33,78 @@
 </ul>
 </p>
 
+<br>
 
+<h4>Notations</h4>
+
+<p>Dans cette partie, je vais présenter les différentes notations qui seront utilisées dans cet article. De nombreux protocoles de SMC permettent de sécuriser des circuits booléens. Une porte ET (AND) est notée \(\land\) et sa table de vérité est</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td style="text-align:center">\(x\)</td>
+      <td style="text-align:center">\(y\)</td>
+      <td style="text-align:center">\(x \land y\)</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Une porte OU-exclusif XOR est notée \(\oplus\) et sa table de vérité est</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td style="text-align:center">\(x\)</td>
+      <td style="text-align:center">\(y\)</td>
+      <td style="text-align:center">\(x \oplus y\)</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">0</td>
+      <td style="text-align:center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">1</td>
+      <td style="text-align:center">0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>L'inversion du bit \(x\) est noté \(\overline{x}\) avec \(\overline{x} = 1-x\). L'inversion d'un vecteur de bits \(x = (x_1, ...., x_n)\) est \(\overline{x} = (\overline{x_1}, ...., \overline{x_n})\).</p>
+
+<p>\(x \in_R S\) signifie que \(x\) est tiré aléatoirement dans l'ensemble fini \(S\). \([1, q]\) représente l'ensemble contenant l'ensemble des entiers entre \(1\) et \(q\), soit \(\{1, 2, ..., q\}\). \(\mathbb{Z}_q\) représente le corps fini à \(q\) éléments contenant les entiers de \(0\) à  \((q-1)\). Dans ce corps, les opérations s'effectuent modulo \(q\).</p>
