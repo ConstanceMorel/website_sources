@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Finance article</title>
+    <title>SMC article</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="../../css/pub/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/article.css">
+    <link rel="stylesheet" href="../../../css/pub/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/constance-article.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -33,62 +33,34 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Vocalulaire financier</h3>
+                <h3>Secure Multiparty Computation</h3>
             </div>
 
-            <ul class="list-unstyled    ">
+            <ul class="list-unstyled components">
                 <p>par Constance Béguier</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Fonctionnement des marchés financiers</a>
-                    <ul class="collapse list-unstyled homeSubmenu" id="homeSubmenu">
-                        <li id="0">
-                            <a href="?page=0">Organisation et participants</a>
-                        </li>
-                        <li id="1">
-                            <a href="?page=1">Marché monétaire</a>
-                        </li>
-                        <li id="2">
-                            <a href="?page=2">Marché obligataire</a>
-                        </li>
-                        <li id="3">
-                            <a href="?page=3">Marché des actions</a>
-                        </li>
-                        <li id="4">
-                            <a href="?page=4">Marché des changes</a>
-                        </li>
-                        <li id="5">
-                            <a href="?page=5">Contrats forwards</a>
-                        </li>
-                        <li id="6">
-                            <a href="?page=6">Contrats futures</a>
-                        </li>
-                        <li id="7">
-                            <a href="?page=7">Swaps</a>
-                        </li>
-                        <li id="8">
-                            <a href="?page=8">Options</a>
-                        </li>
-                        <li id="9">
-                            <a href="?page=9">Options exotiques</a>
-                        </li>
-                        <li id="10">
-                            <a href="?page=10">Stratégies sur options</a>
-                        </li>
-                        <li id="11">
-                            <a href="?page=11">Crise de 2007</a>
-                        </li>
-                    </ul>
-                    <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Un peu de maths</a>
-                    <ul class="collapse list-unstyled homeSubmenu2" id="homeSubmenu2">
-                        <li id="12">
-                            <a href="?page=12">Grecques</a>
-                        </li>
-                        <li id="13">
-                            <a href="?page=13">VaR</a>
-                        </li>
-                    </ul>
+                <li id="0">
+                    <a href="?page=0">Introduction</a>
+                </li>
+                <li id="1">
+                    <a href="?page=1">Ideal/real simulation paradigm</a>
+                </li>
+                <li id="2">
+                    <a href="?page=2">Transferts inconscients</a>
+                </li>
+                <li id="3">
+                    <a href="?page=3">Yao</a>
+                </li>
+                <li id="4">
+                    <a href="?page=4">GMW</a>
+                </li>
+                <li id="5">
+                    <a href="?page=5">SHADE/GHSADE</a>
+                </li>
+                <li id="6">
+                    <a href="?page=6">Chiffrements homorphiques</a>
                 </li>
             </ul>
+
             <ul class="list-unstyled CTAs">
                 <li>
                     <a href="../../index.html" class="home">Retour à l'accueil</a>
@@ -130,11 +102,10 @@
     </div>
 
     <!-- jQuery -->
-    <script src="../../js/pub/jquery-3.4.1.min.js"></script>
+    <script src="../../../js/pub/jquery-3.4.1.min.js"></script>
     <script> 
         $(function(){
-            var nbPages = 14;
-            var homeSubmenu2FirstPage = 12;
+            var nbPages = 7;
 
             var urlParams = new URLSearchParams(location.search);
             var subpage = urlParams.get("page");
@@ -143,19 +114,12 @@
             } else {
                 subpage = parseInt(subpage);
             }
-            if (subpage < homeSubmenu2FirstPage) {
-                $(".homeSubmenu").collapse('show');
-                $(".homeSubmenu2").collapse('hide');
-            } else {
-                $(".homeSubmenu").collapse('hide');
-                $(".homeSubmenu2").collapse('show');
-            }
 
             var sidebarButton = document.getElementById(subpage);
             sidebarButton.className = "active";
 
             if (/^([0-9]+)$/.test(subpage)) {
-                $("#includedContent").load("./finance_"+subpage+".html");
+                $("#includedContent").load("./smc_"+subpage+".html");
             }
 
             var previousPageNumber = subpage - 1;
@@ -180,7 +144,7 @@
         });
     </script>
     <!-- Bootstrap JS -->
-    <script src="../../js/pub/bootstrap.min.js"></script>
+    <script src="../../../js/pub/bootstrap.min.js"></script>
     <!-- Collapse navbar -->
     <script type="text/javascript">
         $(document).ready(function () {

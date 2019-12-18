@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>SMC article</title>
+    <title>Blockchain article</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="../../css/pub/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/article.css">
+    <link rel="stylesheet" href="../../../css/pub/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/constance-article.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -33,7 +33,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Secure Multiparty Computation</h3>
+                <h3>Blockchain</h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -42,22 +42,13 @@
                     <a href="?page=0">Introduction</a>
                 </li>
                 <li id="1">
-                    <a href="?page=1">Ideal/real simulation paradigm</a>
+                    <a href="?page=1">Côté client</a>
                 </li>
                 <li id="2">
-                    <a href="?page=2">Transferts inconscients</a>
+                    <a href="?page=2">Transaction</a>
                 </li>
                 <li id="3">
-                    <a href="?page=3">Yao</a>
-                </li>
-                <li id="4">
-                    <a href="?page=4">GMW</a>
-                </li>
-                <li id="5">
-                    <a href="?page=5">SHADE/GHSADE</a>
-                </li>
-                <li id="6">
-                    <a href="?page=6">Chiffrements homorphiques</a>
+                    <a href="?page=3">Côté mineur</a>
                 </li>
             </ul>
 
@@ -102,10 +93,10 @@
     </div>
 
     <!-- jQuery -->
-    <script src="../../js/pub/jquery-3.4.1.min.js"></script>
+    <script src="../../../js/pub/jquery-3.4.1.min.js"></script>
     <script> 
         $(function(){
-            var nbPages = 7;
+            var nbPages = 4;
 
             var urlParams = new URLSearchParams(location.search);
             var subpage = urlParams.get("page");
@@ -119,7 +110,7 @@
             sidebarButton.className = "active";
 
             if (/^([0-9]+)$/.test(subpage)) {
-                $("#includedContent").load("./smc_"+subpage+".html");
+                $("#includedContent").load("./blockchain_"+subpage+".html");
             }
 
             var previousPageNumber = subpage - 1;
@@ -144,7 +135,7 @@
         });
     </script>
     <!-- Bootstrap JS -->
-    <script src="../../js/pub/bootstrap.min.js"></script>
+    <script src="../../../js/pub/bootstrap.min.js"></script>
     <!-- Collapse navbar -->
     <script type="text/javascript">
         $(document).ready(function () {

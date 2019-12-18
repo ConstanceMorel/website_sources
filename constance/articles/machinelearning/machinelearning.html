@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Blockchain article</title>
+    <title>Machine learning article</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="../../css/pub/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/article.css">
+    <link rel="stylesheet" href="../../../css/pub/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/constance-article.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -33,7 +33,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Blockchain</h3>
+                <h3>Machine learning</h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -42,13 +42,34 @@
                     <a href="?page=0">Introduction</a>
                 </li>
                 <li id="1">
-                    <a href="?page=1">Côté client</a>
+                    <a href="?page=1">Un peu de maths</a>
                 </li>
                 <li id="2">
-                    <a href="?page=2">Transaction</a>
+                    <a href="?page=2">Régression linéaire</a>
                 </li>
                 <li id="3">
-                    <a href="?page=3">Côté mineur</a>
+                    <a href="?page=3">Réseau de neuronnes</a>
+                </li>
+                <li id="4">
+                    <a href="?page=4">Support Vector Machine</a>
+                </li>
+                <li id="5">
+                    <a href="?page=5">Arbre de décisions</a>
+                </li>
+                <li id="6">
+                    <a href="?page=6">Apprentissage non supervisé</a>
+                </li>
+                <li id="7">
+                    <a href="?page=7">Apprentissage par renforcement</a>
+                </li>
+                <li id="8">
+                    <a href="?page=8">Apprentissage évolutionnistes</a>
+                </li>
+                <li id="9">
+                    <a href="?page=9">Réduction de dimension</a>
+                </li>
+                <li id="10">
+                    <a href="?page=10">Hidden Markov Model</a>
                 </li>
             </ul>
 
@@ -93,10 +114,10 @@
     </div>
 
     <!-- jQuery -->
-    <script src="../../js/pub/jquery-3.4.1.min.js"></script>
+    <script src="../../../js/pub/jquery-3.4.1.min.js"></script>
     <script> 
         $(function(){
-            var nbPages = 4;
+            var nbPages = 11;
 
             var urlParams = new URLSearchParams(location.search);
             var subpage = urlParams.get("page");
@@ -110,7 +131,7 @@
             sidebarButton.className = "active";
 
             if (/^([0-9]+)$/.test(subpage)) {
-                $("#includedContent").load("./blockchain_"+subpage+".html");
+                $("#includedContent").load("./machinelearning_"+subpage+".html");
             }
 
             var previousPageNumber = subpage - 1;
@@ -135,7 +156,7 @@
         });
     </script>
     <!-- Bootstrap JS -->
-    <script src="../../js/pub/bootstrap.min.js"></script>
+    <script src="../../../js/pub/bootstrap.min.js"></script>
     <!-- Collapse navbar -->
     <script type="text/javascript">
         $(document).ready(function () {
