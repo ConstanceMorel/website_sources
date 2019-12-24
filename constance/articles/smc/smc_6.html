@@ -1,3 +1,61 @@
 <h1>Chiffrements homomorphes</h1>
 
-A venir
+<h4>Introduction</h4>
+
+<p>Le chiffrement homomorphe permet de faire des calculs sur des données chiffrées. La principale application est le stockage sécurisé de données dans le cloud tout en pouvant déléguer les calculs au cloud sans fuite d'information (le cloud effectue les calculs directement sur les données chiffrées). C'est une technique qui est souvent citée dans le domaine de la cryptographie et plus particulièrement de la SMC.</p>
+
+<p>Par exemple, un client a des données. Il les stocke de manière chiffrée dans le cloud. Lorsqu'il veut évaluer une fonction \(f\) sur ses données. Il envoie la fonction au cloud qui va évaluer cette fonction dans le domaine chiffré et envoie la sortie chiffrée au client. Le client n'a plus qu'à déchiffrer la donnée reçue. Le cloud n'a aucune information sur les données qu'il stocke et manipule car elles sont chiffrées et il ne connait pas la clé de déchiffrement.</p>
+
+<br>
+
+<h4>Chiffrement partiellement homomorphe (Partially Homomorphic Encryption PHE)</h4>
+
+<p>Depuis de nombreuses années, des méthodes de chiffrement partiellement homomorphe existent. Elles permettent de faire un unique type d'opération sur les chiffrés soit les additions, soit les multiplications. Les méthodes PHE les plus connues sont le cryptosystème de Paillier <cite>[P99]</cite> pour les additions et le chiffrement d'El Gamal <cite>[T84]</cite> pour les multiplications.</p>
+
+<p>Mathématiquement, soit \(C\) l'espace des chiffrés et \(M\) l'espace des messages, un chiffrement partiellement homomorphe pour l'addition est défini par les fonctions \((\mathcal{K}, \mathcal{E}, \mathcal{D}, Eval)\). La fonction \(\mathcal{K}\) permet de générer un couple de clés aléatoires \((PK, SK)\). La fonction de chiffrement \(\mathcal{E}\) permet d'obtenir le chiffré \(c\) d'un message \(m\) à l'aide de la clé de chiffrement \(PK\)
+$$c = \mathcal{E} (m, PK)$$
+Si nous ne connaissons pas \(SK\), la connaissance de \(c\) ne fait fuir aucune information sur \(m\). La fonction de déchiffrement \(\mathcal{D}\) permet de déchiffrer un chiffré \(c\) à l'aide de la clé de déchiffrement \(SK\). Pour tout message \(m\) appartenant à l'ensemble \(M\), nous avons 
+$$\mathcal{D}(\mathcal{E}(m, PK), SK) = \mathcal{D}(c, SK) = m$$
+La fonction d'évaluation \(Eval\) permet d'évaluer l'addition de deux chiffrés sans avoir besoin de les déchiffrer. Pour tout couple de messages \((m_1, m_2)\) appartenant à l'ensemble \(M\), nous avons $$Eval(\mathcal{E}(m_1, PK), \mathcal{E}(m_2, PK)) = Eval(c_1, c_2) = \mathcal{E}(m_1 + m_2, PK)$$
+</p>
+
+<br>
+
+<h4>Chiffrement presque homomorphe (Somewhat Homomorphic Encryption SHE)</h4>
+
+<p>Dans la plupart des cas d'usage du chiffrement homomorphe, nous avons besoin d'effectuer des additions et des multiplications dans le domaine chiffré. Par conséquent, le PHE est rarement suffisant. Le chiffrement presque homomorphe SHE permet d'évaluer dans le domaine chiffré des circuits de profondeur limitée. Avec un chiffrement SHE, chaque chiffré contient du bruit. Lors de l'évaluation d'une opération (addition ou multiplication) entre deux chiffrés, le chiffré obtenu a un bruit plus élevé que le bruit des chiffrés en entrée. Si le niveau de bruit dépasse un certain seuil, il n'est plus possible de déchiffrer la donnée. C'est pour cela qu'il est uniquement possible d'évaluer des circuits de profondeur limitée avec un SHE.</p>
+
+<p>Il existe trois grands types de SHE:
+<ul>
+	<li>les chiffrements basés sur les réseaux (lattices) comme <cite>[G09]</cite></li>
+	<li>les chiffrements basés sur les entiers comme <cite>[DGHV10]</cite></li>
+	<li>les chiffrements basés sur  l'apprentissage avec erreurs (Learning With Errors LWE) comme <cite>[BGV12]</cite></li>
+</ul></p>
+
+<br>
+
+<h4>Chiffrement complètement homomorphe (Fully Homomorphic Encryption FHE)</h4>
+
+<p>En 1978, Rivest, Adleman et Dertouzos <cite>[RAD78]</cite> ont introduit la notion de chiffrement complètement homomorphe FHE en tant que problème ouvert. Il a fallu attendre 2009 pour que le premier FHE soit présenté par Gentry <cite>[G09]</cite>. Ce chiffrement permet d'évaluer dans le domaine chiffré un circuit de taille arbitraire composé d'additions et de multiplications. La méthode consiste à utiliser un SHE et de faire régulièrement des opérations de bootstrapping. L'opération de bootstrapping permet de réduire le bruit sur les chiffrés afin de pouvoir de nouveau faire des opérations dans le domaine chiffré. Cette opération consiste à évaluer dans le domaine chiffré un déchiffrement suivi d'un chiffrement. La nouvelle donnée chiffrée a un niveau de bruit plus faible que la donnée en entrée du bootstrapping.</p>
+
+<p>Vu que l'opération de bootstrapping est très couteuse et que les multiplications sont beaucoup plus couteuses que les additions (le niveau de bruit augmente beaucoup plus rapidement lors d'une multiplication que lors d'une addition), il est nécessaire d'adapter le circuit à évaluer afin de réduire au maximum sa profondeur multiplicative.</p>
+
+<p>La recherche dans ce domaine évolue assez rapidement. Mais pour l'instant, les protocoles de FHE ne sont pas encore suffisamment efficaces pour être largement utilisés. Ils sont trop lents, requiers beaucoup de RAM (les chiffrés et les clés sont très grands) et requiers beaucoup de bande passante. Dans quelques cas, l'utilisation de FHE est possible. L'article <cite>[CLMMP18]</cite> propose de reconnaitre un visage à l'aide d'un réseau de neurones en effectuant toutes les opérations dans le domaine chiffré afin de ne pas faire fuir d'information sur le visage à reconnaitre.</p>
+
+<br>
+
+<h3>Références</h3>
+
+<p>[BGV12] Z. Brakerski, C. Gentry, and V. Vaikuntanathan. Fully Homomorphic Encryption without Bootstrapping. ITCS, 2012</p>
+
+<p>[CLMMP18] H. Chabanne, R. Lescuyer, J. Milgram, C. Morel, and E. Prouff. Recognition Over Encrypted Faces. MSPN, 2018</p>
+
+<p>[DGHV10] M. Van Dijk, C. Gentry, S. Halevi, and V. Vinod. Fully Homomorphic Encryption over the Integers. Eurocrypt, 2010.</p>
+
+<p>[T84] T. ElGamal. A Public Key Cryptosystem and a Signature Scheme Based on Discrete Logarithms. Crypto, 1984.</p>
+
+<p>[G09] C. Gentry. A Fully Homomorphic Encryption Scheme. Ph.D. thesis, 2009.</p>
+
+<p>[P99] P. Paillier. Public-Key Cryptosystems Based on Composite Degree Residuosity Classes. Eurocrypt,‎ 1999.</p>
+
+<p>[RAD78] R. Rivest, L. Adleman, and M. Dertouzos. On data banks and privacy homomorphisms. Foundations of Secure Computation, 1978.</p>
