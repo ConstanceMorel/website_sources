@@ -3,4 +3,3 @@ css/pub/*.css
 css/fonts/*.ttf
 nicolas/articles/template.html
 .DS_Store
-scripts/sync_ftp.sh
