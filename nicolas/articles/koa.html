@@ -83,38 +83,38 @@
                     <br>
                     <br>In the <a href="https://github.com/koajs/koa" onclick="window.open(this.href); return false;"><i>koajs/koa</i></a> package, a
                     <p class="code-github color-red">new</p>
-                    <p class="code-github color-purple">Cookies</p>is created if none exists:
+                    <p class="code-github color-purple">Cookies</p> is created if none exists:
                     <br>
                     <script src="https://gist.github.com/nbeguier/dd6e90b2a7b1cc6f25044819ac6de5ec.js"></script>The
-                    <p class="code-github color-purple">Cookies</p>function is taking options as a third argument. This argument takes a structure with the
-                    <p class="code-github">keys</p>parameter equal to the
-                    <p class="code-github">app.keys</p>value in the configuration.
+                    <p class="code-github color-purple">Cookies</p> function is taking options as a third argument. This argument takes a structure with the
+                    <p class="code-github">keys</p> parameter equal to the
+                    <p class="code-github">app.keys</p> value in the configuration.
                     <br>
                     <br>In the <a href="https://github.com/pillarjs/cookies/blob/master/index.js" onclick="window.open(this.href); return false;"><i>index.js</i></a> of <a href="https://github.com/pillarjs/cookies" onclick="window.open(this.href); return false;"><i>pillarjs/cookies</i></a>:
                     <script src="https://gist.github.com/nbeguier/5e89c881af8c12636e98491474f44e51.js"></script>In the
-                    <p class="code-github color-purple">Cookies</p>function, only the
-                    <p class="code-github color-red">else</p>condition matches the koajs/koa options values.
+                    <p class="code-github color-purple">Cookies</p> function, only the
+                    <p class="code-github color-red">else</p> condition matches the koajs/koa options values.
                     <br>If
-                    <p class="code-github">options.keys</p>is an array, it returns a
+                    <p class="code-github">options.keys</p> is an array, it returns a
                     <p class="code-github color-red">new</p>
-                    <p class="code-github color-purple">Keygrip</p>object, with the default hash algorithm and encoding method, respectively <b>SHA-1</b> and <b>base64</b>. In the other case, it returns
+                    <p class="code-github color-purple">Keygrip</p> object, with the default hash algorithm and encoding method, respectively <b>SHA-1</b> and <b>base64</b>. In the other case, it returns
                     <p class="code-github">options.keys</p>, no matter what it is.
                     <br>
                     <br>To sign the session cookie,
-                    <p class="code-github color-purple">Keygrip</p>is doing an
+                    <p class="code-github color-purple">Keygrip</p> is doing an
                     <p class="code-github color-purple">HMAC</p>
-                    <p class="code-github">(algorithm, keys)</p>of the session cookie, encodes it and replaces some characters.
+                    <p class="code-github">(algorithm, keys)</p> of the session cookie, encodes it and replaces some characters.
                     <br>
                     <br>Using HMAC is still secured in production, but when it's configure in a proper way. Since <a href="./a1f951ed127f9232f101c4e81e0e01a463d86f26.html" onclick="window.open(this.href); return false;"><b>SHA-1 is broken</b></a>, you have to be very careful of how HMAC is imlemented in your production.
                     <br>Two options are possible, setting an
-                    <p class="code-github">app.keys</p>of an array of 20 bytes long strings, or using a stronger hash function: SHA-2.
+                    <p class="code-github">app.keys</p> of an array of 20 bytes long strings, or using a stronger hash function: SHA-2.
                     <br>
                     <br>To override this encryption algorithm we need to set the 'options.keys' parameter as a Keygrip constructor which redefined the hash function and the encoding method.
                     <br>
                     <br>It leads to this configuration :
                     <br>
                     <p class="code-github font-8">app.keys</p>
-                    <p class="code-github color-red font-8">=new</p>
+                    <p class="code-github color-red font-8">= new</p>
                     <p class="code-github color-purple font-8">Keygrip</p>
                     <p class="code-github font-8">(['64bytes_long_string_1', '64bytes_long_string_2'], 'sha512', 'base64')</p>
                     <br>
