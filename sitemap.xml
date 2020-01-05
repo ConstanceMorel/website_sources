@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://www.sitemaps.org/schemas/sitemap/0.9
+            https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>https://beguier.eu/</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/constance/</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/nicolas/</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/constance/articles/smc/smc.html</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/constance/articles/blockchain/blockchain.html</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/constance/articles/machinelearning/machinelearning.html</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/constance/articles/finance/finance.html</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/nicolas/articles/koa.html</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/nicolas/articles/a1f951ed127f9232f101c4e81e0e01a463d86f26.html</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/constance/index.html</loc>
+  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+</urlset>
