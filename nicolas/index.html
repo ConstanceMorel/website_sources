@@ -1,13 +1,17 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<html xmlns:og="http://ogp.me/ns#">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
-    <meta name="description" content="Nicolas Beguier website, providing articles about security">
-    <meta name="author" content="Nicolas Beguier">
+    <meta name="description" content="Nicolas Beguier website, providing articles about security.">
+    <meta name="author" content="Nicolas Béguier">
     <meta name="keywords" content="beguier cyber security blog">
+    <meta property="og:title" content="Nicolas Béguier website" />
+    <meta property="og:image" content="https://beguier.eu/nicolas/images/background_security_thumb.png" />
+    <meta property="og:description" content="Nicolas Beguier website, providing articles about security." />
+    <meta property="og:url" content="https://beguier.eu/nicolas/" />
+    <meta property="og:type" content="article" />
     <title>Nicolas Béguier</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
     <!-- Auto redirect to HTTPs-->
@@ -16,6 +20,7 @@
     <link href="../css/pub/swiper.min.css" rel="stylesheet">
     <link href="../css/pub/ionicons.css" rel="stylesheet">
     <link href="../css/nicolas-main.min.css" rel="stylesheet">
+    <link rel="icon" href="../favicon.png">
 </head>
 
 <body>
@@ -29,24 +34,25 @@
                         <div class="dplay-tbl-cell color-white mtb-30">
                             <div class="mx-w-400x">
                                 <h5><b>SECURITY</b></h5>
-                                <h1 class="mt-20 mb-30"><b>KoaJS Security Tips</b></h1>
-                                <h6><a class="plr-20 btn-brdr-grey color-white" href="./articles/koajs.html"><b>Read this article</b></a></h6> </div>
+                                <h1 class="mt-20 mb-10"><b>KoaJS Security Tips</b></h1>
+                                <li class="mb-10"><i class="mr-5 font-12"></i>Dec 30, 2019</li>
+                                <h6><a class="plr-20 btn-brdr-grey color-white" href="./articles/koa.html"><b>Read this article</b></a></h6> </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 h-sm-50 oflow-hidden swiper-area pos-relative">
+                <div class="col-sm-12 col-md-6 h-sm-60 oflow-hidden swiper-area pos-relative">
                     <div class="abs-blr pos-sm-static">
                         <div class="row pos-relative mt-50 all-scroll">
                             <div class="swiper-scrollbar resp"></div>
                             <div class="col-md-10">
-                                <h5 class="mb-50 color-white"><b>LATEST ARTICLES</b></h5>
+                                <h4 class="mb-50 color-white"><b>LATEST ARTICLES</b></h4>
                                 <div class="swiper-container oflow-visible" data-slide-effect="slide" data-autoheight="false" data-swiper-speed="500" data-swiper-margin="25" data-swiper-slides-per-view="2" data-swiper-breakpoints="true" data-scrollbar="true" data-swiper-loop="true" data-swpr-responsive="[1, 2, 1, 2]">
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
                                             <div class="bg-white"> <img src="images/logo_security_postit.png" alt="">
                                                 <div class="plr-25 ptb-15">
-                                                    <h5 class="color-ash"><b>Security Post-it #1</b></h5>
-                                                    <h4 class="mtb-10"><a href="./articles/a1f951ed127f9232f101c4e81e0e01a463d86f26.html" onclick="window.open(this.href); return false;"><b>SHA-1 is broken, not HMAC</b></a></h4>
+                                                    <h5 class="color-ash mobile-remove"><b>Security Post-it #1</b></h5>
+                                                    <h4 class="mtb-10 mobile-resize"><a href="./articles/a1f951ed127f9232f101c4e81e0e01a463d86f26.html" onclick="window.open(this.href); return false;"><b>SHA-1 is broken, not HMAC</b></a></h4>
                                                     <ul class="list-li-mr-10 color-lt-black">
                                                         <li><i class="mr-5 font-12"></i>Dec 13, 2019</li>
                                                     </ul>
@@ -56,8 +62,8 @@
                                         <div class="swiper-slide">
                                             <div class="bg-white"> <img src="images/logo_ssh.png" alt="">
                                                 <div class="plr-25 ptb-15">
-                                                    <h5 class="color-ash"><b>SECURITY</b></h5>
-                                                    <h4 class="mtb-10"><a href="https://medium.com/@nbeguier/a-real-world-comparison-of-the-ssh-key-algorithms-b26b0b31bfd9" onclick="window.open(this.href); return false;"><b>Comparison of the SSH Key Algorithms</b></a></h4>
+                                                    <h5 class="color-ash mobile-remove"><b>SECURITY</b></h5>
+                                                    <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/a-real-world-comparison-of-the-ssh-key-algorithms-b26b0b31bfd9" onclick="window.open(this.href); return false;"><b>Comparison of the SSH Key Algorithms</b></a></h4>
                                                     <ul class="list-li-mr-10 color-lt-black">
                                                         <li><i class="mr-5 font-12"></i>Sep 23, 2018</li>
                                                     </ul>
@@ -67,8 +73,8 @@
                                         <div class="swiper-slide">
                                             <div class="bg-white"> <img src="images/logo_varnish.png" alt="">
                                                 <div class="plr-25 ptb-15">
-                                                    <h5 class="color-ash"><b>INFRASTRUCTURE</b></h5>
-                                                    <h4 class="mtb-10"><a href="https://medium.com/@nbeguier/3-tips-to-boost-the-performance-of-your-varnish-cache-3f4ce44be3c1" onclick="window.open(this.href); return false;"><b>Boost the Performance of your Varnish Cache</b></a></h4>
+                                                    <h5 class="color-ash mobile-remove"><b>INFRASTRUCTURE</b></h5>
+                                                    <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/3-tips-to-boost-the-performance-of-your-varnish-cache-3f4ce44be3c1" onclick="window.open(this.href); return false;"><b>Boost the Performance of your Varnish Cache</b></a></h4>
                                                     <ul class="list-li-mr-10 color-lt-black">
                                                         <li><i class="mr-5 font-12"></i>Sep 16, 2018</li>
                                                     </ul>
@@ -78,8 +84,8 @@
                                         <div class="swiper-slide">
                                             <div class="bg-white"> <img src="images/logo_instacart.png" alt="">
                                                 <div class="plr-25 ptb-15">
-                                                    <h5 class="color-ash"><b>MACHINE LEARNING</b></h5>
-                                                    <h4 class="mtb-10"><a href="https://medium.com/@nbeguier/machine-learning-2d4150bfd690" onclick="window.open(this.href); return false;"><b>Instacart Market Basket Analysis</b></a></h4>
+                                                    <h5 class="color-ash mobile-remove"><b>MACHINE LEARNING</b></h5>
+                                                    <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/machine-learning-2d4150bfd690" onclick="window.open(this.href); return false;"><b>Instacart Market Basket Analysis</b></a></h4>
                                                     <ul class="list-li-mr-10 color-lt-black">
                                                         <li><i class="mr-5 font-12"></i>Sep 7, 2018</li>
                                                     </ul>
@@ -89,8 +95,8 @@
                                         <div class="swiper-slide">
                                             <div class="bg-white"> <img src="images/logo_nginx.png" alt="">
                                                 <div class="plr-25 ptb-15">
-                                                    <h5 class="color-ash"><b>INFRASTRUCTURE</b></h5>
-                                                    <h4 class="mtb-10"><a href="https://medium.com/@nbeguier/nginx-security-configuration-tips-557c35e0d75b" onclick="window.open(this.href); return false;"><b>Nginx : Security configuration tips</b></a></h4>
+                                                    <h5 class="color-ash mobile-remove"><b>INFRASTRUCTURE</b></h5>
+                                                    <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/nginx-security-configuration-tips-557c35e0d75b" onclick="window.open(this.href); return false;"><b>Nginx : Security configuration tips</b></a></h4>
                                                     <ul class="list-li-mr-10 color-lt-black">
                                                         <li><i class="mr-5 font-12"></i>Sep 7, 2018</li>
                                                     </ul>
@@ -100,8 +106,8 @@
                                         <div class="swiper-slide">
                                             <div class="bg-white"> <img src="images/logo_apache.png" alt="">
                                                 <div class="plr-25 ptb-15">
-                                                    <h5 class="color-ash"><b>INFRASTRUCTURE</b></h5>
-                                                    <h4 class="mtb-10"><a href="https://medium.com/@nbeguier/apache-security-configuration-tips-e78b59c805c8" onclick="window.open(this.href); return false;"><b>Apache : Security configuration tips</b></a></h4>
+                                                    <h5 class="color-ash mobile-remove"><b>INFRASTRUCTURE</b></h5>
+                                                    <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/apache-security-configuration-tips-e78b59c805c8" onclick="window.open(this.href); return false;"><b>Apache : Security configuration tips</b></a></h4>
                                                     <ul class="list-li-mr-10 color-lt-black">
                                                         <li><i class="mr-5 font-12"></i>Sep 5, 2018</li>
                                                     </ul>
@@ -111,8 +117,8 @@
                                         <div class="swiper-slide">
                                             <div class="bg-white"> <img src="images/logo_axa.png" alt="">
                                                 <div class="plr-25 ptb-15">
-                                                    <h5 class="color-ash"><b>MACHINE LEARNING</b></h5>
-                                                    <h4 class="mtb-10"><a href="https://medium.com/@nbeguier/machine-learning-reconnaissance-de-type-de-conduite-21821f4027db" onclick="window.open(this.href); return false;"><b>Reconnaissance de type de conduite</b></a></h4>
+                                                    <h5 class="color-ash mobile-remove"><b>MACHINE LEARNING</b></h5>
+                                                    <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/machine-learning-reconnaissance-de-type-de-conduite-21821f4027db" onclick="window.open(this.href); return false;"><b>Reconnaissance de type de conduite</b></a></h4>
                                                     <ul class="list-li-mr-10 color-lt-black">
                                                         <li><i class="mr-5 font-12"></i>Sep 5, 2018</li>
                                                     </ul>
@@ -122,8 +128,8 @@
                                         <div class="swiper-slide">
                                             <div class="bg-white"> <img src="images/logo_postfix.png" alt="">
                                                 <div class="plr-25 ptb-15">
-                                                    <h5 class="color-ash"><b>SECURITY</b></h5>
-                                                    <h4 class="mtb-10"><a href="https://medium.com/@nbeguier/tentative-dexploit-postfix-22a68c4c0a3c" onclick="window.open(this.href); return false;"><b>Tentative d’exploit Postfix</b></a></h4>
+                                                    <h5 class="color-ash mobile-remove"><b>SECURITY</b></h5>
+                                                    <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/tentative-dexploit-postfix-22a68c4c0a3c" onclick="window.open(this.href); return false;"><b>Tentative d’exploit Postfix</b></a></h4>
                                                     <ul class="list-li-mr-10 color-lt-black">
                                                         <li><i class="mr-5 font-12"></i>Sep 5, 2018</li>
                                                     </ul>
@@ -164,9 +170,9 @@
                         <div class="dplay-tbl">
                             <div class="dplay-tbl-cell">
                                 <ul class="list-a-plr-10">
-                                    <li><a href="https://github.com/nbeguier/" onclick="window.open(this.href); return false;"><i class="ion-social-github"></i></a></li>
-                                    <li><a href="https://www.linkedin.com/in/nicolasbeguier/" onclick="window.open(this.href); return false;"><i class="ion-social-linkedin"></i></a></li>
-                                    <li><a href="mailto:nicolas_beguier@hotmail.com"><i class="ion-email"></i></a></li>
+                                    <li><a href="https://github.com/nbeguier/" onclick="window.open(this.href); return false;"><i class="ion-social-github color-ash"></i></a></li>
+                                    <li><a href="https://www.linkedin.com/in/nicolasbeguier/" onclick="window.open(this.href); return false;"><i class="ion-social-linkedin color-ash"></i></a></li>
+                                    <li><a href="mailto:nicolas_beguier@hotmail.com"><i class="ion-email color-ash"></i></a></li>
                                 </ul>
                             </div>
                         </div>
