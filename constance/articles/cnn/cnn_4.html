@@ -1,0 +1,17 @@
+<h1>Autres réseaux de neurones</h1>
+
+<p>Il existe de nombreux autres types de réseaux de neurones. Les plus connus sont les <b>réseaux de neurones récurrents</b> (recurrent neural network RNN) et les <b>réseaux de neurones récurrents à mémoire court-terme et long-terme</b> (long short-term memory LSTM). Ces réseaux sont très utilisés en reconnaissance automatique de la parole.</p>
+
+<br>
+
+<h4>Réseaux de neurones récurrents</h4>
+
+<p>L'idée principale d'un <b>réseau de neurones récurrents</b> est de réutiliser les informations de la prédiction précédente lors de la réalisation d'une nouvelle prédiction. Plus précisément, la valeur des neurones d'une couche interne au réseau ne dépend plus uniquement de la valeur des neurones de la couche précédente mais dépend aussi de la valeur des neurones de cette couche interne lors de l'évaluation précédente. Par conséquent, l'activation d'un neurone ne dépendra plus uniquement de la donnée en entrée mais dépendra aussi de l'entrée précédente.</p>
+
+<p>Il est aussi possible d'avoir un réseau de neurones dont l'activation des neurones ne dépend pas uniquement de l'entrée et de son entrée précédente mais dépend de l'entrée actuelle et des \(n\) entrées précédentes. Ces réseaux permettent d'introduire une notion de temporalité sur les données de la base d'apprentissage.</p>
+
+<br>
+
+<h4>Réseaux de neurones récurrents à mémoire court-terme et long-terme</h4>
+
+<p>Le principal problème des réseaux de neurones récurrents est qu'ils sont souvent difficiles à apprendre à cause d'une <b>instabilité lors de la descente de gradients</b>. Les valeurs dans la descente de gradients sont de plus en plus petites lorsqu'elles se propagent de la fin du réseau jusqu'au début du réseau. Cela rend l'apprentissage sur les premières couches du réseau très lent. Les réseaux de neurones récurrents à mémoire court-terme et long-terme sont des réseaux récurrents dans lesquels ce problème d'instabilité de gradient est moins présent.</p>

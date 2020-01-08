@@ -1,0 +1,121 @@
+<h1>Réseau de neurones convolutifs</h1>
+
+<p>Le MLP est le réseau de neurones de base. Il existe de nombreuses autres variantes de réseaux de neurones. Par exemple, les <b>réseaux de neurones convolutifs</b> (Convolutional Neural Networks CNN) sont des réseaux de neurones adaptés à l'apprentissage sur des images. Par rapport au perceptron, les couches linéaires sont remplacées par des <b>couches de convolution</b> inspirées des <b>filtres</b> en traitement d'images. De plus, des <b>couches de pooling</b> sont ajoutées. Ces couches sont similaires au <b>sous-échantillonnage</b> en traitement d'images.</p>
+
+<br>
+
+<h4>Couches de convolution</h4>
+
+<p>Avant de présenter les couches de convolution dans un réseau de neurones convolutifs, je vais présenter l'utilisation de filtres en traitement d'images. Les <b>filtres</b> en traitement d'images sont utilisés pour extraire de l'information des images. Par exemple, le <b>filtre de Sobel</b> est utilisé pour la <b>détection de contours</b>.</p>
+
+<p><u>Opération de convolution</u></p>
+
+<p>L'<b>opération de convolution</b> est une opération qui permet d'appliquer un filtre à une image. L'image est une matrice \(M\) de taille \(m \times n\). Le filtre est une matrice \(F\) dont la taille est généralement \(3 \times 3\) (parfois \(5 \times 5\) pour les grandes images). Nous noterons \(*\) l'opération de convolution. Le résultat de la convolution est une matrice de taille \((m-2) \times (n-2)\) pour un filtre de taille \(3 \times 3\) et une matrice de taille \((m-4) \times (n-4)\) pour un filtre de taille \(5 \times 5\).</p>
+
+<p>L'opération de convolution consiste à appliquer le filtre à chaque sous-matrice de l'image initiale de même taille que le filtre. Appliquer un filtre à une matrice de même taille que le filtre consiste à faire un produit élément par élément suivi d'une somme des produits obtenus.</p>
+
+$$ \begin{align}
+&
+\begin{pmatrix}
+-1 & 0 & 1 \\
+-2 & 0 & 2 \\
+-1 & 0 & 1
+\end{pmatrix}
+*
+\begin{pmatrix}
+140 & 247 & 23 \\
+0 & 3 & 172 \\
+231 & 178 & 47
+\end{pmatrix} \\
+& = -1 \times 140 + 0 \times 247 + 1 \times 23 \\
+& \; \; \; - 2 \times 0 + 0 \times 3 + 2 \times 172 \\
+& \; \; \; -1 \times 231 + 0 \times 178 +1 \times 47 \\
+& =43
+\end{align}
+$$
+
+<p>Mathématiquement, si nous notons \(m_{i, j}\) l'élément sur la i-ième ligne et la j-ième colonne de l'image initiale \(M\), \(f_{i, j}\) l'élément sur la i-ième ligne et la j-ième colonne du filtre \(F\) et \(s_{i, j}\) l'élément sur la i-ième ligne et la j-ième colonne de l'image en sortie du filtre. Alors pour tout \(i \in [1, m-2]\), pour tout \(j \in [1, n-2]\), nous avons 
+$$s_{i, j} = \sum_{p=1}^3 \sum_{q=1}^3 f_{p,q} \times m_{i+p-1, j+q-1}$$</p>
+
+<p><u>Filtre de Sobel</u></p>
+
+<p>Le <b>filtre de Sobel</b> est un filtre utilisé pour détecter les <b>contours d'une image</b>. Ce filtre est en réalité composé de deux filtres un premier filtre pour détecter les <b>contours horizontaux</b> 
+\(F_x = \begin{pmatrix}
+-1 & 0 & 1 \\
+-2 & 0 & 2 \\
+-1 & 0 & 1
+\end{pmatrix}\) 
+et un deuxième filtre pour détecter les <b>contours verticaux</b> 
+\(F_y = \begin{pmatrix}
+-1 & -2 & -1 \\
+0 & 0 & 0 \\
+1 & 2 & 1
+\end{pmatrix}\). Puis il existe différentes combinaisons du résultat des deux filtres pour détecter les contours d'une image. Par exemple,  \(S = |F_x*M| + |F_y*M|\). L'image suivante présente l'application du filtre de Sobel sur une image (à gauche l'image initiale et à droite l'image en sortie du filtre).</p>
+
+<div class="text-center">
+<img src="../../img/cnn/sobel_filter.png" class="img-fluid" alt="sobel_filter">
+</div>
+
+<br>
+
+<p><u>Ajout de padding</u></p>
+
+<p>L'<b>ajout de padding</b> permet de ne pas donner moins d'importance aux pixels situés sur le bord de l'image lors de l'application d'un filtre. En effet, lors de l'application d'un filtre, le pixel en haut à gauche de l'image initiale est utilisé une unique fois (pour calculer le pixel en haut à gauche de l'image de sortie) alors qu'un pixel au centre de l'image initiale est utilisé 9 fois. Par conséquent, les pixels du bord de l'image initiale auront moins d'impact sur l'image de sortie que les pixels centraux. Pour limiter cet <b>effet de bord</b>, le padding peut être utilisé. Pour un filtre de taille \(3 \times 3\), il consiste à ajouter un bord contenant que des pixels nuls tout autour de l'image. Par exemple, si l'image initiale correspond à la matrice 
+\(M=\begin{pmatrix}
+m_{1,1} & \cdots & m_{1,n} \\
+\vdots  & \ddots & \vdots  \\
+m_{m,1} &  \cdots & m_{m,n} 
+\end{pmatrix}\)
+alors l'image avec padding correspond à la matrice
+\(\begin{pmatrix}
+0 & 0 & \cdots & 0 & 0 \\
+0 & m_{1,1} & \cdots & m_{1,n} & 0\\
+\vdots & \vdots  & \ddots & \vdots & \vdots \\
+0 & m_{m,1} &  \cdots & m_{m,n} & 0 \\
+0 & 0 & \cdots & 0 & 0
+\end{pmatrix}\)
+</p>
+
+<p>L'utilisation du padding a un deuxième avantage, il permet de ne pas réduire la taille de l'image lors de l'application du filtre. En effet, nous avons vu précédemment que lors de l'application d'un filtre de taille \(3 \times 3\) sur une image de taille \(m \times n\), l'image en sortie avait une taille \((m-2) \times (n-2)\). Avec l'utilisation de padding sur l'image initiale avant l'application du filtre, l'image en sortie du filtre a la même taille que l'image en entrée \(m \times n\).</p>
+
+<p><u>Utilisation de couches de convolution dans un réseau de neurones</u></p>
+
+<p>Dans les réseaux de neurones convolutifs, les couches linéaires sont remplacées par des <b>couches de convolution</b>. Cela signifie que l'ensemble des poids d'une couche sont remplacés par des filtres. Le but de l'apprentissage est de définir ces filtres.</p>
+
+<p>Dans les CNN, chaque couche de neurones est représentée par un volume. Par exemple, nous pouvons avoir en entrée du réseau une image de taille \(32 \times 64 \times 3\) (32 de large, 64 de haut et 3 canaux de couleur). Chaque filtre est aussi représenté par un volume. Par exemple, nous pouvons avoir 4 filtres de taille \(5 \times 5 \times 3\) chacun. Les filtres doivent avoir la même profondeur que la couche d'entrée (ici \(3\)). L'application d'un filtre à la couche d'entrée aboutit dans cet exemple à une sortie de taille \(32 \times 64 \times 1 \) avec padding et \(28 \times 60 \times 1 \) sans padding. Pour obtenir la sortie complète, il faut appliquer en parallèle chacun des filtres à la couche d'entrée, ce qui nous donne une couche de sortie de taille \(32 \times 64 \times 4 \) avec padding et \(28 \times 60 \times 4 \) sans padding. Chaque niveau de profondeur de la couche de sortie correspond à l'application d'un filtre sur la couche d'entrée.</p>
+
+<div class="text-center">
+<img src="../../img/cnn/conv_layer.png" class="img-fluid" alt="conv_layer">
+</div>
+
+<p>L'image ci-dessus représente l'application d'un ensemble de filtres à une couche d'entrée (en rouge sur l'image) afin d'obtenir une couche de sortie (en bleu sur l'image).  L'ensemble des neurones représentés sur la couche de sortie (ronds bleus) sont l'ensemble des neurones issus d'une même zone de la couche d'entrée (zone en rouge foncé). Dans cette image, 5 filtres sont appliqués à la couche en entrée car la couche de sortie à une profondeur de 5.</p>
+
+<p>Pendant l'apprentissage d'un réseau de neurones convolutifs, les poids à apprendre correspondent aux valeurs contenues dans les filtres.</p>
+
+<p>Pour rappel, dans un MLP, chaque neurone d'une couche est relié à l'ensemble des neurones de la couche suivante. C'est ce qu'on appelle une <b>couche complètement connectée</b> (fully connected layer). Le principal avantage du remplacement de couches complètement connectées par des couches de convolution est la réduction importante du nombre de poids à apprendre (et donc l'accélération de l'apprentissage). En effet, dans notre exemple précédent, nous avons une première couche contenant \(32 \times 64 \times 3 = 6\,144\) neurones qui se transforme en une couche contenant \(32 \times 64 \times 4 = 8\,192\) neurones (dans le cas avec padding). Avec l'utilisation de couches de convolutions, nous avons uniquement \(5 \times 5 \times 3 \times 4 = 300\) poids à apprendre. Si nous avions utilisé une couche complètement connectée avec le même nombre de neurones sur la couche en entrée et la couche en sortie, nous aurions eu \( 6\,144 \times 8\,192 = 50\,331\,648\) poids à apprendre.</p>
+
+<br>
+
+<h4>Couches de pooling</h4>
+
+<p>Une <b>couche de pooling</b> est comparable à un <b>sous-échantillonnage</b> de la couche d'entrée. Le but est de garder un représentant local des neurones voisins. Pour cela, la couche d'entrée est séparée en une série de carrés qui généralement ne se chevauchent pas et une même opération est effectuée sur chacun des carrés afin d'obtenir une unique valeur par carré. Les opérations les plus courantes sont le maximum ou la moyenne. Le <b>max pooling</b> consiste à conserver la valeur maximale parmi l'ensemble des valeurs contenues dans le carré. L'<b>average pooling</b> consiste à calculer la moyenne de l'ensemble des valeurs contenues dans le carré.</p>
+
+<div class="text-center">
+<img src="../../img/cnn/max_pooling.png" class="img-fluid" alt="max_pooling">
+</div>
+
+<p>Dans une image en niveau de gris, les pixels voisins ont normalement une valeur similaire. Par conséquent, utiliser un average pooling permet de réduire la taille de l'image sans perdre trop d'informations. L'utilisation d'un average pooling va rendre les contours de l'image moins nets mais l'image sera toujours reconnaissable. Le pooling permet donc de réduire la taille de l'image tout en gardant les caractéristiques essentielles de l'image initiale.</p>
+
+<p>Dans les réseaux de neurones, l'opération de pooling est effectuée indépendamment sur chaque tranche de profondeur d'une couche. Par conséquent, si on applique un pooling de taille \(2 \times 2\) sur une couche de taille \(32 \times 64 \times 4\), nous obtenons une couche de taille \(16 \times 32 \times 4\) (uniquement la largeur et la longueur de la couche sont divisées par 2).</p>
+
+<p>Le max pooling est généralement plus efficace que l'average pooling car il augmente significativement l'importance des neurones ayant une grande valeur (ayant une activation forte).</p> 
+
+<br>
+
+<h4>Structure complète du réseau</h4>
+
+<p>En plus des <b>couches de convolution</b> et des <b>couches de pooling</b>, un réseau de neurones convolutifs contient aussi des <b>couches d'activation</b> et des <b>couches complètement connectées</b>. Les <b>couches d'activation</b> permettent d'ajouter de la non linéarité au réseau. Les <b>couches complètement connectées</b> sont utilisées à la fin du réseau afin de transformer une couche à 3 dimensions \(m \times n \times p\) en une couche à une dimension \(q \times 1 \times 1\).</p>
+
+<p>Si nous notons \(CONV\) une couche de convolution, \(POOL\) une couche pooling, \(ACT\) une couche d'activation et \(FC\) une couche complètement connectée, alors l'architecture d'un réseau de neurones convolutifs a généralement la forme suivante
+$$[[CONV \rightarrow ACT]^p \rightarrow POOL]^q \rightarrow [FC \rightarrow ACT]^r \rightarrow FC$$
+</p>

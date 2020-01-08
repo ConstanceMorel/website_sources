@@ -1,0 +1,159 @@
+<h1>Apprentissage</h1>
+
+<p>Le but de l'<b>apprentissage</b> est de trouver la valeur des <b>poids</b> \(w_{i,j}^l\) et des <b>biais</b> \(b_j^l\) qui résolvent le problème sur la base de données d'apprentissage. Pour cela, une <b>fonction d'erreur</b> est définie. Elle permet d'estimer à quel point le réseau actuel (avec ses poids et ses biais) résout bien le problème sur la base d'apprentissage. La fonction d'erreur la plus utilisée est <b>l'erreur quadratique moyenne</b> (Mean Square Error MSE) : \(\frac{1}{m} \sum_ {i,j} (NN(x_i)_j - y_{i,j})^2 \) avec  \(NN(x_i)_j\) la \(j\)-ième composante du vecteur en sortie du réseau évalué sur l'entrée \(x_i\) et \(y_{i, j}\) qui est égal à 1 si la donnée \(x_i\) appartient à la \(j\)-ième classe et 0 sinon. Le but de l'apprentissage est de trouver les poids \(w_{i,j}^l\) et les biais \(b_j^l\) tels que la fonction d'erreur soit petite. Une <b>descente de gradient</b> est généralement utilisée pour trouver un minimum local à cette fonction d'erreur.</p>
+
+<br>
+
+<h4>Notations</h4>
+
+<p>Avant de présenter l'apprentissage, nous allons introduire des notations pour permettre de définir complètement le réseau de neurones. \(x_j^l\) représente le \(j\)-ième neurone de la \(l\)-ième couche. \(w_{j, i}^l\) représente le poids à appliquer au neurone \(x_i^{l-1}\) lors de l'évaluation du neurone \(x_j^l\). \(b_j^l\) représente le poids du biais à utiliser lors de l'évaluation du neurone \(x_j^l\). Par conséquent, l'évaluation du neurone \(x_j^l\) est définie par la formule suivante 
+$$x_j^l = f(\sum_i w_{j, i}^l \cdot x_i^{l-1} + b_j^l)$$
+avec \(f\) la fonction d'activation.</p>
+
+<p>Nous noterons \(z_j^l = \sum_i w_{j, i}^l \cdot x_i^{l-1} + b_j^l\). Par conséquent, \(x_j^l = f(z_j ^l)\).</p> 
+
+<p>Nous noterons \(\delta_j^l = \frac{\partial E}{\partial z_j^l}\) avec \(E\) la fonction d'erreur utilisée.</p>
+
+<p>Nous noterons \(L\) la dernière couche du réseau (dans le dessin ci-dessous \(L=3\)).</p>
+
+<div class="text-center">
+<img src="../../img/cnn/cnn_notations.png" class="img-fluid" alt="cnn_notations">
+</div>
+
+<br>
+
+<h4>Descente de gradients</h4>
+
+<p>La <b>descente de gradient</b> permet de trouver efficacement un <b>minimum</b> local d'une fonction à plusieurs variables. Supposons que notre fonction représente la surface d'une chaine de montagnes. Le principe consiste à partir d'un point aléatoire sur cette chaine de montagnes. A chaque étape, il faut analyser la pente tout autour de soi et descendre d'un pas dans la direction de la pente la plus importante. Lorsque nous ne pouvons plus descendre, nous avons atteint un minimum local de la fonction.</p>
+
+<p>Mathématiquement, nous notons f(x, y) la fonction représentant la surface de notre chaine de montagnes. Trouver la direction de la pente la plus importante correspond à calculer les dérivées partielles \(\frac{\partial f}{\partial x}\) et \(\frac{\partial f}{\partial y}\). C'est le <b>gradient</b> de notre fonction \(\nabla f = (\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y})\). Si nous sommes en position \(x_0, y_0\), la nouvelle position après avoir descendu d'un pas dans la direction de la pente la plus élevée est \((x_0,y_0) - \alpha \nabla f(x_0,y_0)\) avec \(\alpha\) la longueur du pas appelé <b>learning rate</b>.</p>
+
+<p>Le learning rate utilisé pendant la descente de gradient n'est pas forcément constant. Il est conseillé d'en choisir un qui diminue au cours des itérations afin de faire des grands pas au début de la descente et des petits pas à la fin. L'<b>exponential  decay</b> est couramment utilisé : \(\alpha = \alpha _0 \cdot e^{-kt}\) où \(t\) est le nombre d'itérations, \(\alpha_0\) est le learning rate initial et \(k\) un paramètre.</p>
+
+<p>La méthode de la descente de gradient est souvent utilisée lors des apprentissages. Le principe est de créer une fonction d'erreur qui permet d'évaluer les performances de notre algorithme d'apprentissage. Puis d'effectuer une descente de gradient sur cette fonction d'erreur afin de trouver les paramètres de la fonction qui minimisent l'erreur.</p>
+
+<br>
+
+<h4>Feedforward/Backpropagation</h4>
+
+<p>L'apprentissage d'un réseau de neurones s'effectue en deux étapes. Durant le <b>forward step</b>, on calcule \(NN(x_i)\) la sortie du réseau pour chaque donnée \(x_i\) de la base d'apprentissage. Durant le <b>backward step</b>, on effectue une descente de gradient sur la fonction d'erreur afin d'améliorer les poids du réseau. Les nouveaux poids du réseau sont alors \(W \leftarrow W - \alpha \nabla E(W)\) avec \(E(W) = \frac{1}{m} \sum _{i,j} (NN(x_i)_j - y_{i,j})^2\). Le calcul de \(\nabla E(W)\) est assez simple grâce à la <b>règle de la chaine</b> : \(\frac{dz}{dx} = \frac{dz}{dy}\frac{dy}{dx}\). On répète plusieurs fois ces deux étapes jusqu'à la convergence.</p>
+
+<p>Plus précisément, nous avons besoin de connaitre la dérivée de la fonction d'activation. Par exemple, si nous utilisons la fonction d'activation sigmoid \(\sigma(x) = \frac{1}{1 + e^{-x}}\) alors la dérivée de la fonction d'activation est
+$$\begin{align}
+\sigma'(x) &= \frac{e^{-x}}{(1 + e^{-x})^2} \tag*{car \( \left(\frac{1}{g}\right)' = \frac{-g'}{g^2}\)}\\
+&= \frac{1}{1 + e^{-x}} \frac{e^{-x}}{1 + e^{-x}} \\
+&= \sigma(x) \left(\frac{1 + e^{-x}}{1 + e^{-x}} - \frac{1}{1 + e^{-x}}\right) \\
+&= \sigma(x) ( 1 - \sigma(x))
+\end{align}$$
+</p>
+
+<p>Nous allons montrer comment calculer l'ensemble des éléments du gradient \(\frac{\partial E}{\partial w_{j, i}^l}\) et \(\frac{\partial E}{\partial b_j^l}\). Nous commençons par montrer comment calculer l'ensemble des \(\delta_j^l\) en démontrant les deux formules suivantes</p>
+
+<div class="alert alert-secondary">
+$$\begin{cases}
+\delta_j^L = \frac{\partial E}{\partial x_j^L} \sigma'(z_j^L)\\
+\delta_j^l = \sum_i w_{i,j}^{l+1} \delta_i^{l+1}\sigma'(z_j^l)
+\end{cases}$$
+</div>
+
+
+<p>Pour la première formule</p>
+
+$$\begin{align}
+\delta_j^L &= \frac{\partial E}{\partial z_j^L} \\
+&=\sum_i \frac{\partial E}{\partial x_i^L} \frac{\partial x_i^L}{\partial z_j^L} \tag*{(règle de la chaine)} \\
+&= \frac{\partial E}{\partial x_j^L} \frac{\partial x_j^L}{\partial z_j^L} \tag*{(car \(\forall i \neq j, \frac{\partial x_i^L}{\partial z_j^L}=0\))}\\
+&= \frac{\partial E}{\partial x_j^L} \sigma'(z_j^L) \tag*{(car \(x_j^L = \sigma(z_j^L)\))}
+\end{align}$$
+
+<p>Pour démontrer la deuxième formule, nous allons tout d'abord exprimer \(z_j^{l+1}\) en fonction des \(z_i^l\).</p>
+
+$$\begin{align}
+z_j^{l+1} &= \sum_i w_{j, i}^{l+1} x_i^l + b_j^{l+1} \\
+&= \sum_i w_{j, i}^{l+1}\sigma(z_i^l) + b_j^{l+1}
+\end{align}$$
+
+<p>Par conséquent, \(\frac{\partial z_j^{l+1}}{\partial z_i^l} = w_{j, i}^{l+1} \sigma'(z_i^l)\). Nous pouvons maintenant démontrer la deuxième formule.</p>
+
+$$\begin{align}
+\delta_j^l &= \frac{\partial E}{\partial z_j^l} \\
+&= \sum_i \frac{\partial E}{\partial z_i^{l+1}} \frac{\partial z_i^{l+1}}{\partial z_j^{l}} \tag*{(règle de la chaine)} \\
+&= \sum_i \frac{\partial z_i^{l+1}}{\partial z_j^{l}} \delta_i^{l+1} \\
+&= \sum_i w_{i, j}^{l+1} \sigma'(z_j^l) \delta_i^{l+1}
+\end{align}$$
+
+<p>Nous allons maintenant exprimer \(\frac{\partial E}{\partial w_{j, i}^l}\) et \(\frac{\partial E}{\partial b_j^l}\) en fonction de \(\delta_j^l\) et \(x_i^{l-1}\).</p>
+
+$$\begin{align}
+\frac{\partial E}{\partial w_{j, i}^l} &= \sum_k \frac{\partial E}{\partial z_k^l} \frac{\partial z_k^l}{\partial w_{j, i}^l} \tag*{(règle de la chaine)} \\
+&= \sum_k \delta_k^l \frac{\partial z_k^l}{\partial w_{j, i}^l} \\
+&= \delta_j^l \frac{\partial z_j^l}{\partial w_{j, i}^l} \tag*{(car \(\forall k \neq j, \frac{\partial z_k^l}{\partial w_{j, i}^l}=0\))}\\
+&= \delta_j^l x_i^{l-1}
+\end{align}$$
+
+<p>et</p>
+
+$$\begin{align}
+\frac{\partial E}{\partial b_j^l} &= \sum_k \frac{\partial E}{\partial z_k^l} \frac{\partial z_k^l}{\partial b_j^l} \tag*{(règle de la chaine)} \\
+&= \sum_k \delta_k^l \frac{\partial z_k^l}{\partial b_j^l} \\
+&= \delta_j^l \frac{\partial z_j^l}{\partial b_j^l} \tag*{(car \(\forall k \neq j, \frac{\partial z_k^l}{\partial b_j^l}=0\))}\\
+&= \delta_j^l \tag*{(car \(\frac{\partial z_j^l}{\partial b_j^l}=1\))}
+\end{align}$$
+
+<p>Avec les quatre formules démontrées ci-dessous,</p>
+
+<div class="alert alert-secondary">
+$$\begin{cases}
+\delta_j^L = \frac{\partial E}{\partial x_j^L} \sigma'(z_j^L)\\
+\delta_j^l = \sum_i w_{i,j}^{l+1} \delta_i^{l+1}\sigma'(z_j^l)\\
+\frac{\partial E}{\partial w_{j, i}^l} = \delta_j^l x_i^{l-1} \\
+\frac{\partial E}{\partial b_j^l} = \delta_j^l
+\end{cases}$$
+</div>
+
+<p>l'ensemble des éléments de la descente de gradient peuvent facilement être évalués.</p>
+
+
+<p>Il peut être utile d'utiliser une courbe représentant l'erreur en fonction du nombre d'itérations afin de décider quand arrêter l'apprentissage. Quand l'erreur sur la courbe commence à stagner, nous sommes au début de la zone de surapprentissage.</p>
+
+<p>Il existe différentes variantes du <b>forward step</b> en fonction des données que nous utilisons pour l'effectuer :
+<ul>
+	<li><b>Batch algorithm</b> : mise à jour des poids après avoir évalué l'erreur sur toutes les entrées</li>
+	<li><b>Sequential algorithm</b> : mise à jour des poids après avoir évalué l'erreur sur une seule entrée</li>
+	<li><b>Minibatch</b> : partitionner la base d'apprentissage en partitions appelées batchs et effectuer la descente de gradient batch par batch (un <b>epoch</b> est une itération sur la base d'apprentissage toute entière)</li>
+	<li><b>Stochastic Gradient Descent  SGD</b> : similaire à sequential algorithm mais en prenant une entrée aléatoire à chaque itération</li>
+</ul>
+</p>
+
+<br>
+
+<h4>Méthodes de régularisation</h4>
+
+<p>Les <b>méthodes de régularisation</b> ont pour but de limiter le surapprentissage qui est dû à un apprentissage trop fin sur la base de données d'apprentissage. Le but des méthodes de régularisation est donc d'améliorer les performances de généralisation du réseau appris. Les trois méthodes de régularisation les plus utilisées sont le dropout, la régularisation L1 et L2 et l'ajout de données artificielles à la base d'apprentissage.</p>
+
+<br>
+
+<p><u>Dropout</u></p>
+
+<p>Le <b>dropout</b> a été introduit dans l'article <cite>[HSKSS12]</cite>. Il consiste à désactiver certains neurones pendant la phase d'apprentissage. Avant chaque phase de feedforward/backpropagation, certains neurones tirés aléatoirement sont supprimés du réseau. Puis les phases de feedforward et backpropagation sont effectuées sur le nouveau réseau afin de mettre à jour les poids et les biais des neurones restants. Puis pour le batch suivant, un nouvel ensemble aléatoire de neurones est choisi afin de créer un nouveau réseau sur lequel effectué une nouvelle étape de l'apprentissage.</p>
+
+<p>Cette méthode permet de limiter la <b>coadaptation entre les neurones</b> car un neurone ne peut plus compter sur la présence d'un autre neurone car l'autre neurone ne sera pas présent lors de toutes les étapes d'apprentissage. Cela permet d'apprendre des caractéristiques plus robustes. Nous pouvons voir le dropout comme un apprentissage sur des réseaux légèrement différents suivis d'une moyenne des résultats d'apprentissage sur l'ensemble des réseaux. Cela permet donc de mieux généraliser l'apprentissage et donc de limiter le surapprentissage.</p>
+
+<p><u>Régularisation L1 et L2</u></p>
+
+<p>Le but de la <b>régularisation L1 et L2</b> est de limiter la taille des poids appris. Pour cela, il ajoute à la fonction d'erreur une valeur proportionnelle à la somme des poids (pour la régularisation L1) et au carré des poids (pour la régularisation L2). Cette valeur d'erreur peut être multipliée par un coefficient qui permettra de pénaliser plus ou moins les poids forts. Si nous avons \(n\) poids dans notre réseau, alors la nouvelle fonction d'erreur est \(E = E_0 + \frac{\lambda}{n} \sum_i |w_i|\) pour une régularisation L1 et \(E = E_0 + \frac{\lambda}{n} \sum_i w_i^2\) pour une régularisation L2 avec \(E_0\) l'ancienne fonction d'erreur. Le coefficient \(\lambda\) permet de pénaliser plus ou moins les poids forts.</p>
+
+<p>Avec la régularisation, l'apprentissage va favoriser des poids petits. Les grands poids vont être uniquement autorisés s'ils permettent d'améliorer significativement la partie gauche de la fonction d'erreur. C'est donc un compromis entre trouver des petits poids et minimiser la fonction d'erreur. Si \(\lambda\) est petit, on donne plus d'importance à l'ancienne fonction d'erreur lors de la descente de gradient. Si \(\lambda\) est grand, on donne plus d'importance aux petits poids lors de la descente de gradient.</p>
+
+<p>La régularisation de réseau élastique (elastic net regulation) est une régularisation qui combine la régularisation L1 et la régularisation L2.</p>
+
+
+<p><u>Ajout de données artificielles</u></p>
+
+<p>L'<b>ajout de données artificielles</b> est souvent utile pour limiter le surapprentissage. En effet, nous savons que plus la base de données d'apprentissage est grande et variée, moins il y a de risque de surapprentissage. Malheureusement, il est souvent difficile d'augmenter considérablement la taille de la base de données d'apprentissage. Une technique souvent utilisée consiste à ajouter des données artificielles à la base de données d'apprentissage. Ces données artificielles sont construites à partir de données réelles. Par exemple, sur une base d'images, nous pouvons appliquer quelques petites rotations aux images afin de créer de nouvelles images artificielles. Cela permet d'apprendre sur une base de données plus grande et d'améliorer les performances du réseau appris. Il existe de nombreuses autres méthodes qui permettent de créer des nouvelles images artificielles à partir de la base de données d'apprentissage.</p>
+
+<br>
+
+<h3>Références</h3>
+
+<p>[HSKSS12] G. Hinton, N. Srivastava, A. Krizhevsky, I. Sutskever, and R. Salakhutdinov. Improving neural networks by preventing co-adaptation of feature detectors. arXiv:1207.0580, 2012</p>
