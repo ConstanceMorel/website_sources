@@ -8,24 +8,24 @@
     <meta name="author" content="Nicolas Béguier">
     <meta name="keywords" content="beguier cyber security blog">
     <meta property="og:title" content="Nicolas Béguier website" />
-    <meta property="og:image" content="https://beguier.eu/nicolas/images/background_security_thumb.png" />
+    <meta property="og:image" content="https://beguier.eu/nicolas/images/background_security_thumb.webp" />
     <meta property="og:description" content="Nicolas Beguier website, providing articles about security." />
     <meta property="og:url" content="https://beguier.eu/nicolas/" />
     <meta property="og:type" content="article" />
     <title>Nicolas Béguier</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
     <!-- Auto redirect to HTTPs-->
-    <script src="../js/redirect.js" type="text/javascript"></script>
+    <script src="../js/redirect.js" type="text/javascript" async></script>
     <link href="../css/pub/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pub/swiper.min.css" rel="stylesheet">
-    <link href="../css/pub/ionicons.css" rel="stylesheet">
+    <link href="../css/pub/ionicons.css" rel="stylesheet" async>
     <link href="../css/nicolas-main.min.css" rel="stylesheet">
     <link rel="icon" href="../favicon.png">
 </head>
 
 <body>
     <div class="slider-main h-700x h-sm-auto pos-relative pt-95 pb-25">
-        <div class="img-bg bg-1 bg-layer-4"></div>
+        <div class="img-bg bg-layer-4" id="lazyload-background"></div>
         <div class="container-fluid h-100 mt-xs-50">
             <div class="row h-100">
                 <div class="col-md-1"></div>
@@ -49,7 +49,7 @@
                                 <div class="swiper-container oflow-visible" data-slide-effect="slide" data-autoheight="false" data-swiper-speed="500" data-swiper-margin="25" data-swiper-slides-per-view="2" data-swiper-breakpoints="true" data-scrollbar="true" data-swiper-loop="true" data-swpr-responsive="[1, 2, 1, 2]">
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
-                                            <div class="bg-white"> <img src="images/logo_security_postit.png" alt="">
+                                            <div class="bg-white"> <img src="images/logo_security_postit.webp" alt="">
                                                 <div class="plr-25 ptb-15">
                                                     <h5 class="color-ash mobile-remove"><b>Security Post-it #1</b></h5>
                                                     <h4 class="mtb-10 mobile-resize"><a href="./articles/a1f951ed127f9232f101c4e81e0e01a463d86f26.html" onclick="window.open(this.href); return false;"><b>SHA-1 is broken, not HMAC</b></a></h4>
@@ -60,7 +60,7 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <div class="bg-white"> <img src="images/logo_ssh.png" alt="">
+                                            <div class="bg-white"> <img src="images/logo_ssh.webp" alt="">
                                                 <div class="plr-25 ptb-15">
                                                     <h5 class="color-ash mobile-remove"><b>SECURITY</b></h5>
                                                     <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/a-real-world-comparison-of-the-ssh-key-algorithms-b26b0b31bfd9" onclick="window.open(this.href); return false;"><b>Comparison of the SSH Key Algorithms</b></a></h4>
@@ -71,7 +71,7 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <div class="bg-white"> <img src="images/logo_varnish.png" alt="">
+                                            <div class="bg-white"> <img src="images/logo_varnish.webp" alt="">
                                                 <div class="plr-25 ptb-15">
                                                     <h5 class="color-ash mobile-remove"><b>INFRASTRUCTURE</b></h5>
                                                     <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/3-tips-to-boost-the-performance-of-your-varnish-cache-3f4ce44be3c1" onclick="window.open(this.href); return false;"><b>Boost the Performance of your Varnish Cache</b></a></h4>
@@ -82,7 +82,7 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <div class="bg-white"> <img src="images/logo_instacart.png" alt="">
+                                            <div class="bg-white"> <img src="images/logo_instacart.webp" alt="">
                                                 <div class="plr-25 ptb-15">
                                                     <h5 class="color-ash mobile-remove"><b>MACHINE LEARNING</b></h5>
                                                     <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/machine-learning-2d4150bfd690" onclick="window.open(this.href); return false;"><b>Instacart Market Basket Analysis</b></a></h4>
@@ -93,7 +93,7 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <div class="bg-white"> <img src="images/logo_nginx.png" alt="">
+                                            <div class="bg-white"> <img src="images/logo_nginx.webp" alt="">
                                                 <div class="plr-25 ptb-15">
                                                     <h5 class="color-ash mobile-remove"><b>INFRASTRUCTURE</b></h5>
                                                     <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/nginx-security-configuration-tips-557c35e0d75b" onclick="window.open(this.href); return false;"><b>Nginx : Security configuration tips</b></a></h4>
@@ -104,7 +104,7 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <div class="bg-white"> <img src="images/logo_apache.png" alt="">
+                                            <div class="bg-white"> <img src="images/logo_apache.webp" alt="">
                                                 <div class="plr-25 ptb-15">
                                                     <h5 class="color-ash mobile-remove"><b>INFRASTRUCTURE</b></h5>
                                                     <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/apache-security-configuration-tips-e78b59c805c8" onclick="window.open(this.href); return false;"><b>Apache : Security configuration tips</b></a></h4>
@@ -115,7 +115,7 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <div class="bg-white"> <img src="images/logo_axa.png" alt="">
+                                            <div class="bg-white"> <img src="images/logo_axa.webp" alt="">
                                                 <div class="plr-25 ptb-15">
                                                     <h5 class="color-ash mobile-remove"><b>MACHINE LEARNING</b></h5>
                                                     <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/machine-learning-reconnaissance-de-type-de-conduite-21821f4027db" onclick="window.open(this.href); return false;"><b>Reconnaissance de type de conduite</b></a></h4>
@@ -126,7 +126,7 @@
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <div class="bg-white"> <img src="images/logo_postfix.png" alt="">
+                                            <div class="bg-white"> <img src="images/logo_postfix.webp" alt="">
                                                 <div class="plr-25 ptb-15">
                                                     <h5 class="color-ash mobile-remove"><b>SECURITY</b></h5>
                                                     <h4 class="mtb-10 mobile-resize"><a href="https://medium.com/@nbeguier/tentative-dexploit-postfix-22a68c4c0a3c" onclick="window.open(this.href); return false;"><b>Tentative d’exploit Postfix</b></a></h4>
@@ -153,7 +153,7 @@
                     <div class="card h-100">
                         <div class="dplay-tbl">
                             <div class="dplay-tbl-cell">
-                                <li><img src="images/me.jpeg" class="img-fluid rounded-circle mx-w-30percent"></li>
+                                <li><img src="images/me.webp" class="img-fluid rounded-circle mx-w-30percent"></li>
                                 <p class="color-ash mt-10"> Nicolas Béguier
                                     <br>Copyright &copy;
                                     <script type="b50e0a44ef3a98492cc39897-text/javascript">
@@ -184,8 +184,8 @@
     <script src="../js/pub/jquery-3.4.1.min.js" type="b50e0a44ef3a98492cc39897-text/javascript"></script>
     <script src="../js/pub/bootstrap.min.js" type="b50e0a44ef3a98492cc39897-text/javascript"></script>
     <script src="../js/pub/swiper.min.js" type="b50e0a44ef3a98492cc39897-text/javascript"></script>
-    <script src="../js/rocket-loader.min.js" data-cf-settings="b50e0a44ef3a98492cc39897-|49" defer=""></script>
     <script src="../js/nicolas-main.min.js" type="b50e0a44ef3a98492cc39897-text/javascript"></script>
+    <script src="../js/rocket-loader.min.js" data-cf-settings="b50e0a44ef3a98492cc39897-|49" defer=""></script>
 </body>
 
 </html>
