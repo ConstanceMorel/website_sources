@@ -116,6 +116,8 @@ alors l'image avec padding correspond à la matrice
 
 <p>En plus des <b>couches de convolution</b> et des <b>couches de pooling</b>, un réseau de neurones convolutifs contient aussi des <b>couches d'activation</b> et des <b>couches complètement connectées</b>. Les <b>couches d'activation</b> permettent d'ajouter de la non linéarité au réseau. Les <b>couches complètement connectées</b> sont utilisées à la fin du réseau afin de transformer une couche à 3 dimensions \(m \times n \times p\) en une couche à une dimension \(q \times 1 \times 1\).</p>
 
-<p>Si nous notons \(CONV\) une couche de convolution, \(POOL\) une couche pooling, \(ACT\) une couche d'activation et \(FC\) une couche complètement connectée, alors l'architecture d'un réseau de neurones convolutifs a généralement la forme suivante
+<p>Si nous notons \(CONV\) une couche de convolution, \(POOL\) une couche pooling, \(ACT\) une couche d'activation et \(FC\) une couche complètement connectée, alors l'architecture d'un réseau de neurones convolutifs a généralement la forme suivante</p>
+
+<div class="alert alert-secondary" style="background-color: #7385d56b;">
 $$[[CONV \rightarrow ACT]^p \rightarrow POOL]^q \rightarrow [FC \rightarrow ACT]^r \rightarrow FC$$
-</p>
+</div>
