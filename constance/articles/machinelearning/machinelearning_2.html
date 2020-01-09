@@ -6,7 +6,7 @@
 <p>En dimension 2, la régression linéaire est bien connue. Nous avons une base de données contenant des couples de réels \((x,y)\) et nous voulons trouver la droite définie par \(f(x) = ax + b\) tel que pour tout \(x\) dans la base de données, \(f(x)\) et \(y\) soient proches. Si nous prenons la fonction suivante pour estimer l'erreur \(E = \sum_{(x,y)} (y - f(x))^2\) alors le but de l'apprentissage est de trouver \(a\) et \(b\) tels que l'erreur soit minimale sur notre base de données.</p>
 
 <div class="text-center">
-<img src="../../img/machinelearning/regression_lineaire.jpg" class="img-fluid" alt="regression_lineaire">
+<img src="../../img/machinelearning/regression_lineaire.webp" class="img-fluid" alt="regression_lineaire">
 </div>
 
 <p>Nous pouvons exprimer ce problème de manière vectorielle. Pour cela, nous ajoutons une coordonnée égale à 1 à chaque entrée \(x\). Cela nous donne le vecteur \(x' = (1, x)^T\). Le but de l'apprentissage est de trouver \(W \in \mathbb{R}^2\) tel que l'erreur \(E = \sum_{(x',y)} (y - f(x'))^2\) est minimale avec \(f(x') = W^T x'\).</p>

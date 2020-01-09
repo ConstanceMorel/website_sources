@@ -11,7 +11,7 @@ $$z = \begin{cases} 1 \text{ si } x_1=y_1 \text{ et } x_0=y_0 \\ 0 \text{ sinon}
 </p>
 
 <div class="text-center">
-<img src="../../img/smc/circuit_gmw.png" class="img-fluid" alt="circuit">
+<img src="../../img/smc/circuit_gmw.webp" class="img-fluid" alt="circuit">
 </div>
 
 <p>Le protocole GMW est basé sur le partage aléatoire de secret (share). Lors du partage aléatoire d'un bit \(u \in\{0, 1\}\), la partie 1 détient le bit \(u^0 \in \{0, 1\}\) et la partie 2 détient le bit \(u^1 \in \{0, 1\}\) tel que \(u = u^0 \oplus u^1\). A partir uniquement de \(u^0\), la partie 1 n'a aucune information sur la valeur de \(u\), ni sur le partage détenu de l'autre partie \(u^1\). Symétriquement, à partir uniquement de \(u^1\), la partie 2 n'a aucune information sur la valeur de \(u\), ni sur le partage détenu par l'autre partie \(u^0\).</p>
@@ -74,7 +74,7 @@ $$w^1 = ((u^0 \oplus u^1) \land (v^0 \oplus v^1)) \oplus w^0$$
 <p>Enfin les deux parties font un OT 1 parmi 4 afin que la partie 2 obtienne la valeur de \(w^1\). Lors de cet OT, la partie 1 joue le rôle de l'envoyeur avec comme entrée \((0, 1, 0, 0)\) et la partie 2 joue le rôle du receveur avec pour entrée le nombre représenté par \(u^1v^1\). A la fin de l'exécution de cet OT, la partie 2 recevra \(w^1\) tel que \(w^0 \oplus w^1 = w\).</p>
 
 <div class="text-center">
-<img src="../../img/smc/gmw_xor.png" class="img-fluid" alt="gmw_xor">
+<img src="../../img/smc/gmw_xor.webp" class="img-fluid" alt="gmw_xor">
 </div>
 
 <p><u>Evaluation d'une porte XOR</u></p>
@@ -91,7 +91,7 @@ w^0 \oplus w^1 &= (u^0 \oplus v^0) \oplus (u^1 \oplus v^1) \\
 \end{align}$$
 
 <div class="text-center">
-<img src="../../img/smc/gmw_and.png" class="img-fluid" alt="gmw_and">
+<img src="../../img/smc/gmw_and.webp" class="img-fluid" alt="gmw_and">
 </div>
 
 <p><u>Le protocole GMW est sécurisé contre les adversaires semi-honnêtes</u></p>
@@ -111,7 +111,7 @@ w^0 \oplus w^1 &= (u^0 \oplus v^0) \oplus (u^1 \oplus v^1) \\
 <p>Les <b>triples multiplicatifs</b> (multiple triples) sont des partages aléatoires \(((a^0, b^0, c^0),(a^1, b^1, c^1))\) tel que \((c^0 \oplus c^1) = (a^0 \oplus a^1) \land (b^0 \oplus b^1)\) avec \((a^0, b^0, c^0)\) détenus par la partie 1 et \((a^1, b^1, c^1)\) détenus par la partie 2. Ils sont obtenus à l'aide d'un OT 1 parmi 4. La partie 1 choisit aléatoirement les bits \((a^0, b^0, v^0) \in_R (\{0, 1\})^3\) et la partie 2 choisit aléatoirement les bits \((a^1, b^1) \in_R (\{0, 1\})^2\). La partie 1 calcule pour chaque couple \((a^1, b^1)\), la valeur de \(c^1\). Enfin les deux parties effectuent un OT 1 parmi 4 afin que la partie 2 obtienne la valeur de \(c^1\) correspondant au couple \((a^1, b^1)\).</p>
 
 <div class="text-center">
-<img src="../../img/smc/gmw_triple_multiplicatif.png" class="img-fluid" alt="gmw_triple_multiplicatif">
+<img src="../../img/smc/gmw_triple_multiplicatif.webp" class="img-fluid" alt="gmw_triple_multiplicatif">
 </div>
 
 <br>
@@ -130,7 +130,7 @@ w^0 \oplus w^1 &= (d \land e) \oplus (b^0 \land d) \oplus (a^0 \land e) \oplus c
 
 
 <div class="text-center">
-<img src="../../img/smc/gmw_eval_and.png" class="img-fluid" alt="gmw_eval_and">
+<img src="../../img/smc/gmw_eval_and.webp" class="img-fluid" alt="gmw_eval_and">
 </div>
 
 <br>
@@ -138,7 +138,7 @@ w^0 \oplus w^1 &= (d \land e) \oplus (b^0 \land d) \oplus (a^0 \land e) \oplus c
 <p>Dans l'article <cite>[ALSZ13]</cite>, une <b>optimisation pour la création des triples multiplicatifs</b> est proposée. Cette optimisation est basée sur un protocole permettant à partir d'un OT aléatoire 1 parmi 2 (noté R-OT) qu'une partie obtienne les bits \(a, u\) et que l'autre partie obtienne \(b, v\) tel que \(a \land b = u \oplus v\).</p>
 
 <div class="text-center">
-<img src="../../img/smc/gmw_alea.png" class="img-fluid" alt="gmw_alea">
+<img src="../../img/smc/gmw_alea.webp" class="img-fluid" alt="gmw_alea">
 </div>
 
 <br>
@@ -146,7 +146,7 @@ w^0 \oplus w^1 &= (d \land e) \oplus (b^0 \land d) \oplus (a^0 \land e) \oplus c
 <p>Ce protocole est effectué deux fois en inversant le rôle des deux parties entre chaque exécution. Lors de la première exécution, la partie 1 obtient les bits \((a^0, u^0)\) et la partie 2 obtient les bits \((b^1, v^1)\) tel que \(a^0 \land b^1 = u^0 \oplus v^1\). Lors de la deuxième exécution, la partie 1 obtient les bits \((b^0, v^0)\) et la partie 2 obtient les bits \((a^1, u^1)\) tel que \(a^1 \land b^0 = u^1 \oplus v^0\). Enfin la partie 1 calcule \(c^0 = (a^0 \land b^0) \oplus u^0 \oplus v^0\) et la partie 2 calcule \(c^1 = (a^1 \land b^1) \oplus u^1 \oplus v^1\). On peut facilement vérifier que \(((a^0, b^0, c^0), (a^1, b^1, c^1))\) forme un triple multiplicatif. Ce protocole de création d'un triple multiplicatif à partir de deux exécutions du protocole précédent est présenté dans la figure suivante.</p>
 
 <div class="text-center">
-<img src="../../img/smc/gmw_optim_triple_multiplicatif.png" class="img-fluid" alt="gmw_optim_triple_multiplicatif">
+<img src="../../img/smc/gmw_optim_triple_multiplicatif.webp" class="img-fluid" alt="gmw_optim_triple_multiplicatif">
 </div>
 
 <br>

@@ -24,7 +24,7 @@ $$z = \begin{cases} 1 \text{ si } x_1=y_1 \text{ et } x_0=y_0 \\ 0 \text{ sinon}
 <p>Puis, il construit pour chaque porte du circuit une table confuse (garbled tables) qui permettra à l'évaluateur d'évaluer la porte dans le domaine chiffré. Pour cela, il part de la table de vérité de la porte, il remplace les valeurs par les clés correspondantes, il chiffre les clés de sorties à l'aide des clés d'entrée correspondantes et enfin il permute les lignes de la table obtenues. Par la suite, nous noterons \(E_{k_1, k_2}(k_3)\) le chiffrement de \(k_3\) avec le couple de clés \((k_1, k_2)\). Ci-dessous, nous présentons la création d'une table confuse pour une porte NOR dont les fils en entrée sont \(u\) et \(v\) et le fil de sortie est \(w\).</p>
 
 <div class="text-center">
-<img src="../../img/smc/garbled_table.png" class="img-fluid" alt="garbled_table">
+<img src="../../img/smc/garbled_table.webp" class="img-fluid" alt="garbled_table">
 </div>
 
 <br>
@@ -52,7 +52,7 @@ $$z = \begin{cases} 1 \text{ si } x_1=y_1 \text{ et } x_0=y_0 \\ 0 \text{ sinon}
 <p>Plus précisément, pour chaque fil \(u\) une permutation \(\pi_u\) de l'ensemble \(\{0,1\}\) dans l'ensemble \(\{0,1\}\) est créée. Cette permutation est soit égale à l'identité \(\pi_u(b) = b\) soit égale à la porte NOT \(\pi_u(b) = 1-b\). Chaque clé est la concaténation de la clé précédente avec la sortie de la permutation \(k_u^0 = k_u^0 (old) || \pi_u(0)\) et \(k_u^1 = k_u^1 (old) || \pi_u(1)\). Les valeurs des bits de permutations sont conservées dans les tables confuses. Ces nouveaux bits ne font fuir aucune information car les permutations \(\pi_u\) sont aléatoires et uniquement le constructeur les connait.</p>
 
 <div class="text-center">
-<img src="../../img/smc/point_and_permute.png" class="img-fluid" alt="point_and_permute">
+<img src="../../img/smc/point_and_permute.webp" class="img-fluid" alt="point_and_permute">
 </div>
 
 <br>
