@@ -12,13 +12,18 @@
 </url>
 <url>
   <loc>https://beguier.eu/constance/</loc>
-  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <lastmod>2020-01-08T14:39:44+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://beguier.eu/nicolas/</loc>
   <lastmod>2020-01-05T14:39:44+00:00</lastmod>
   <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/constance/articles/cnn/cnn.html</loc>
+  <lastmod>2020-01-08T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://beguier.eu/constance/articles/smc/smc.html</loc>
@@ -49,10 +54,5 @@
   <loc>https://beguier.eu/nicolas/articles/a1f951ed127f9232f101c4e81e0e01a463d86f26.html</loc>
   <lastmod>2020-01-05T14:39:44+00:00</lastmod>
   <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://beguier.eu/constance/index.html</loc>
-  <lastmod>2020-01-05T14:39:44+00:00</lastmod>
-  <priority>0.51</priority>
 </url>
 </urlset>
