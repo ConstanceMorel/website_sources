@@ -1,0 +1,260 @@
+<h1>Les mathématiques pour faciliter la composition</h1>
+
+<br>
+
+<h4>Modes à transposition limitée de Messiaen</h4>
+
+<p>Un mode à transposition limitée est un mode dont la transposition d'un demi-ton peut se faire un nombre limité de fois avant de retomber sur la même gamme. Par exemple, le premier mode en do correspond aux notes do, ré, mi, fa#, sol#, la#, do. Si on le transpose deux fois d'un demi-ton (ce qui revient à le transposer d'un ton), on obtient ré, mi, fa#, sol#, la#, do, ré. On constate que l'on a les mêmes notes mais que la note principale est différente. C'est donc un mode à transposition limitée. Olivier Messiaen est le premier à avoir étudié complètement les modes à transposition limitée contenant au moins six notes et il les a codifiés. L'intérêt musical de ces modes est que l'on perd la notion de tonalité à cause du nombre limité de transpositions (on ne sait plus qu'elle est la note principale).</p>
+
+<p>Le premier mode correspond à une succession de tons. Il a deux transpositions possibles.</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/messiaen_mode1.webp" class="img-fluid" alt="messiaen_mode1">
+</div>
+
+<p>Le deuxième mode a trois transpositions possibles.</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/messiaen_mode2.webp" class="img-fluid" alt="messiaen_mode2">
+</div>
+
+<p>Le troisième mode a quatre transpositions possibles.</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/messiaen_mode3.webp" class="img-fluid" alt="messiaen_mode3">
+</div>
+
+<p>Les modes quatre à sept ont six transpositions possibles.</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/messiaen_mode4-7.webp" class="img-fluid" alt="messiaen_mode4-7">
+</div>
+
+<br>
+
+<p><u>Biographie d'Olivier Messiaen</u></p>
+
+<p>Olivier Messiaen est un compositeur organiste et pédagogue français du XXième siècle. Il commence à apprendre le piano tout seul puis il prend des cours et rentre à onze ans au conservatoire de Paris. Au début de la Seconde Guerre mondiale, il est mobilisé. En 1940, il est prisonnier au Stalag. Dans ce camp, il compose une de ses plus belles oeuvres : Quatuor pour la fin du Temps. En 1941, il retourne enseigner au Conservatoire de Paris. Plusieurs de ses élèves sont connus comme Iannis Xénakis, Pierre Boulez, Antoine Duhamel ...</p>
+
+<br>
+
+<h4>Xenakis et la théorie des cribles</h4>
+
+<blockquote class="blockquote">
+  <p>La musique peut [...] être définie comme une organisation d'opérations et de relations élémentaires entre des êtres ou entre des fonctions d'êtres sonores. Nous comprenons la place de choix qui revient à la théorie des ensembles, non seulement pour la construction d'oeuvres nouvelles, mais aussi pour l'analyse et la meilleure compréhension des oeuvres du passé. Ainsi, même une construction stochastique ou une investigation de l'histoire à l'aide de la stochastique ne peuvent être exploitées sans l'aide de la reine des sciences et même des arts, dirais-je, qu'est la logique ou sa forme mathématique l'algèbre.</p>
+  <footer class="blockquote-footer">Xenakis 1961</footer>
+</blockquote>
+
+<p>Xenakis a essayé de formaliser mathématiquement la musique. Tout d'abord il a défini les axiomes d'une gamme :
+<ul>
+	<li>L'origine est une note</li>
+	<li>Le successeur d'une note est une note</li>
+	<li>Plusieurs notes ne peuvent pas avoir le même successeur</li>
+	<li> Aucune note n'admet l'origine comme successeur</li>
+	<li>Si une propriété appartient à l'origine et si lorsqu'elle appartient à une note quelconque, elle appartient aussi à son successeur, alors elle appartient à toutes les notes</li>
+</ul></p>
+
+<p>Puis il va étudier la théorie des cribles pour approfondir sa formalisation mathématique de la musique. En particulier, il va étudier grâce à la théorie des cribles les modes à transposition limitée de Messiaen. Il va prolonger la définition de mode à transposition limitée de Messiaen en prenant des modes contenant jusqu'à deux notes alors que Messiaen se limitait aux modes ayant au moins six notes. La théorie des cribles consistent à sélectionner des éléments d'un ensemble à partir des opérations ensemblistes l'union, l'intersection et le complémentaire que Xenakis appelle la conjonction, la disjonction et la négation. L'espace dans lequel Xenakis va sélectionner des éléments est l'espace des nombres entiers \(\mathbb{Z}\). Par exemple, \(1_0 = \{ ...,-2,-1,0,1,2,... \} \) est l'espace \(\mathbb{Z}\) dont l'origine est zéro et dans lequel on se déplace d'un en un. Xenakis a associé à zéro la note Do4 et à l'unité l'intervalle d'un demi-ton. Donc la représentation musicale de \(1_0\) (la gamme par demi-ton dont l'origine est do) est</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/xenakis_1_0.webp" class="img-fluid" alt="xenakis_gamme_1_0">
+</div>
+
+<p>De même la représentation musicale de \(2_1\) (la gamme par ton dont l'origine est do#) est</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/xenakis_2_1.webp" class="img-fluid" alt="xenakis_gamme_2_1">
+</div>
+
+<p>Un mode à transposition limitée est un ensemble d'entier \(A\) tel que \(T_m(A)=A\) avec \(T_m\) la transposition de \(m\) demi-tons (avec \(m \neq 12\) car la transposition d'une octave ne change pas une gamme).</p>
+
+<p>Le seul mode à transposition limitée contenant deux notes est créé à partir de l'intervalle de quarte augmentée et est noté \(6_0\). Le seul mode à transposition limitée contenant trois notes est \(4_0\) . Il y a trois modes à transposition limitée de quatre notes : \(3_0\), \(6_0 U 6_1\) et \(6_0 U 6_2\). Messiaen avait trouvé deux modes à transposition limitée à six éléments que l'on peut noter \(2_0\) et \(6_0 U 6_1 U 6_5\). Xenakis a complété cette liste avec les modes \(4_0 U 4_1\), \(6_0 U 6_1 U 6_3\) et \(6_0 U 6_3 U 6_5\). Avec les autres modes à transposition limitée de Messiaen, on a tous les modes à transposition limitée. Tous ces modes ont une écriture symbolique à partir des opérations ensemblistes et des ensembles décrits précédemment.</p>
+
+<p>Xenakis a utilisé la théorie des cribles pour créer la gamme utilisée dans Nomos Alpha. Pour cela, il va utiliser plus particulièrement deux nombres premiers 11 et 13 comme unité intervallique. Ces deux nombres étant premiers entre eux, le crible aura donc une périodicité de \(11 \times 13=143\) unités (ce qui ne correspond pas à un multiple de douze). Ce crible est noté \(\Lambda (11,13)\) et est égal à \((A \cap B) \cup (C \cap D) \cup E\) avec
+$$\begin{cases}
+A = \overline{(13_3 \cup 13_5 \cup 13_7 \cup 13_9)} \\
+B = 11_2 \\
+C = \overline{(11_4 \cup 11_8)} \\
+D = 13_9 \\
+E = 13_0 \cup 13_1 \cup 13_6
+\end{cases}$$
+</p>
+
+<p>Voici la gamme lorsque l'on prend comme origine le do4 et comme unité le quart de ton :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/xenakis_gamme_do4.webp" class="img-fluid" alt="xenakis_gamme_do4">
+</div>
+
+<p>Voici le processus ensembliste pour former cette gamme :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/xenakis_processus_ensembliste.webp" class="img-fluid" alt="xenakis_processus_ensembliste">
+</div>
+
+<p>Après avoir construit la gamme, le compositeur a besoin de choisir la densité des notes, les rythmes et les intensités. Pour cela, Xenakis a utilisé une méthode assez compliquée basée sur les transformations dans l'espace qui laissent invariant le cube. La rotation de \(90^{\circ}\) selon une diagonale du cube est un exemple de ces transformations laissant invariant le cube.</p>
+
+<br>
+
+<p><u>Biographie de Iannis Xenakis</u></p>
+
+<p>Iannis Xenakis est un compositeur, architecte et ingénieur grec du XXième siècle. Il a suivi des études scientifiques en passant par les classes préparatoires en Grèce. Il est admis à l'école Polytechnique d'Athènes mais il ne pourra pas y rentrer à cause de la guerre qui a provoqué la fermeture de l'école. Il rentre alors dans la résistance. Suite à un obus frappant le bâtiment qu'il défendait, il est hospitalisé. En sortant de l'hôpital, il reprend ses études à l'école Polytechnique d'Athènes et y obtient son diplôme. Etant condamné à mort dans son pays, il traverse la frontière et arrive en France où il travaillera dans l'atelier Le Corbusier. A la fin de la guerre, il est admis au Conservatoire de Paris où il deviendra l'élève de Messiaen dans les cours de composition. Il composa de nombreuses oeuvres dont Nomos Alpha et Metasatsis.</p>
+
+<br>
+
+<h4>Anatol Vieru et les suites modales</h4>
+
+<p>Dans la pièce Zone d'oubli pour alto d'Anatol Vieru, le compositeur a utilisé les suites modales. Il part de la suite 1-périodique \(f\) =6 6 6 ... C'est le niveau 0. Pour construire, le niveau \(I\), il choisit le premier terme de la suite puis il applique la relation suivante : pour tout n entier naturel non nul, on a \(f_I (n) = f_0(n)+f_I(n-1)\). La suite de niveau \(I\) est donc \(f_I\) = 7 1 7 1 ... Pour la suite de niveau \(II\), il a choisi 10 comme premier terme et la suite est donc \(f_{II}\) = 10 5 6 1 2 9 10 ... Puis il continue de la même manière.</p>
+
+<p>Pour la composition de la pièce, il a besoin de connaître les hauteurs, les durées, les registres, les intensités et les modes de jeu.
+<ul>
+	<li>Le niveau \(V\) représente les notes dans le système \(\mathbb{Z}/12\mathbb{Z}\) (do=0, do=1, ré=2, ...).</li>
+	<li>Le niveau \(VIII\) représente les registres graves, médiums ou aigus avec 1, 5 ou 9 pour le grave, 0, 2 , 3 ou 4 pour le médium et 6, 7 ou 8 pour l'aigu. Ces registres nous permettent donc d'avoir un morceau sur trois octaves différentes.</li>
+	<li>Le niveau \(IV\) représente les durées avec comme durée minimale la double-croche (la noire correspond donc à 4).</li>
+	<li>Le niveau \(IX\) représente les intensités avec 0 pour mf, 3 pour mp, 6 pour pp et 9 pour p.</li>
+	<li>Le niveau \(IV\) représente aussi les 4 modes de jeu employés dans la pièce avec 0 ou 1 : vibrato, 3 ou 4 : normal, 6 ou 7 : al ponticello et 9 ou 10 : tremolo.</li>
+</ul></p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/vieru_partition.webp" class="img-fluid" alt="vieru_partition">
+</div>
+
+<br>
+
+<p><u>Biographie d'Anatol Vieru</u></p>
+
+<p>Anatol Vieru est un compositeur et pédagogue roumain du XXème siècle. Il a gagné de nombreux prix dont le prix "Georges Enesco" pour la Suite en style ancien qu'il a composé avant d'avoir vingt ans. Presque toutes ses oeuvres sont composées à partir d'un crible. Il donne même le nom de Crible d'Eratosthène à une de ses compositions. Il va aussi faire de nombreuses études théoriques sur la musique. Cela va l'amener à créer la notion de structure intervallique qui est largement utilisée dans la Set Theory. Il a écrit de nombreux livres sur la théorisation de la musique. Il raconte sa démarche de théorisation de la musique dans le livre intitulé Rétrospective sur la théorie des modes.</p>
+
+<br>
+
+<h4>Le système d'Arnold Schoenberg</h4>
+
+<p>A la fin de la période romantique (début du XXème siècle), de grands changements sont apparus dans la musique. En effet, la tonalité a commencé à disparaître à cause de trop nombreux changements de tonalité dans un même morceau et l'apparition de notes de passage (notes n'appartenant pas à la tonalité). Cela a modifié la manière d'écouter la musique car les oreilles se sont peu à peu habituées à ces dissonances. Mais Schoenberg a eu peur de voir apparaître un désordre sonore
+total. Il a donc composé des musiques atonales non pas par tâtonnements mais grâce à des processus compositionnels qu'il créa. L'ensemble de ces processus est appelé le système de Schoenberg ou composition sérielle.</p>
+
+<p>Ces processus compositionnels sont basés sur l'utilisation de séries dodécaphoniques. Une série dodécaphonique est une suite comportant les
+douze sons de l'échelle chromatique (do, do#, ré, ré#, mi, fa, fa#, sol, sol#, la, la#, si) dans un certain ordre. Par exemple, mi, fa, do, si, sol#, ré#, la, ré, sol, fa#, la#, do# est une série dodécaphonique. Pour chaque morceau, le compositeur utilise une seule série dodécaphonique qu'il choisit. Puis il utilise des processus variés pour modifier cette série. Les processus les plus courants sont
+<ul>
+	<li>le mouvement inverse qui consiste à changer les intervalles ascendants en intervalles descendants</li>
+	<li>le mouvement miroir qui consiste à lire la suite dodécaphonique de droite à gauche</li>
+	<li>la transposition</li>
+	<li>l'agrégation qui consiste à réunir plusieurs notes consécutives en accord</li>
+</ul></p>
+
+<p>Les mouvements inverses et miroirs sont détaillés dans la partie : Les mathématiques comme jeu lors de la composition (Symétrie et composition).
+La première oeuvre d'Arnold Schoenberg utilisant cette méthode est la valse de l'opus 23.</p>
+
+<br>
+
+<p><u>Biographie d'Arnold Schoenberg</u></p>
+
+<p>Arnold Schoenberg est un compositeur et peintre autrichien qui a vécu entre la fin du XIXème siècle et le début du XXème siècle. L'orthographe initiale de son nom est Schönberg mais il l'a changé en Schoenberg quand il s'est installé aux Etats-Unis. Il a créé la seconde école de Vienne avec ses élèves Anton Webern et Alban Berg. La première école viennoise ou classicisme viennois a été créée par Haydn, Mozart et Beethoven. Elle se situe entre le baroque et le romantisme et se caractérise par une extrême finesse musicale et l'apparition d'un nouvel instrument : le piano forte. La seconde école de Vienne est caractérisée par une musique plus contemporaine avec l'atonalité, le dodécaphonisme et le sérialisme (qui correspond à l'utilisation des mêmes processus que le dodécaphonisme mais sur des séries qui ne comportent pas forcément les douze notes de l'échelle chromatique). Au début du XXème siècle, les atonalistes et les anti-atonalistes s'opposent en Europe. Les anti-atonalistes demandent le renvoi de Schoenberg en tant que professeur. Durant la Seconde Guerre mondiale, Schoenberg est volontaire mais il est obligé de quitter son pays pour les Etats-Unis car il est juif. Ses oeuvres les plus connues sont Moïse et Aron, Pierrot lunaire, Nuit transfigurée, ...</p>
+
+<br>
+
+<h4>Milton Babbitt et le sérialisme intégral</h4>
+
+<p>Milton Babbitt a complété le système de Schoenberg en sérialisme intégral (il ne va pas seulement travailler sur les hauteurs mais il va aussi travailler sur les rythmes). Il décrit le dodécaphonisme comme un système qui est constitué par un "ensemble d'éléments, de relations entre ces éléments et d'opérations sur ces éléments". Pour décrire une suite dodécaphonique, il va utiliser les congruences modulo 12. Si bien qu'une transposition musicale correspondra en mathématiques à une translation (ajout d'un même nombre à tous les termes d'une suite). Il va plus particulièrement utiliser des hexacordes omni-combinatoires. Ce sont des groupes de six notes (modulo l'octave) tels qu'il existe une transposition ou une inversion qui permet de retrouver toutes les notes de l'échelle chromatique. Une transposition est une fonction de la forme \(x \rightarrow x+k\) (modulo 12) avec k un entier et une inversion est une fonction de la forme \(x \rightarrow k-x\) (modulo 12) avec k un entier. Par exemple, do, do#, ré, fa#, sol, sol# est un hexacorde omni-combinatoire. Sa représentation dans \(\mathbb{Z}/12\mathbb{Z}\) est (0 1 2 6 7 8). En appliquant la transposition \(T_3\), on trouve (3 4 5 9 10 11). En regroupant ces deux ensembles d'éléments on retrouve tous les entiers entre 0 et 11. Il a ensuite regroupé certains hexacordes. Les hexacordes omni-combinatoires du n-ième ordre ont la particularité qu'il existe n transpositions le reliant à son complémentaire.</p>
+
+<p>Voici un tableau représentant le nombre d'hexacordes omni-combinatoires existant dans chaque ordre :</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td>Ordre</td>
+      <td>Quantité</td>
+      <td>Hexacordes</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>3</td>
+      <td>(0 1 2 3 4 5), (0 2 3 4 5 7), (0 2 4 5 7 9)</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>(0 1 2 6 7 8)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>(0 1 2 5 8 9)</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>0</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>1</td>
+      <td>(0 2 4 6 8 10)</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<p>Voici l'hexacorde omni-combinatoire du sixième ordre avec ses six transpositions qui engendre l'échelle chromatique : </p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/babbitt_hexacorde.webp" class="img-fluid" alt="babbitt_hexacorde">
+</div>
+
+<p>Il utilise principalement les processus ci-dessous :
+<ul>
+	<li>l'inversion qui consiste à prendre l'inverse de chaque élément (c'est-à-dire son complémentaire à 12)</li>
+	<li>la rétrogradation qui consiste à inverser l'ordre des éléments</li>
+	<li>la composition d'une inversion suivie d'une rétrogradation</li>
+	<li>la composition d'une rétrogradation suivie d'une inversion</li>
+</ul></p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/babbitt_processus.webp" class="img-fluid" alt="babbitt_processus">
+</div>
+
+<p>Ce tableau représente la composition de plusieurs applications. S représente la série initiale (série source), I représente la rétrogradation et RI la composition d'une inversion et d'une rétrogradation.</p>
+
+<p>Pour les hauteurs, les pièces Partitions et Post-Partitions de Milton Babbitt utilisent le même hexacorde (1 3 4 5 6 8) :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/babbitt_hexacorde13458.webp" class="img-fluid" alt="babbitt_hexacorde13458">
+</div>
+
+<p>Voici son hexacorde complémentaire :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/babbitt_hexacorde13458_complementaire.webp" class="img-fluid" alt="babbitt_hexacorde13458_complementaire">
+</div>
+
+<p>Il est obtenu en faisant une transposition de neuf demi-tons suivie d'une rétrogradation. Une rétrogradation consiste à prendre l'inverse de chaque élément c'est-à-dire que pour chaque élément \(a\) on prend l'entier \(a'\) compris entre 0 et 11 tel que \(a+a'=12\). Par exemple, l'inverse de 3 est 9 et l'inverse de 0 est 0. Une transposition de neuf demi-tons de l'hexacorde initial donne (0 1 2 3 5 10). Puis une rétrogradation de ce dernier donne (0 2 7 9 10 11). Voici un exemple d'utilisation de cet hexacorde :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/babbitt_hexacorde_partition.webp" class="img-fluid" alt="babbitt_hexacorde_partition">
+</div>
+
+<p>Cet hexacorde est séparé en quatre morceaux :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/babbitt_hexacordes.webp" class="img-fluid" alt="babbitt_hexacordes">
+</div>
+
+<p>Ces quatre morceaux sont les trois premières notes de quatre tessitures musicales. Puis il utilise un même processus pour les rythmes et les intensités.</p>
+
+<p> Voici la correspondance entre l'ensemble \(\mathbb{Z}/12\mathbb{Z}\) et les intensités :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/babbitt_hexacorde_intensite.webp" class="img-fluid" alt="babbitt_hexacorde_intensite">
+</div>
+
+<br>
+
+<p><u>Biographie de Milton Babbitt</u></p>
+
+<p>Milton Babbitt est un compositeur américain du XXème siècle. Pendant son enfance, il a étudié le violon, la clarinette et le saxophone. Il s'est très intéressé à la musique populaire. Cela le poussa à rentrer dans la Seconde Ecole de Vienne. Dans cette école il développa le sérialisme en sérialisme intégral. Il est le premier compositeur à utiliser ce procédé en écrivant Three Compositions for Piano. Puis il aida à la diffusion du premier synthétiseur. De nombreux compositeurs s'intéressaient à la musique électronique pour l'utilisation de nouveaux timbres mais lui était intéressé par la précision rythmique que permettait cette musique. Il composa même des musiques pour un mélange d'instruments conventionnels et électroniques avec Philomel. Ses œuvres les plus connues sont Generatrix for orchestra, Fabulous voyage, Woodwind quartet, ...</p>

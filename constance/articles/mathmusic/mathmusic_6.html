@@ -1,0 +1,179 @@
+<h1>La set theory et l'analyse transformationnelle</h1>
+
+<p>La Set Theory a été créée par Allen Forte puis est devenue la théorie transformationnelle quand elle a été complétée par David Lewin. Cette théorie analyse les liens entre des groupes de notes (accords, ligne mélodique, ...) grâce à des relations ensemblistes et des fonctions algébriques. Cette théorie utilise le groupe \(\mathbb{Z}/12\mathbb{Z}\). Cela implique deux simplifications :
+<ul>
+	<li>réduction de l'ensemble des notes à douze notes</li>
+	<li>réduction de la cardinalité d'un ensemble de notes car deux notes séparées d'une octave représenteront le même élément</li>
+</ul></p>
+
+<p>La représentation circulaire du groupe \(\mathbb{Z}/12\mathbb{Z}\) a commencé à être utilisée en musique quelques années après la création de cette théorie. Cette représentation met en avant le groupe \(\mathbb{Z}/12\mathbb{Z}\) et facilite la visualisation des transformations.</p>
+
+<br>
+
+<h4>Représentations d'un groupe de notes</h4>
+
+<p>Il existe différentes représentations d'un groupe de notes. Toutes ces représentations sont basées sur les notions de classe de hauteurs (CH) et de classe d'intervalles (CI). Ces deux classes utilisent le groupe \(\mathbb{Z}/12\mathbb{Z}\). Il existe douze classes de hauteurs et douze classes d'intervalles numérotées de 0 à 11. Deux notes appartiennent à la même classe de hauteur si elle représente la même note à une octave près. Les classes d'intervalles représentent le nombre de demi-tons de l'intervalle. Par exemple, deux représente une seconde majeure (deux demi-tons). Deux intervalles sont dans la même classe d'intervalle si leur numéro est égal modulo douze.</p>
+
+<br>
+
+<p><u>Ensemble de classes de hauteurs (ECH)</u></p>
+
+<p>Cette première représentation consiste à prendre les classes de hauteur correspondant à chaque note de l'ensemble. Par exemple, l'accord de do majeur qui est constitué des notes do, mi et sol est représenté par {0, 4, 7}. Voici la représentation de l'ECH {0, 4, 7} sur le cercle \(\mathbb{Z}/12\mathbb{Z}\).</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/set_theory_ech.webp" class="img-fluid" alt="set_theory_ech">
+</div>
+
+<br>
+
+<p><u>Structure intervallique (SI)</u></p>
+
+<p>La structure intervallique prend les classes d'intervalles allant d'une CH à la suivante. Par exemple, pour l'accord de do majeur (do, mi et sol), la structure intervallique prend les intervalles entre do et mi, mi et sol, sol et do. La structure intervallique de l'accord de do majeur est donc [4 3 5]. La structure intervallique peut se calculer à partir de l'ECH en prenant la différence entre deux éléments consécutifs puis la différence entre le premier élément et le dernier élément. Ces différences sont calculées modulo 12.</p>
+
+<br>
+
+<p><u>Vecteur intervallique (VI)</u></p>
+
+<p>Le vecteur intervallique contient le nombre de chaque intervalle qu'il y a entre deux CH de l'ensemble. Par exemple dans l'accord de do majeur, il n'y a aucun intervalle de demi-ton, de ton et de trois tons et il y a un intervalle d'un ton et demi, un intervalle de deux tons et un intervalle de deux tons et demi. Donc sa représentation intervallique est [0 0 1 1 1 0]. On ne compte pas le nombre d'intervalles plus grands que trois tons car ce serait redondant. En effet si on a un intervalle d'un demi-ton entre a et b alors l'intervalle entre b et a serait de onze demi-tons. On aurait donc si on comptait tous les intervalles jusqu'à onze demi-tons le vecteur [0 0 1 1 1 0 1 1 1 0 0]. On constate que ce vecteur est bien symétrique par rapport à sa sixième valeur. VI(A)(i) représente le i-ième élément du vecteur intervallique de A.</p>
+
+<br>
+
+<p><u>Fonction IFUNC</u></p>
+
+<p>Le vecteur intervallique a été créé par Allen Forte pour la Set Theory. Ce vecteur a été légèrement modifié en fonction IFUNC par David Lewin dans la théorie transformationnelle.</p>
+
+<p>La fonction IFUNC recense le nombre de chaque intervalle qu'il y a entre deux CH de l'ECH. La première composante d'IFUNC est la cardinalité de l'ECH. Par exemple pour l'accord de do majeur, la fonction IFUNC est [3 0 0 1 1 1 0 1 1 1 0 0]. On remarque que le vecteur IFUNC compris entre le deuxième et le septième élément est égal
+au vecteur intervallique. IFUNC(A)(i) représente le i-ième élément de la fonction IFUNC de l'ECH A.</p>
+
+<p>Dans Klavierstück III de Stockhausen, les trois pentacordes encadrés ci-dessous ont pour ECH {8 9 10 11 2}, {11 5 8 9 10} et {5 11 2 3 4}.</p>
+
+
+<div class="text-center">
+<img src="../../img/mathmusic/set_theory_ifunc.webp" class="img-fluid" alt="set_theory_ifunc">
+</div>
+
+<br>
+
+<h4> Transformations d'ECH</h4>
+
+<p>Les transformations d'ECH permettent d'analyser la musique et facilitent la composition. Les transformations dites élémentaires (inversion, transposition et multiplication) viennent de la Set Theory alors que les autres ont été ajoutées avec la théorie transformationnelle. Avec les transformations élémentaires, des regroupements d'ECH ont été faits. Ces regroupements sont basés sur des classes d'équivalence.</p>
+
+<br>
+
+<p><u>Transposition</u></p>
+
+<p>La transposition consiste à ajouter ou à enlever à chaque élément d'une ECH un même intervalle. Il consiste donc géométriquement à faire une rotation du cercle musical dans le sens des aiguilles d'une montre pour une transposition ascendante ou dans le sens inverse pour une transposition descendante. Vu que l'on travaille dans \(\mathbb{Z}/12\mathbb{Z}\), une transposition ascendante de i demi-tons correspond à une transposition descendante de (12-i) demi-tons. C'est pour cela que l'on utilise dans la Set Theory et dans la théorie transformationnelle uniquement les transpositions ascendantes. La transposition de i demi-tons de l'ECH A est notée \(T_i(A)\). Voici un exemple de transposition :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/set_theory_transposition.webp" class="img-fluid" alt="set_theory_transposition">
+</div>
+
+<p>La transposition laisse invariante la structure intervallique. Dans l'exemple ci-dessus, nous avons A={1 2 3 4 10}, A'={5 8 9 10 11} et SI=(6 3 1 1 1).</p>
+
+<p>\(\mathbb{Z}/12\mathbb{Z}\) muni de l'addition (qui correspond en musique à la transposition) a une structure de groupe :
+<ul>
+	<li>si a et b appartiennent à \(\mathbb{Z}/12\mathbb{Z}\) alors on a bien (a+b) qui appartient à \(\mathbb{Z}/12\mathbb{Z}\)</li>
+	<li>soit a, b et c des éléments de \(\mathbb{Z}/12\mathbb{Z}\), on a bien (a+b)+c=a+(b+c)</li>
+	<li>0 est l'élément neutre de ce groupe avec pour tout a qui appartient à \(\mathbb{Z}/12\mathbb{Z}\) a+0=0+a=a</li>
+	<li>si a appartient à Z/12Z alors (12-a) appartient à \(\mathbb{Z}/12\mathbb{Z}\) et a+(12-a)=12=0 car on travaille modulo 12.</li>
+</ul></p>
+
+<p>La transposition est un morphisme du groupe \(\mathbb{Z}/12\mathbb{Z}\) muni de l'addition sur lui-même :
+<ul>
+	<li>si a et b sont des entiers alors \(T_a \circ T_b = T_{a+b}\)</li>
+</ul></p>
+
+<p>La structure de groupe \((\mathbb{Z}/12\mathbb{Z}, +)\) admet des éléments générateurs. Un élément est générateur si tout élément de l'ensemble peut être obtenu en partant de l'élément neutre et en lui ajoutant un nombre fini de fois l'élément générateur. Les éléments générateurs sont 1 (seconde mineure), 5 (quarte juste), 7 (quinte juste) et 11 (septième majeure). Ce sont les nombres premiers avec 12.</p>
+
+<br>
+
+<p><u>Inversion</u></p>
+
+<p>L'inversion consiste géométriquement à faire une symétrie par rapport à l'un des diamètres du cercle musical. Il existe douze diamètres différents qui peuvent être utilisés pour l'inversion : six sont des diamètres passant par deux notes du cercle et les six autres passent par le milieu de deux notes consécutives du cercle. Voici un exemple d'inversion :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/set_theory_inversion.webp" class="img-fluid" alt="set_theory_inversion">
+</div>
+
+<p>Une inversion laisse le vecteur intervallique invariant. En effet dans l'exemple ci-dessus, nous avons A={2 8 9 10 11} et A'={5 8 9 10 11} et VI=[3 2 2 1 1 1].</p>
+
+<p>Un premier regroupement d'ECH consiste à regrouper les ECH qui sont égaux à une inversion près soit les ECH qui ont le même vecteur intervallique. On remarque que la relation "avoir le même vecteur intervallique" est une relation d'équivalence.</p>
+
+<p>L'inversion par rapport à un diamètre quelconque est la composition d'une inversion par rapport au diamètre (0 6) suivie d'une transposition.</p>
+
+<br>
+
+<p><u>Transposition et/ou inversion</u></p>
+
+<p>Une autre manière de regrouper des ECH est de mettre ensemble les ECH qui sont égaux à une transposition et/ou inversion près. Les éléments de la forme \(T_k \circ I\) et \(T_k\) forment un groupe diédral :
+<ul>
+	<li>les deux éléments qui engendrent le groupe sont \(T_1\) (noté \(T\)) et \(I\)</li>
+	<li>on a bien \(T^{12}\) = Identité et \(I \circ I\) = Identité</li>
+	<li>tous les éléments du groupe sont bien de la forme \(T^i \circ I^j\) avec i qui est un entier entre 1 et 12 et j qui est égal à 1 ou 2</li>
+</ul></p>
+
+<p>Allen Forte a catalogué un élément de chacun de ces regroupements. Dans ce catalogue chaque regroupement est défini par deux entiers :
+<ul>
+	<li>le premier entier représente la cardinalité des éléments du groupe</li>
+	<li>le deuxième entier correspond à la position du groupe dans le catalogue</li>
+</ul></p>
+
+<p>A chaque couple d'entiers correspond une forme primaire qui définit tous les éléments du groupe. En effet, en lui appliquant toutes les transformations de la forme \(T^i \circ I^j\) on retrouve tous les éléments du groupe. La forme primaire est la forme dont le premier élément est 0 et qui minimise la distance entre le premier élément et tous les autres éléments.</p>
+
+<br>
+
+<p><u>Multiplication</u></p>
+
+<p>La multiplication est une transformation qui consiste à multiplier chaque élément d'un ECH par un même nombre (le résultat est toujours modulo 12). On constate que l'ensemble des transformations multiplications correspondent à l'ensemble des applications affines de \(\mathbb{Z}/12\mathbb{Z}\) avec b=0. Les applications affines de \(\mathbb{Z}/12\mathbb{Z}\) correspondent donc à une multiplication suivie d'une transposition. Voici un exemple de multiplication par 5 :</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/set_theory_multiplication.webp" class="img-fluid" alt="set_theory_multiplication">
+</div>
+
+<p>Dans cet exemple, on a {0 4 7}x 5={0 8 11}.</p>
+
+<br>
+
+<p><u>Fonction IFNUC généralisée</u></p>
+
+<p>La fonction IFUNC généralisée permet de voir le degré de similitude entre deux ECH. Cette fonction est un vecteur de douze éléments. Le i-ième élément du vecteur entre les ECH A et B correspond au nombre de couples (a, b) avec a appartenant à A et b appartenant à B tel que l'intervalle de a à b comporte i demi-tons.</p>
+
+<p>Par exemple, si l'on prend A={0 1 2 5 6 8} et B={3 4 7 9 10 11} alors IFUNC(A,B)=[0 3 4 4 3 3 2 3 3 4 4 3]. IFUNC(A,B)(0) correspond au nombre d'éléments identiques entre les deux ECH A et B.</p>
+
+<p>On a pour tout ECH A : IFUNC(A)=IFUNC(A,A).</p>
+
+<br>
+
+<p><u>Relations ensemblistes au sens littéral</u></p>
+
+<p>Les relations ensemblistes au sens littéral correspondent aux relations ensemblistes habituelles (inclusion, complémentaire, union) appliquées aux ECH. Deux ECH A et B sont complémentaires au sens littéral si :
+<ul>
+	<li>\(A \cap B\) est vide</li>
+	<li>\(A \cup B\) contient l'ensemble des entiers entre 0 et 11</li>
+</ul></p>
+
+<p>Les relations ensemblistes au sens littéral permettent de modifier un ECH.</p>
+
+<p>Ces relations permettent de définir de nouveaux types de classes. Deux ECH A et B sont en "relation d'inclusion" si A est inclus dans B ou B est inclus dans A. Une nouvelle classe est le complexe d'un ECH A. Elle est constituée de l'ensemble des ECH qui sont en relation d'inclusion avec A ou le complémentaire de A. Une autre classe est le sous-complexe d'un ECH A. Cette classes est constituée de l'ensemble des ECH qui sont en relation d'inclusion avec A et le complémentaire de A.</p>
+
+<br>
+
+<p><u>Relations ensemblistes au sens abstrait</u></p>
+
+<p>L'union et l'intersection ont la même définition au sens littéral et au sens abstrait. Un ECH A est le complémentaire au sens abstrait de B s'il existe C qui est une transposition et/ou inversion de B tel que A et C soient complémentaires au sens littéral.</p>
+
+<p>Prenons par exemple l'ECH A={0 5 6 8 9 }, son complémentaire est C={1 2 3 4 7 10 11}. Soit B={0 3 4 5 6 8 9}. On constate que \(I_{(0 \, 6 )} \circ T_5 (C)=B\).</p>
+
+<p>A est donc le complémentaire au sens abstrait de B. Cet exemple est intéressant car on constate que A est inclus dans B et que A est le complémentaire abstrait de B. Ces deux relations seraient impossibles simultanément si on travaillait au sens littéral. Si A est le complémentaire abstrait de B alors B est le complémentaire abstrait de A. La notion de complémentaire définie bien une relation d'équivalence. Cela nous permet donc de créer des nouvelles classes d'ECH.</p>
+
+<br>
+
+<h4>Conclusion</h4>
+
+<p>La Set Theory permet de comparer de différentes manières des groupes de notes appelés ECH (ensemble de classes de hauteurs). Plus il y a de similarité entre deux ECH, plus la succession de ces deux ECH sonnera bien. Pour faciliter l'utilisation de ces nombreuses fonctions qui permettent d'analyser les ECH et de comparer des ECH, des chercheurs de l'IRCAM sont en train de développer un logiciel appelé Open Music. Ce logiciel permet de calculer à partir d'un ECH la structure intervallique (SI), le vecteur intervallique (VI) et la Fonction IFUNC. Il donne aussi la forme primaire et la numérotation de cet ECH dans le catalogue de Forte. Il permet aussi d'appliquer les différentes transformations d'ECH. Dès qu'une nouvelle fonction est ajoutée à cette théorie, les chercheurs de l'IRCAM essayent de l'implémenter le plus rapidement possible dans ce logiciel. Ce logiciel est donc constamment à jour sur l'évolution de cette théorie. Il existe aussi une application IPhone « Music Set Theory » créée par Pierre Croupie. On rentre une ECH dans l'application en cliquant sur les notes sur un cercle musical. L'application nous donne alors l'ECH correspondant à sa forme primaire, sa numérotation dans le catalogue de Forte et sa structure intervallique. Ce logiciel et cette application IPhone montrent que la Set Theory est très présente actuellement et qu'elle est en plein développement.</p>
+
+<p>Cette théorie est une nouvelle manière d'analyser une partition mais le facteur de l'analyste est très important. En effet, cette théorie est basée sur la comparaison entre différents ECH. L'analyste doit donc faire des groupes de notes dans le morceau. Ces groupes de notes correspondront aux ECH. Puis ce sont ces ECH qu'il analysera grâce à la cette théorie. Pour choisir les ECH, l'analyste pourra suivre les lignes mélodiques ou si c'est un morceau avec de nombreux accords il pourra construire des ECH à partir des accords. De plus, l'analyste pourra faire chevaucher les ECH (une même note du morceau pourra alors appartenir à différents ECH) ou exclure les différents ECH (une même note du morceau ne pourra pas appartenir à plus d'un ECH). L'analyse peut donc être très différente selon la personne qui la fait.</p>
+
+<p>La Set Theory ne permet pas une composition automatique par ordinateur. En effet le compositeur choisit une ECH initiale puis il choisit les différentes transformations qu'il va faire subir à son ECH. Il a encore le choix des rythmes et des nuances à faire.</p>
+
+<p>Pour conclure, la Set Theory apporte une nouvelle manière d'aborder la musique mais elle ne permet pas une analyse ou une composition entièrement faite par l'ordinateur. Le facteur humain reste fondamental dans la musique.</p>

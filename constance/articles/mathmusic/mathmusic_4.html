@@ -1,0 +1,282 @@
+<h1>Bases mathématiques</h1>
+
+<br>
+
+<h4>La théorie des groupes</h4>
+
+<p><u>Les groupes</u></p>
+
+<p>Un groupe est caractérisé par un ensemble \(G\) d'éléments et une loi de composition binaire \(*\) vérifiant :
+<ul>
+	<li>Pour tout \(a, b\) éléments de \(G\) , \(a*b\) appartient à \(G\)</li>
+	<li>Pour tout \(a, b, c\) éléments de \(G\), on a \((a*b)*c=a*(b*c)\)</li>
+	<li>Il existe un élément \(e\) dans \(G\) tel que pour tout élément \(a\) de \(G\), on a \((a*e)=(e*a)=a\). Cet élément est appelé élément neutre.</li>
+	<li>Pour tout élément \(a\) dans \(G\), il existe un unique élément \(a'\) dans \(G\) tel que \(a*a'=a'*a=e\). Pour un groupe multiplicatif (la loi de composition du groupe est la multiplication), \(a'\) est appelé inverse de \(a\) et est noté \(a^{-1}\). Pour un groupe additif (la loi de composition du groupe est l'addition), \(a'\) est appelé opposé de \(a\) et est noté \((-a)\).</li>
+</ul></p>
+
+<p>Par exemple, \((\mathbb{Z},+)\) est un groupe avec \(\mathbb{Z}\) qui représente l'ensemble des entiers. En effet, on a :
+<ul>
+	<li>Si \(a\) et \(b\) sont des entiers alors \(a+b\) est un entier</li>
+	<li>Soient \(a, b, c\) trois entiers, on a \((a+b)+c=a+(b+c)\)</li>
+	<li>\(0\) est l'élément neutre de ce groupe. Pour tout \(a\) entier, on a \(a+0=0+a=a\)</li>
+	<li>Soit \(a\) un entier alors \((-a)\) est l'inverse de \(a\) car \(a+(-a)=(-a)+a=0\)</li>
+</ul></p>
+
+<p>Les groupes les plus utilisés dans les théories musicales actuelles sont les groupes cycliques, diédraux et affines.</p>
+
+<br>
+
+<p><u>Le groupe \(\mathbb{Z}/n\mathbb{Z}\) muni de son addition</u></p>
+
+<p>Ce groupe est constitué des entiers entre 0 et (n-1).</p>
+
+<p>Lorsque l'on veut utiliser les opérations habituelles (addition,
+soustraction  et multiplication) dans ce groupe, le problème est que le résultat n'est pas forcément compris entre 0 et (n-1). Le résultat dans ce groupe sera le reste de la division euclidienne entre le résultat obtenu et n. La division n'est pas utilisée dans ce groupe car son résultat n'est pas forcément un entier et donc il pourrait ne pas avoir de sens dans ce groupe (tous les éléments du groupe sont des entiers).</p>
+
+<p>Par exemple si on est dans \(\mathbb{Z}/12\mathbb{Z}\) est que l'on fait l'opération \(10 \times 3= 30 = 12 \times 2+6\), le résultat est 6.</p>
+
+<p>On dit que l'on travaille modulo n. Cela signifie que l'on conserve seulement les restes de la division euclidienne par n.</p>
+
+<br>
+
+<p><u>Les groupes cycliques</u></p>
+
+<p>Un groupe cyclique est un groupe \((G,*)\) tel que tous les éléments de \(G\) sont une puissance d'un certain élément \(a\) de \(G\). Pour tout élément \(b\) de \(G\), il existe \(n\) un entier naturel tel que \(b=a^n=a *a*...*a\). \(a\) est appelé un générateur du groupe \(G\). Si le groupe est muni de l'opération addition on a alors pour tout élément \(b\) de \(G\), il existe \(n\) un entier naturel tel que \(b=n \times a=a+a+...+a\).</p>
+
+<p>Par la suite on va utiliser plus particulièrement le groupe cyclique \((\mathbb{Z}/12\mathbb{Z},+)\). Ce groupe peut être représenté par les entiers de 0 à 11 (modulo 12). Un générateur de ce groupe est 1. Ce groupe servira à représenter les 12 notes de la gamme. Dans ce groupe, le do sera représenté par le 0, le do# par le 1, le ré par le 2 et ainsi de suite jusqu'au si qui sera représenté par le 11. Ce groupe sera schématisé sur un cercle. On représentera sur ce cercle un ensemble de notes (souvent un accord).</p>
+
+<p>L'image ci-dessous représente l'ensemble de notes do, mi et sol (0, 4 et 7). C'est l'accord de do majeur. \(\{0 \; 4 \; 7\}\) est appelé l'ensemble de classes de hauteurs (ECH) de cet ensemble de notes.</p>
+
+<div class="text-center">
+<img src="../../img/mathmusic/cercle.webp" class="img-fluid" alt="cercle">
+</div>
+
+<br>
+
+<p><u>Les groupes diédraux</u></p>
+
+<p>Un groupe diédral \((Dn,*)\) d'ordre \(2n\) est un groupe engendré par deux éléments \(a\) et \(b\) vérifiant :
+<ul>
+	<li>\(a^n=e\)</li>
+	<li>\(b*b=e\)</li>
+</ul></p>
+
+<p>L'ensemble des éléments de ce groupe sont les \(2n\) produits \(a^i*b^j\) avec \(i\) compris entre 1 et \(n\) et \(j\) compris entre 1 et 2.</p>
+
+<p>En géométrie, ce groupe correspond à l'ensemble des symétries dans le plan (rotations et réflexions) d'un polygone régulier à n côtés. Les réflexions représentent en musique des inversions par rapport à une note.</p>
+
+<br>
+
+<p><u>Le groupe affine de \(\mathbb{Z}/n\mathbb{Z}\)</u></p>
+
+<p>Le groupe affine de \(\mathbb{Z}/n\mathbb{Z}\) est constitué de l'ensemble des transformations \(f\) de \(\mathbb{Z}/n\mathbb{Z}\) sur \(\mathbb{Z}/n\mathbb{Z}\) qui sont de la forme \(f(x)=a \cdot x+b\) (modulo n) avec \(a\) et \(n\) premier entre eux et \(b\) qui appartient à \(\mathbb{Z}/n\mathbb{Z}\). En musique, on se placera plus particulièrement dans \(\mathbb{Z}/12\mathbb{Z}\) donc \(a\) appartiendra à l'ensemble \(\{1 \;  5 \; 7 \; 11\}\).</p>
+
+<br>
+
+<p><u>Les morphismes de groupe</u></p>
+
+<p>Un morphisme de groupe est une application entre deux groupes respectants certaines contraintes. Soient \((G,*)\) et \((G',\circ)\) deux groupes dont les éléments neutres sont respectivement \(e\) et \(e'\). \(f :G \rightarrow G'\) est un morphisme de groupe lorsque pour tout \(x\) et \(y\) éléments de \(G\), on a \(f(x*y)=f(x) \circ f(y)\). Cette définition implique que :
+<ul>
+	<li>\(f(e)=e'\)</li>
+	<li>pour tout \(x\) élément de \(G\), \(f(x^{-1})=[f(x)]^{-1}\)</li>
+</ul></p>
+
+<br>
+
+<p><u>Les classes d'équivalence</u></p>
+
+<p>Les classes d'équivalence permettent de faire des groupes d'éléments. Pour cela, on utilise une relation d'équivalence notée \(R\). Une relation d'équivalence est :
+<ul>
+	<li>binaire : elle s'applique à deux éléments de l'ensemble</li>
+	<li>réflexive : \(x\) est toujours en relation avec lui-même (\(xRx\)).</li>
+	<li>symétrique : si \(x\) est en relation avec \(y\) alors \(y\) est en relation avec \(x\) (\(xRy \implies yRx\)).</li>
+	<li>transitive : si \(x\) est en relation avec \(y\) et \(y\) est en relation avec \(z\) alors \(x\) est en relation avec \(z\) ( \([xRy \text{ et } yRz] \implies  xRz\)).</li>
+</ul>
+</p>
+
+<p>Si deux éléments sont en relation d'équivalence alors ils appartiennent à la même classe.</p>
+
+<p>Par exemple, le modulo n peut définir une classe d'équivalence sur les nombres entiers. \(x\) est en relation à \(y\) si et seulement si \(x\) et \(y\) sont égaux modulo n. Cette relation est bien binaire, réflexive, symétrique et transitive. C'est donc bien une relation d'équivalence. Les classes d'équivalence regrouperont les éléments qui sont égaux modulo n (qui ont le même reste dans leur division euclidienne par n). Si on reprend notre exemple musical avec \(\mathbb{Z}/12\mathbb{Z}\), les classes d'équivalence sont la classe de do (0), la classe de do# (1), la classe de ré (2), ... Les classes d'équivalence regroupent dans ce cas-là les notes qui ont le même nom mais qui peuvent différer d'un multiple d'octaves.</p>
+
+<br>
+
+<h4>La théorie des suites modales</h4>
+
+<p><u>Les suites modales</u></p>
+
+<p>Une suite modale est une suite prenant ses valeurs dans un ensemble de la forme \(\mathbb{Z}/n\mathbb{Z}\).</p>
+
+<p>Par exemple, si l'on prend le groupe cyclique \(\mathbb{Z}/12\mathbb{Z}\), l'application f définie ci-dessous est une suite modale.</p>
+
+<p>f(0)=0, f(1)=5, f(2)=11,f(3)=7, ...</p>
+
+<br>
+
+<p><u>La périodicité</u></p>
+
+<p>Une suite modale est périodique s'il existe un entier non nul p tel que pour tout n entier, on ait f(n+p)=f(n). Le plus petit entier p qui convient est la période de la suite.</p>
+
+<p>Exemple d'une suite modale de périodicité 3 :</p>
+
+<p>f(0)=5, f(1)=3, f(2)=9, f(3)=5, f(4)=3, f(5)=9, ...</p>
+
+<p>Une suite périodique peut se représenter avec seulement les éléments d'une même période. La représentation de la suite périodique de l'exemple ci-dessus est f=(5 3 9).</p>
+
+<br>
+
+<p><u>L'opérateur de différence D</u></p>
+
+<p>Cet opérateur transforme une suite modale en une autre suite modale telle que pour tout n entier on est D(f)(n)=f(n)-f(n-1). Le terme D(f)(0) est défini seulement pour les suites périodiques en soustrayant le premier terme de la période avec le dernier terme de la période.</p>
+
+<p>Par exemple, si l'on a une suite :</p>
+
+<p>f = (0 5 8 2 3 9 5) =0 5 8 2 3 9 5 0 5 8 2 3 9 5 ...</p>
+
+<p>alors D(f) = (7 5 3 6 1 6 8)</p>
+
+<br>
+
+<p><u>L'opérateur de translation T</u></p>
+
+<p>Cet opérateur transforme une suite modale en une autre suite modale telle que pour tout n entier on est \(T(f)(n)=f(n+1)\).</p>
+
+<p>Par exemple, si l'on a une suite :</p>
+
+<p>\(f\) = (0 5 8 2 3 9 5) =0 5 8 2 3 9 5 0 5 8 2 3 9 5 ...</p>
+
+<p>alors \(T(f) = (5 \; 8 \;2 \; 3 \; 9 \; 5 \; 0)\)</p>
+
+<p>On note \(T^p\) l'utilisation p fois de suite de cet opérateur. Une suite est donc p périodique si et seulement si on a \(T^p(f)=f\).</p>
+
+<br>
+
+<p><u>Les suites réductibles</u></p>
+
+<p>Une suite modale f est réductible si en lui appliquant p fois l'opérateur de différence \(D\), on trouve la suite nulle (suite contenant que des termes nuls). Soit \(D^p(f)=0\).</p>
+
+<p>Exemple d'une suite  modale dans \(\mathbb{Z}/12\mathbb{Z}\) réductible :</p>
+
+<p>\(f\) = 11 6 7 2 3 10 11 6 7 2 3 10 11 ...</p>
+
+<p>\(D(f)\) = 7 1 7 1 7 1 ...</p>
+
+<p>\(D^2(f)\) = 6 6 6 6 ...</p>
+
+<p>\(D^3(f)\) = 0 0 0 0 ...= la suite nulle</p>
+
+<br>
+
+<p><u>Les suites reproductibles</u></p>
+
+<p>Une suite modale f est reproductible si et seulement si \(D^k(f)=f\) pour un entier naturel non nul.</p>
+
+<p>Exemple d'une suite modale dans \(\mathbb{Z}/12\mathbb{Z}\) reproductible :</p>
+
+<p>\(f\) = 11 10 11 7 2 7 11 10 11 7 2 7 11 10 11 ...</p>
+
+<p>\(D(f)\) = 4 11 1 8 7 5 4 11 1 8 7 5 4 11 1 ...</p>
+
+<p>\(D^2(f)\) = 11 7 2 7 11 10 11 7 2 7 11 10 11 ...</p>
+
+<p>\(D^3(f)\) = 1 8 7 5 4 11 1 8 7 5 4 11 1 ...</p>
+
+<p>\(D^4(f)\) = 2 7 11 10 11 7 2 7 11 10 11 7 2 ...</p>
+
+<p>On constate que \(D^4(f)\) est la même suite que \(f\) a une transposition près. Donc \(D^8(f)\) = (11 7 2 7 11 10) et \(D^{12}(f) = f\).</p>
+
+<br>
+
+<p><u>Comment savoir si une suite périodique est
+réductible ?</u></p>
+
+<p>Le problème est que l'entier p tel que \(D^p(f)=0\) peut être très grand.</p>
+
+<p>On va montrer la méthode directement sur un l'exemple :</p>
+
+<p>\(f\) = 0 0 1 5 2 6 7 7 8 0 9 1 2 2 3 7 4 8 9 9 10 2 11 3 4 4 5 9 6 10 11 11 0 4 1 5 6 6 7 11 8 0 1 1 2 6 3 7 8 8 9 1 10 2 3 3 4 8 5 9 10 10 11 3 0 4 5 5 6 10 7 11 0 0...</p>
+
+<p>On suppose que la suite f est 72-périodique.</p>
+
+<p>On transforme cette suite en deux suites notées \(g\) et \(h\) grâce au tableau suivant</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td></td>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+      <td>10</td>
+      <td>11</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>g</td>
+      <td>0</td>
+      <td>9</td>
+      <td>6</td>
+      <td>3</td>
+      <td>0</td>
+      <td>9</td>
+      <td>6</td>
+      <td>3</td>
+      <td>0</td>
+      <td>9</td>
+      <td>6</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>h</td>
+      <td>0</td>
+      <td>4</td>
+      <td>8</td>
+      <td>0</td>
+      <td>4</td>
+      <td>8</td>
+      <td>0</td>
+      <td>4</td>
+      <td>8</td>
+      <td>0</td>
+      <td>4</td>
+      <td>8</td>
+    </tr>   
+  </tbody>
+</table>
+
+<p>On a donc</p>
+
+<p>\(g\) = 0 0 9 9 6 6 3 3 0 0 9 9 6 6 3 3 0 ...</p>
+
+<p>\(h\) = 0 0 4 8 8 0 4 4 8 0 0 4 8 8 0 4 4 8 8 0 ...</p>
+
+<p>La suite modale \(f\) est réductible si et seulement si \(g\) a une périodicité de la forme 2p et \(h\) a une périodicité de la forme 3q avec p et q des entiers naturels non nuls.</p>
+
+<p>Ici on a \(g\) de périodicité \(8=2^3\) et \(h\) de périodicité \(9=3^2\). Donc \(f\) est bien une suite modale réductible.</p>
+
+<p>En reprenant l'exemple qui se trouve dans la partie sur les suites réductibles, cela aurait été plus rapide car la périodicité est plus petite :</p>
+
+<p>\(f\) = (11 6 7 2 3 10)</p>
+
+<p>\(g\) = (3 6)</p>
+
+<p>\(h\) = (8 0 4)</p>
+
+<p>On retrouve donc bien que cette suite est réductible.</p>
+
+<p>On constate que pour toute suite \(f\), on a pour tout n entier naturel : \(f(n) = 4 \times g(n) - 3 \times h(n)\).</p>
+
+<br>
+
+<p><u>Le théorème fondamental de décomposition</u></p>
+
+<p>Toute suite modale à valeur dans \(\mathbb{Z}/n\mathbb{Z}\) admet une décomposition unique en une somme d'une suite réductible et d'une suite reproductible.</p>
+
+<p>Un algorithme permet de trouver cette décomposition.</p>
