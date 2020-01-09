@@ -9,7 +9,7 @@
 <p>Les transferts inconscients les plus utilisés sont les <b>transferts inconscients 1 parmi 2</b> noté \(\left( \begin{smallmatrix} 2 \\ 1 \end{smallmatrix} \right) OT\). Dans ce protocole, l'expéditeur a uniquement deux entrées notées \((x_0, x_1)\) et le destinataire prend en entrée un bit \(b\). A la fin du protocole, le destinataire obtient \(x_b\) et aucune information sur la deuxième entrée de l'expéditeur. De plus, l'expéditeur n'obtient aucune information sur la valeur du bit \(b\).</p>
 
 <div class="text-center">
-<img src="../../img/smc/ot.png" class="img-fluid" alt="ot">
+<img src="../../img/smc/ot.webp" class="img-fluid" alt="ot">
 </div>
 
 <br>
@@ -17,7 +17,7 @@
 <p>Il existe différents protocoles permettant d'effectuer un \(\left( \begin{smallmatrix} 2 \\ 1 \end{smallmatrix} \right) OT\) mais le protocole le plus connu est le protocole de Naor Pinkas <cite>[NP08]</cite>. Ce protocole fonctionne sur un groupe \(\mathbb{Z}_q\) d'ordre premier avec \(g\) un élément générateur de ce groupe. Ce protocole utilise une fonction de hachage \(H\).</p>
 
 <div class="text-center">
-<img src="../../img/smc/OT.png" class="img-fluid" alt="OT">
+<img src="../../img/smc/OT.webp" class="img-fluid" alt="OT">
 </div>
 
 <br>
@@ -31,7 +31,7 @@
 <p>En pratique, nous avons souvent besoin d'effectuer de nombreux OTs en parallèle. L'<b>OT extension</b> permet d'évaluer de nombreux OTs à partir de quelques OTs (souvent environ \(\kappa=80\)) et l'évaluation de quelques fonctions cryptographiques symétriques <cite>[ALSZ13]</cite>. Dans un protocole d'OT extension, l'expéditeur a en entrée \(m\) paires de vecteurs \(\forall j \in [1,m], (x_j^0, x_j^1) \in (\{0,1\}^l)^2\) et le destinataire a en entrée \(m\) bits \(r_1\), ..., \(r_m\). A la fin du protocole, le destinataire reçoit  \(\forall j \in [1,m], x_j^{r_j}\) et rien d'autre et l'expéditeur ne reçoit rien. Dans ce protocole, les fonctions \(H:\{0,1\}^{\kappa} \rightarrow \{0,1\}^l\) et \(G:\{0,1\}^{\kappa} \rightarrow \{0,1\}^m\) sont des oracles aléatoires. Ce protocole est sécurisé contre les adversaires semi-honnêtes.</p>
 
 <div class="text-center">
-<img src="../../img/smc/OTextension.png" class="img-fluid" alt="OTextension">
+<img src="../../img/smc/OTextension.webp" class="img-fluid" alt="OTextension">
 </div>
 
 <br>
@@ -43,7 +43,7 @@
 <p>Dans le protocole de Yao avec l'optimisation free-XOR, les entrées des OTs sont corrélées avec la fonction XOR. Une valeur aléatoire globale \(\Delta\) est choisie par l'expéditeur. Les entrées du j-ième OT \((x_j^0, x_j^1)\) sont corrélées \(x_j^1 = x_j^0 \oplus \Delta\) avec \(x_j^0\) une valeur aléatoire. Par conséquent, les entrées de l'expéditeur ne sont pas des entrées fixes mais sont des entrées aléatoires et corrélées. Dans la dernière étape du protocole d'OT extension, l'expéditeur peut choisir \(x_j^0 = H(q_k)\) et envoyer uniquement la valeur \(y_j = \Delta \oplus H(q_j) \oplus H(q_j \oplus s)\) au lieu de \((y_j^0, y_j^1)\). La sortie du destinataire est égale à \(H(t_j)\) si \(r_j=0\) et \(y_j \oplus H(t_j)\) si \(r_j=1\). La sortie est correcte car si \(r_j=0\) alors nous avons \(t_j = q_j\) et donc \(H(t_j) = x_j^0\). Sinon, si \(r_j = 1\), alors nous avons \(H(t_j) = H(q_j \oplus s)\) et donc \(y_j \oplus H(t_j) = \Delta \oplus H(q_j) = x_j^0 \oplus \Delta = x_j^1\).</p>
 
 <div class="text-center">
-<img src="../../img/smc/OTcorrelated.png" class="img-fluid" alt="OTcorrelated">
+<img src="../../img/smc/OTcorrelated.webp" class="img-fluid" alt="OTcorrelated">
 </div>
 
 <br>
@@ -55,7 +55,7 @@
 <p> Notons \(\left( \begin{smallmatrix} n \\ 1 \end{smallmatrix} \right) OT_l^m\) pour \(m\) transferts inconscients 1 parmi \(n\) sur des entiers de \(l\) bits chacun.</p>
 
 <div class="text-center">
-<img src="../../img/smc/OT1N.png" class="img-fluid" alt="OT1N">
+<img src="../../img/smc/OT1N.webp" class="img-fluid" alt="OT1N">
 </div>
 
 <br>

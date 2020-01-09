@@ -3,7 +3,7 @@
 <p>Pour prouver la sécurité des protocoles de SMC, le ideal/real simulation paradigm est souvent utilisé. Dans ce paradigme, un "monde idéal" dans lequel une partie de confiance aide à l'obtention du résultat est utilisé. Dans ce "monde idéal", chaque entité envoie son entrée secrète à travers un canal sécurisé à la partie de confiance, la partie de confiance calcule les sorties de chaque partie et renvoie à chaque partie sa sortie à travers le canal sécurisé. Dans ce "monde idéal", le protocole est sécurisé car chaque partie apprend uniquement sa sortie et rien d'autre et le protocole est exact car la partie de confiance ne peut pas être corrompue et elle renvoie donc un résultat correct à chaque partie.</p>
 
 <div class="text-center">
-<img src="../../img/smc/ideal_real_simulation.png" class="img-fluid" alt="ideal-real-simulation">
+<img src="../../img/smc/ideal_real_simulation.webp" class="img-fluid" alt="ideal-real-simulation">
 </div>
 
 <p>Dans le monde réel, il n'existe pas de partie de confiance. Un protocole est sécurisé si dans le monde réel, aucun attaquant ne peut faire plus de mal qu'un attaquant dans le "monde idéal". Vue qu'aucune attaque n'est possible dans le "monde idéal", aucune attaque n'est alors possible dans le monde réel. Pour prouver la sécurité d'un protocole, il faut comparer l'ensemble des informations que voit chaque partie lors de l'exécution du protocole dans le "monde idéal" et dans le monde réel. Ces informations sont appelées une vue. Il faut que les distributions de cette vue dans le "monde idéal" et de cette vue dans le monde réel soient indiscernables (indistinguishable).</p>

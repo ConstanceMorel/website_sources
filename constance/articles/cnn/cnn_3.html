@@ -53,7 +53,7 @@ et un deuxième filtre pour détecter les <b>contours verticaux</b>
 \end{pmatrix}\). Puis il existe différentes combinaisons du résultat des deux filtres pour détecter les contours d'une image. Par exemple,  \(S = |F_x*M| + |F_y*M|\). L'image suivante présente l'application du filtre de Sobel sur une image (à gauche l'image initiale et à droite l'image en sortie du filtre).</p>
 
 <div class="text-center">
-<img src="../../img/cnn/sobel_filter.png" class="img-fluid" alt="sobel_filter">
+<img src="../../img/cnn/sobel_filter.webp" class="img-fluid" alt="sobel_filter">
 </div>
 
 <br>
@@ -85,7 +85,7 @@ alors l'image avec padding correspond à la matrice
 <p>Dans les CNN, chaque couche de neurones est représentée par un volume. Par exemple, nous pouvons avoir en entrée du réseau une image de taille \(32 \times 64 \times 3\) (32 de large, 64 de haut et 3 canaux de couleur). Chaque filtre est aussi représenté par un volume. Par exemple, nous pouvons avoir 4 filtres de taille \(5 \times 5 \times 3\) chacun. Les filtres doivent avoir la même profondeur que la couche d'entrée (ici \(3\)). L'application d'un filtre à la couche d'entrée aboutit dans cet exemple à une sortie de taille \(32 \times 64 \times 1 \) avec padding et \(28 \times 60 \times 1 \) sans padding. Pour obtenir la sortie complète, il faut appliquer en parallèle chacun des filtres à la couche d'entrée, ce qui nous donne une couche de sortie de taille \(32 \times 64 \times 4 \) avec padding et \(28 \times 60 \times 4 \) sans padding. Chaque niveau de profondeur de la couche de sortie correspond à l'application d'un filtre sur la couche d'entrée.</p>
 
 <div class="text-center">
-<img src="../../img/cnn/conv_layer.png" class="img-fluid" alt="conv_layer">
+<img src="../../img/cnn/conv_layer.webp" class="img-fluid" alt="conv_layer">
 </div>
 
 <p>L'image ci-dessus représente l'application d'un ensemble de filtres à une couche d'entrée (en rouge sur l'image) afin d'obtenir une couche de sortie (en bleu sur l'image).  L'ensemble des neurones représentés sur la couche de sortie (ronds bleus) sont l'ensemble des neurones issus d'une même zone de la couche d'entrée (zone en rouge foncé). Dans cette image, 5 filtres sont appliqués à la couche en entrée car la couche de sortie à une profondeur de 5.</p>
@@ -101,7 +101,7 @@ alors l'image avec padding correspond à la matrice
 <p>Une <b>couche de pooling</b> est comparable à un <b>sous-échantillonnage</b> de la couche d'entrée. Le but est de garder un représentant local des neurones voisins. Pour cela, la couche d'entrée est séparée en une série de carrés qui généralement ne se chevauchent pas et une même opération est effectuée sur chacun des carrés afin d'obtenir une unique valeur par carré. Les opérations les plus courantes sont le maximum ou la moyenne. Le <b>max pooling</b> consiste à conserver la valeur maximale parmi l'ensemble des valeurs contenues dans le carré. L'<b>average pooling</b> consiste à calculer la moyenne de l'ensemble des valeurs contenues dans le carré.</p>
 
 <div class="text-center">
-<img src="../../img/cnn/max_pooling.png" class="img-fluid" alt="max_pooling">
+<img src="../../img/cnn/max_pooling.webp" class="img-fluid" alt="max_pooling">
 </div>
 
 <p>Dans une image en niveau de gris, les pixels voisins ont normalement une valeur similaire. Par conséquent, utiliser un average pooling permet de réduire la taille de l'image sans perdre trop d'informations. L'utilisation d'un average pooling va rendre les contours de l'image moins nets mais l'image sera toujours reconnaissable. Le pooling permet donc de réduire la taille de l'image tout en gardant les caractéristiques essentielles de l'image initiale.</p>

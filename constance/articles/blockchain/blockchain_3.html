@@ -7,7 +7,7 @@
 <p>Un réseau pair à pair P2P est un réseau distribué dans lequel chaque noeud a le même rôle. Pour envoyer un message dans un réseau P2P, un noeud envoie le message à tous ses voisins qui eux-mêmes renvoient le message à tous leurs voisins et ainsi de suite.</p>
 
 <div class="text-center">
-<img src="../../img/blockchain/p2p.png" style="max-width:50%;" class="img-fluid" alt="p2p">
+<img src="../../img/blockchain/p2p.webp" style="max-width:50%;" class="img-fluid" alt="p2p">
 </div>
 
 <p>Nakamoto décrit le réseau blockchain <cite>[Nak08]</cite> comme suit:</p>
@@ -35,7 +35,7 @@
 <p>Dans Bitcoin, la preuve de travail est Hashcash. Ce puzzle consiste à trouver un nonce tel que les premiers k bits du hash du bloc sont égaux à 0.</p>
 
 <div class="text-center">
-<img src="../../img/blockchain/PoW.png" style="max-width:50%;" class="img-fluid" alt="PoW">
+<img src="../../img/blockchain/PoW.webp" style="max-width:50%;" class="img-fluid" alt="PoW">
 </div>
 
 <p>Le mineur va essayer successivement des nonces aléatoires jusqu'à ce qu'il trouve un nonce qui résout ce puzzle. Il va alors envoyer le nouveau bloc contenant ce nonce.</p>
@@ -51,7 +51,7 @@
 <p>Parfois deux blocs sont créés quasiment en même temps par deux mineurs différents. Chaque mineur va envoyer son nouveau bloc au réseau. Chaque noeud va choisir l'un de ces deux blocs et essayer de miner à partir de ce bloc. C'est un fork, la blockchain a maintenant deux branches.</p>
 
 <div class="text-center">
-<img src="../../img/blockchain/fork.png" class="img-fluid" alt="fork">
+<img src="../../img/blockchain/fork.webp" class="img-fluid" alt="fork">
 </div>
 
 <p>Le protocole blockchain détermine que la branche légitime est la branche la plus longue (et donc que tous les blocs dans l'autre branche sont invalides). Rapidement, une branche va devenir plus longue que l'autre de plusieurs blocs. Tous les mineurs vont alors abandonner la branche la plus courte car le minage sur une branche orpheline n'est pas valide. Il y a un fork en moyenne tous les 50 blocs dans la blockchain. La plupart des forks se résolvent en seulement un bloc.</p>
