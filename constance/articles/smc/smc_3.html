@@ -11,14 +11,14 @@ $$z = \begin{cases} 1 \text{ si } x_1=y_1 \text{ et } x_0=y_0 \\ 0 \text{ sinon}
 </p>
 
 <div class="text-center">
-<img src="../../img/smc/circuit.png" class="img-fluid" alt="circuit">
+<img src="../../img/smc/circuit.webp" class="img-fluid" alt="circuit">
 </div>
 
 
 <p>Tout d'abord, le constructeur construit un circuit confus (garbled circuit) en associant à chaque fil du circuit une paire de clés \((k^0, k^1) \in (\{0,1\}^{\kappa})^2\). Chaque clé correspond à une valeur possible du fil (soit 0, soit 1). Le circuit sera évalué sur ces clés afin de ne pas révéler les valeurs intermédiaires. Pour des raisons de sécurité, uniquement le constructeur connait la correspondance entre chaque clé et le bit qu'il représente.</p> 
 
 <div class="text-center">
-<img src="../../img/smc/circuit_keys.png" class="img-fluid" alt="circuit_keys">
+<img src="../../img/smc/circuit_keys.webp" class="img-fluid" alt="circuit_keys">
 </div>
 
 <p>Puis, il construit pour chaque porte du circuit une table confuse (garbled tables) qui permettra à l'évaluateur d'évaluer la porte dans le domaine chiffré. Pour cela, il part de la table de vérité de la porte, il remplace les valeurs par les clés correspondantes, il chiffre les clés de sorties à l'aide des clés d'entrée correspondantes et enfin il permute les lignes de la table obtenues. Par la suite, nous noterons \(E_{k_1, k_2}(k_3)\) le chiffrement de \(k_3\) avec le couple de clés \((k_1, k_2)\). Ci-dessous, nous présentons la création d'une table confuse pour une porte NOR dont les fils en entrée sont \(u\) et \(v\) et le fil de sortie est \(w\).</p>
@@ -64,7 +64,7 @@ $$\begin{cases} k_w^0 = k_u^0 \oplus k_v^0 \\ k_w^1 = k_w^0 \oplus \Delta \end{c
 </p>
 
 <div class="text-center">
-<img src="../../img/smc/free_XOR.png" class="img-fluid" alt="free_XOR">
+<img src="../../img/smc/free_XOR.webp" class="img-fluid" alt="free_XOR">
 </div>
 
 <p>Le constructeur construit ensuite les tables confuses uniquement pour les portes qui ne sont pas des portes XOR. Lors de l'évaluation du circuit, si l'évaluateur doit évaluer une porte XOR, il calcule uniquement le XOR des clés des fils d'entrée. Nous pouvons facilement vérifier qu'il obtient bien la clé de sortie voulue
@@ -127,7 +127,7 @@ PRF(k_u^{b_u}, k_v^{b_v}) &= PRF(k_u^{\pi_u^{-1}(0)}, k_v^{\pi_v^{-1}(0)})\\
 <p>Plus précisément, la première partie a l'entrée X et la deuxième partie a l'entrée Y et ils veulent évaluer un circuit sur leurs entrées. Pour cela, la première partie crée un circuit confus \(GC_1\) et l'envoie à la deuxième partie. En même temps, la deuxième partie crée un circuit confus \(GC_2\) et l'envoie à la première partie. Puis la première partie évalue \(GC_2\) et obtient la sortie confuse \(G_2(out_2)\) avec \(out_2\) la sortie en clair de l'évaluation du circuit booléen et \(G_2\) un mapping connu uniquement du constructeur du circuit (ici la deuxième partie). En même temps, la deuxième partie évalue \(GC_1\) et obtient la sortie confuse \(G_1(out_1)\) avec \(out_1\) la sortie en clair de l'évaluation du circuit booléen et \(G_1\) un mapping connu uniquement du constructeur du circuit (ici la première partie). Vues que les sorties sont confuses, les parties n'ont aucune information à cet instant sur la valeur en clair de la sortie. Finalement, les deux parties effectuent un test d'égalité sécurisé afin de vérifier que les deux sorties confuses correspondent à la même sortie. Si c'est le cas, la sortie peut être révélée (la première partie révèle son mapping de sortie à la deuxième partie ou la deuxième partie révèle son mapping de sortie à la première partie). Si jamais, le test d'égalité échoue, alors l'une des deux parties à tricher. La figure ci-dessous représente cette technique. Les traits pleins correspondent aux entrées, valeurs intermédiaires et sorties de la première partie et les traits en pointillés correspondent celles de la deuxième partie.</p>
 
 <div class="text-center">
-<img src="../../img/smc/dual_ex.png" class="img-fluid" alt="dual_ex">
+<img src="../../img/smc/dual_ex.webp" class="img-fluid" alt="dual_ex">
 </div>
 
 <p>Ce protocole a une efficacité similaire à celle du protocole Yao classique car les deux exécutions du protocole de Yao peuvent être effectuées en parallèle et nous avons uniquement le surcoût du test d'égalité sécurisé qui est un protocole de faible coût. Ce protocole fait fuir un bit d'information. En effet, un adversaire malicieux peut créer son circuit de telle sorte que le résultat du test d'égalité (échec ou réussite) lui révèle un bit d'information sur les entrées de l'autre partie.</p>

@@ -11,13 +11,13 @@
 <p>Mathématiquement, le perceptron est défini par ses poids \(W=(w_1, ..., w_n)^T \in \mathbb{R}^n\) et son biais/seuil \(b \in \mathbb{R}\). Nous notons \(h_{W,b}(X) = W^T X + b\) la fonction représentant le perceptron. Pour déterminer la classe de sortie sur une nouvelle entrée \(X\), il faut calculer \(h_{W,b}(X)\). Si nous obtenons un nombre supérieur ou égal à 0, la classe de sortie est 1, sinon la classe de sortie est 0.</p>
 
 <div class="text-center">
-<img src="../../img/machinelearning/perceptron.png" class="img-fluid" alt="perceptron">
+<img src="../../img/machinelearning/perceptron.webp" class="img-fluid" alt="perceptron">
 </div>
 
 <p>Le biais \(b\) peut être intégré au vecteur \(W\). Pour cela, une coordonnée égale à 1 est ajoutée à chaque vecteur d'entrée \(X\) et son poids associé \(w_0\) est ajouté au vecteur \(W\). Nous avons alors \(h_{W}(X) = W^T X\) et la sortie du perceptron est égale à 0 si \(h_{W}(X)<0\) et 1 si \(h_{W}(X) \geq 0\). </p>
 
 <div class="text-center">
-<img src="../../img/machinelearning/perceptron_no_bias.png" class="img-fluid" alt="perceptron_no_bias">
+<img src="../../img/machinelearning/perceptron_no_bias.webp" class="img-fluid" alt="perceptron_no_bias">
 </div>
 
 <p>Supposons que nous avons une base de données d'apprentissage contenant des couples \((X,y)\) avec \(X \in \mathbb{R}^n\) la donnée et \(y \in \{0,1\}\) la classe. L'objectif de l'apprentissage est de trouver \(W \in \mathbb{R}^n\) tel que pour tous les couples \((X, y)\), nous avons \(h_{W}(X) \geq 0\) si \(y=1\) et \(h_{W}(X) < 0\) si \(y=0\). A chaque étape de l'apprentissage, un nouveau couple \((X, y)\) de la base de données est utilisé afin d'améliorer les paramètres du perceptron. Analysons si nous devons augmenter ou réduire le poids \(w_k\). Si le perceptron actuel classifie correctement la donnée \(X\) alors il n'est pas nécessaire de modifier les poids. Si \(x_k\) est positif et si le perceptron actuel classifie la donnée en 0 mais que la classe est égale à 1, alors le poids \(w_k\) du perceptron est trop petit. Si \(x_k\) est positif et si le perceptron actuel classifie la donnée en 1 mais que la classe est égale à 0, alors le poids \(w_k\) du perceptron est trop grand. Au contraire si \(x_k\) est négatif et si le perceptron actuel classifie la donnée en 0 mais que la classe est égale à 1, alors le poids \(w_k\) du perceptron est trop grand. Si \(x_k\) est négatif et si le perceptron actuel classifie la donnée en 1 mais que la classe est égale à 0, alors le poids \(w_k\) du perceptron est trop petit. Par conséquent, les nouveaux poids du perceptron peuvent être définis par \(w_k \leftarrow w_k - (s - y)x_k\) avec 
@@ -58,7 +58,7 @@
 <p>Afin de résoudre des problèmes non linéairement séparables, le multi-layer perception peut être utilisé. C'est une combinaison de plusieurs perceptrons en série et en parallèle. Afin de résoudre des problèmes non linéairement séparables, une fonction non linéaire appelée fonction d'activation est utilisée. Les fonctions d'activation les plus utilisées sont la ReLU \(f(x) = \max(0,x)\) ou la sigmoid \(f(x) = (1 + e^{-x})^{-1}\). Cette fonction d'activation est appliquée à la sortie de chaque perceptron  \(f(W^T X + b)\) à la place de la comparaison à 0.</p>
 
 <div class="text-center">
-<img src="../../img/machinelearning/MLP.png" class="img-fluid" alt="mlp">
+<img src="../../img/machinelearning/MLP.webp" class="img-fluid" alt="mlp">
 </div>
 
 <p>La dernière couche contient autant de neurones que de classes. Par exemple, si nous voulons reconnaître les chiffres de 0 à 9, la dernière couche contient 10 classes. L'indice du neurone le plus grand de la dernière couche indique la catégorie/classe de sortie. Afin d'interpréter les neurones de sortie par des probabilités, la fonction softmax est souvent ajoutée après la dernière couche: \(f(x_i) = \frac{e^{x_i}}{\sum _j e^{x_j}}\). Avec la fonction softmax, l'erreur est généralement calculée à l'aide de la cross-entropy: \(- \sum_k y_k \cdot ln(f(x_k))\).</p>

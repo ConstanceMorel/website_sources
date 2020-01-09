@@ -101,7 +101,7 @@ alors l'image avec padding correspond à la matrice
 <p>Une <b>couche de pooling</b> est comparable à un <b>sous-échantillonnage</b> de la couche d'entrée. Le but est de garder un représentant local des neurones voisins. Pour cela, la couche d'entrée est séparée en une série de carrés qui généralement ne se chevauchent pas et une même opération est effectuée sur chacun des carrés afin d'obtenir une unique valeur par carré. Les opérations les plus courantes sont le maximum ou la moyenne. Le <b>max pooling</b> consiste à conserver la valeur maximale parmi l'ensemble des valeurs contenues dans le carré. L'<b>average pooling</b> consiste à calculer la moyenne de l'ensemble des valeurs contenues dans le carré.</p>
 
 <div class="text-center">
-<img src="../../img/cnn/max_pooling.png" class="img-fluid" alt="max_pooling">
+<img src="../../img/cnn/max_pooling.webp" class="img-fluid" alt="max_pooling">
 </div>
 
 <p>Dans une image en niveau de gris, les pixels voisins ont normalement une valeur similaire. Par conséquent, utiliser un average pooling permet de réduire la taille de l'image sans perdre trop d'informations. L'utilisation d'un average pooling va rendre les contours de l'image moins nets mais l'image sera toujours reconnaissable. Le pooling permet donc de réduire la taille de l'image tout en gardant les caractéristiques essentielles de l'image initiale.</p>
