@@ -1,0 +1,206 @@
+<h1>Création d'une couche</h1>
+
+<p>Dans cette section, nous allons présenter la création d'une nouvelle couche.</p>
+
+<br>
+
+<h4>Documentation Keras</h4>
+
+<p>D'après la documentation Keras, pour créer une nouvelle couche, il faut créer une classe qui hérite de Layer. Cette nouvelle classe nécessite l'implémentation de 3 méthodes:
+<ul>
+	<li>build(input_shape): méthode dans laquelle les poids sont créés</li>
+	<li>call(x): méthode contenant les calculs à effectuer</li>
+	<li>compute_output_shape(input_shape): méthode retournant le format en sortie de la couche</li>
+</ul></p>
+
+<pre class="lang:python">
+from keras import backend as K
+from keras.layers import Layer
+
+class MyLayer(Layer):
+
+    def __init__(self, output_dim, activation, **kwargs):
+        self.output_dim = output_dim
+        self.activation = activation
+        super(MyLayer, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+        # Create a trainable weight variable for this layer.
+        self.kernel = self.add_weight(name='kernel', 
+                                      shape=(input_shape[1], self.output_dim),
+                                      initializer='uniform',
+                                      trainable=True)
+        super(MyLayer, self).build(input_shape)  # Be sure to call this at the end
+
+    def call(self, x):
+        return K.dot(x, self.kernel)
+
+    def compute_output_shape(self, input_shape):
+        return (input_shape[0], self.output_dim)
+</pre>
+
+<br>
+
+<h4>Création d'une couche</h4>
+
+<p>Nous proposons d'implémenter la création d'une couche dense.</p>
+
+<pre class="lang:python">
+# Define MyDense layer
+class MyDense(tf.keras.layers.Layer):
+
+    def __init__(self, output_dim, activation, **kwargs):
+        self.output_dim = output_dim
+        self.activation = activation
+        super(MyDense, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+        self.kernel = self.add_weight(name='kernel',
+                                      shape=(input_shape[1], self.output_dim),
+                                      initializer='uniform',
+                                      trainable=True)
+        super(MyDense, self).build(input_shape)
+
+    def call(self, x):
+        output = tf.keras.backend.dot(x, self.kernel)
+        if self.activation == "relu":
+            output = tf.nn.relu(output)
+        elif self.activation == "sigmoid":
+            output = tf.nn.sigmoid(output)
+        elif self.activation == "softmax":
+            output = tf.nn.softmax(output)
+        return output
+
+    def compute_output_shape(self, input_shape):
+        return (input_shape[0], self.output_dim)
+</pre>
+
+<br>
+
+<h4>Récapitulatif</h4>
+
+<p>Nous pouvons maintenant effectuer un apprentissage sur notre réseau convolutif en utilisant notre nouvelle couche dense.</p>
+
+<pre class="lang:python">
+"""
+Network
+[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu) 
+ -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu) -> Dense(10, softmax)
+"""
+
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+
+images_train = images_train.reshape(-1, 28, 28, 1).astype(float)
+images_test = images_test.reshape(-1, 28, 28, 1).astype(float)
+
+# Define MyDense layer
+class MyDense(tf.keras.layers.Layer):
+
+    def __init__(self, output_dim, activation, **kwargs):
+        self.output_dim = output_dim
+        self.activation = activation
+        super(MyDense, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+        self.kernel = self.add_weight(name='kernel',
+                                      shape=(input_shape[1], self.output_dim),
+                                      initializer='uniform',
+                                      trainable=True)
+        super(MyDense, self).build(input_shape)
+
+    def call(self, x):
+        output = tf.keras.backend.dot(x, self.kernel)
+        if self.activation == "relu":
+            output = tf.nn.relu(output)
+        elif self.activation == "sigmoid":
+            output = tf.nn.sigmoid(output)
+        elif self.activation == "softmax":
+            output = tf.nn.softmax(output)
+        return output
+
+    def compute_output_shape(self, input_shape):
+        return (input_shape[0], self.output_dim)
+
+# Network architecture
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(30, (5, 5), input_shape=(28, 28, 1), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Flatten())
+model.add(MyDense(output_dim=128, activation="relu"))
+model.add(MyDense(output_dim=50, activation="relu"))
+model.add(MyDense(output_dim=10, activation="softmax"))
+
+# Optimizer
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Learn
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2)
+
+loss_curve = history.history["loss"]
+acc_curve = history.history["accuracy"]
+loss_val_curve = history.history["val_loss"]
+acc_val_curve = history.history["val_accuracy"]
+
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc.png")
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+# Output
+Train on 48000 samples, validate on 12000 samples
+Epoch 1/10
+48000/48000 [==============================] - 43s 898us/sample - loss: 1.7967 - accuracy: 0.4042 - val_loss: 0.4977 - val_accuracy: 0.8535
+Epoch 2/10
+48000/48000 [==============================] - 42s 873us/sample - loss: 0.3609 - accuracy: 0.8870 - val_loss: 0.2114 - val_accuracy: 0.9339
+Epoch 3/10
+48000/48000 [==============================] - 42s 879us/sample - loss: 0.1868 - accuracy: 0.9421 - val_loss: 0.1375 - val_accuracy: 0.9592
+Epoch 4/10
+48000/48000 [==============================] - 43s 896us/sample - loss: 0.1219 - accuracy: 0.9621 - val_loss: 0.1042 - val_accuracy: 0.9679
+Epoch 5/10
+48000/48000 [==============================] - 41s 850us/sample - loss: 0.0908 - accuracy: 0.9716 - val_loss: 0.0967 - val_accuracy: 0.9732
+Epoch 6/10
+48000/48000 [==============================] - 41s 845us/sample - loss: 0.0744 - accuracy: 0.9770 - val_loss: 0.0823 - val_accuracy: 0.9773
+Epoch 7/10
+48000/48000 [==============================] - 40s 833us/sample - loss: 0.0641 - accuracy: 0.9805 - val_loss: 0.0727 - val_accuracy: 0.9787
+Epoch 8/10
+48000/48000 [==============================] - 48s 996us/sample - loss: 0.0535 - accuracy: 0.9825 - val_loss: 0.0711 - val_accuracy: 0.9786
+Epoch 9/10
+48000/48000 [==============================] - 42s 880us/sample - loss: 0.0480 - accuracy: 0.9846 - val_loss: 0.0619 - val_accuracy: 0.9822
+Epoch 10/10
+48000/48000 [==============================] - 42s 875us/sample - loss: 0.0427 - accuracy: 0.9866 - val_loss: 0.0606 - val_accuracy: 0.9834
+[0.0507354919161764, 0.9836]
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_4.webp" class="img-fluid" alt="loss_acc">
+</div>

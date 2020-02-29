@@ -1,0 +1,155 @@
+<html xmlns:og="http://ogp.me/ns#">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cet article présente TensorFlow (un outils d'apprentissage automatique).">
+    <meta name="author" content="Beguier Constance">
+    <meta name="keywords" content="tensorflow cnn réseau neurone convolutif machine learning">
+    <meta property="og:title" content="TensorFlow"/>
+    <meta property="og:image" content="https://beguier.eu/constance/img/tensorflow/cover.webp"/>
+    <meta property="og:description" content="Cet article présente TensorFlow (un outils d'apprentissage automatique)."/>
+    <meta property="og:url" content="https://beguier.eu/constance/articles/tensorflow/tensorflow.html"/>
+    <meta property="og:type" content="article" />
+
+    <link rel="icon" href="../../../favicon.png">
+
+    <title>TensorFlow</title>
+
+    <script src="../js/redirect.min.js" type="text/javascript" async></script>
+
+    <link rel="stylesheet" href="../../../css/pub/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../css/constance-article.min.css">
+
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+    <script type="text/javascript">
+    if (window.MathJax) {
+      MathJax.Hub.Queue(
+        ["Typeset",MathJax.Hub]
+      );
+    }
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>TensorFlow</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <p>par Constance Béguier</p>
+                <li id="0">
+                    <a href="?page=0">Premiers pas</a>
+                </li>
+                <li id="1">
+                    <a href="?page=1">CNN</a>
+                </li>
+                <li id="2">
+                    <a href="?page=2">Eviter le surapprentissage</a>
+                </li>
+                <li id="3">
+                    <a href="?page=3">Personnalisation de l'apprentissage</a>
+                </li>
+                <li id="4">
+                    <a href="?page=4">Création d'une couche</a>
+                </li>
+                <li id="5">
+                    <a href="?page=5">Réseau non linéaire</a>
+                </li>
+                <li id="6">
+                    <a href="?page=6">TensorBoard</a>
+                </li>
+            </ul>
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="../../index.html" class="home">Retour à l'accueil</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <div>
+                        <a id="previous-btn-up" role="button" class="btn btn-secondary">Précédent</a>
+                        <a id="next-btn-up" role="button" class="btn btn-secondary">Suivant</a>
+                    </div>
+
+                </div>
+            </nav>
+        <div id="includedContent"></div>
+
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light float-right">
+                <div>
+                    <a id="previous-btn-down" role="button" class="btn btn-secondary">Précédent</a>
+                    <a id="next-btn-down" role="button" class="btn btn-secondary">Suivant</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <script src="../../../js/pub/jquery-3.4.1.min.js"></script>
+    <script> 
+        $(function(){
+            var nbPages = 7;
+
+            var urlParams = new URLSearchParams(location.search);
+            var subpage = urlParams.get("page");
+            if (subpage == null) {
+                subpage = 0;
+            } else {
+                subpage = parseInt(subpage);
+            }
+
+            var sidebarButton = document.getElementById(subpage);
+            sidebarButton.className = "active";
+
+            if (/^([0-9]+)$/.test(subpage)) {
+                $("#includedContent").load("./tensorflow_"+subpage+".html");
+            }
+
+            var previousPageNumber = subpage - 1;
+            var previousBtnUp = document.getElementById("previous-btn-up");
+            var previousBtnDown = document.getElementById("previous-btn-down");
+            var nextBtnUp = document.getElementById("next-btn-up");
+            var nextBtnDown = document.getElementById("next-btn-down");
+            if (previousPageNumber < 0) {
+                previousBtnUp.style.visibility = "hidden";
+                previousBtnDown.style.visibility = "hidden";
+            }
+            previousBtnUp.href = "?page="+previousPageNumber;
+            previousBtnDown.href = "?page="+previousPageNumber;
+
+            var nextPageNumber = subpage + 1;
+            if (nextPageNumber >= nbPages) {
+                nextBtnUp.style.visibility = "hidden";
+                nextBtnDown.style.visibility = "hidden";
+            }
+            nextBtnUp.href = "?page="+nextPageNumber;
+            nextBtnDown.href = "?page="+nextPageNumber;
+        });
+    </script>
+
+    <script src="../../../js/pub/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+        });
+    </script>
+</body>
+</html>

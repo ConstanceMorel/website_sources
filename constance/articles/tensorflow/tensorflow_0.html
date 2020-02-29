@@ -1,0 +1,344 @@
+<h1>Premiers pas</h1>
+
+<p>TensorFlow est un outil open source de machine learning développé par Google. C'est l'un des outils les plus utilisés en intelligence artificielle. Il permet par exemple de facilement définir de nombreux types de réseaux de neurones, de lancer des apprentissages sur CPU, GPU (carte graphique) et même TPU (circuits intégrés développés par Google pour l'apprentissage rapide des réseaux de neurones), d'enregistrer le réseau appris pour pouvoir par la suite facilement classifier une nouvelle entrée.</p>
+
+<p>TensorFlow est souvent utilisé avec la librairie Python Keras. Cette librairie encapsule l'accès aux fonctions proposées par différentes librairies de machine learning (TensorFlow, Theano, ...). N'hésitez pas à aller voir la <u><a href="https://keras.io/" class="home">documentation de Keras</a></u> pour voir toutes les possibilités de paramétrage des méthodes présentées dans cette article.</p>
+
+<p>Dans cet article, nous allons uniquement présenter la partie pratique des réseaux de neurones à l'aide de TensorFlow et nous n'allons pas représenter la partie théorique car l'article sur les CNNs la présente déjà (voir article <u><a href="https://beguier.eu/constance/articles/cnn/cnn.html" class="home">CNN</a></u>). Le code présenté dans cet article est disponible sur <u><a href="https://github.com/ConstanceBeguier/tensorflow-examples" class="home">GitHub</a></u>.</p>
+
+<p>Le but de cette première page est de présenter la mise en place et l'apprentissage d'un réseau de neurones simple. Nous présenterons plus en détails certaines parties dans les pages suivantes.</p>
+
+<br>
+
+<h4>Installation de TensorFlow</h4>
+
+<p>Pour l'installation de TensorFlow, nous pouvons
+<ul>
+    <li>soit installer directement le package sur notre machine</li>
+</ul></p>
+<pre class="lang:bsh">
+pip3 install --upgrade pip
+pip3 install tensorflow --user
+</pre>
+
+<p><ul>
+    <li>soit télécharger une image docker contenant TensorFlow</li>
+</ul></p>
+<pre class="lang:bsh">
+docker pull tensorflow/tensorflow
+docker run -it -p 8888:8888 tensorflow/tensorflow:latest
+</pre>
+
+<br>
+
+<h4>Récupération des données et pré-processing</h4>
+
+<p>De nombreuses bases de données sont déjà disponibles dans TensorFlow:
+<ul>
+	<li>cifar10: images classées en 10 catégories (avion, voiture, oiseau, chat, ...)</li>
+	<li>cifar100: images classées en 100 catégories</li>
+	<li>fashion_mnist: images de vêtements</li>
+	<li>mnist: images représentant des chiffres manuscrits</li>
+	<li>imdb: images représentant des portraits de stars provenant du site IMDb</li>
+	<li>reuters: ensemble de données financières</li>
+</ul></p>
+
+<p>Pour charger une base de données, il suffit d'utiliser la méthode load_data de Keras</p>
+<pre class="lang:python">
+import tensorflow as tf
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+</pre>
+
+<p>Chaque base de données est séparée en une base de données d'apprentissage et une base de données de test. La base de données de test ne doit <b>jamais</b> être utilisée pendant l'apprentissage, ni pendant le choix des hyperparamètres. Cette base sert uniquement à estimer les performances du modèle appris une fois l'apprentissage complètement fini. Il est souvent utile de séparer la base d'apprentissage en une base d'apprentissage et une base de validation. La base de validation servira à estimer les modèles appris intermédiaires afin de sélectionner le modèle à utiliser et les hyperparamètres. La base de validation permet aussi de détecter le surapprentissage. En effet, si les performances continuent à augmenter sur la base d'apprentissage mais elles restent stables ou diminuent sur la base de validation, alors on est dans la zone de surapprentissage et l'apprentissage doit être arrêté. Pour créer une base de données de validation, on peut utiliser la méthode train_test_split de scikit-learn.</p>
+
+<pre class="lang:python">
+from sklearn.model_selection import train_test_split
+images_train, images_validation, targets_train, targets_validation = train_test_split(images_train, targets_train, test_size=0.2, random_state=42)
+</pre>
+
+<p>Il est possible aussi de conserver la base d'apprentissage tout entière et lors de l'apprentissage du réseau de neurones avec la méthode fit, nous pourrons utiliser le paramètre validation_split pour indiquer le pourcentage de la base d'apprentissage qui ne doit pas être utilisé pendant l'apprentissage mais qui doit servir lors de la validation de l'apprentissage (voir section Apprentissage de cette page).</p>
+
+<p>Il est souvent nécessaire de faire une étape de pré-processing sur les données afin de les uniformiser. Afin d'accélérer l'apprentissage,  une normalisation des données peut être appliquée afin d'avoir une moyenne à 0 et une variance à 1 sur la base d'apprentissage. La méthode SandardScaler de scikit-learn peut être utilisée. mais pour l'utiliser les données en entrée doivent être de dimension 1 (vecteur ligne). Cette méthode consiste à soustraire à chaque vecteur la moyenne des vecteurs puis à diviser par l'écart type. Chaque vecteur est donc égal à \(z = \frac{x-\mu}{\sigma}\) avec \(x\) le vecteur initial, \(\mu\) la moyenne de l'ensemble des vecteurs et \(\sigma\) l'écart type. Pour transformer chaque image en un vecteur à une dimension, la méthode reshape de numpy peut être utilisée. Dans la base MNIST, les images sont des numpy.ndarray de taille \(28 \times 28\). Pour chaque image, nous voulons concaténer les 28 lignes qui la composent afin d'obtenir un vecteur ligne de taille \(28 \times 28 = 784\). Pour la base de test, il faut utiliser la même transformation que sur la base d'apprentissage c'est-à-dire qu'il faut utiliser la moyenne et l'écart type de la base d'apprentissage pour normaliser les données de la base de test. Pour cela, il faut tout d'abord créer un StandardScaler, puis il faut utiliser la méthode fit_transform qui évalue la moyenne et la variance et modifie les données d'apprentissage, enfin il faut utiliser la méthode transform pour modifier les données de la base de test en utilisant la moyenne et l'écart type obtenus avec la méthode fit_transform.</p>
+
+<pre class="lang:python">
+from sklearn.preprocessing import StandardScaler
+
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+</pre>
+
+<br>
+
+<h4>Définition de l'architecture d'un réseau de neurones</h4>
+
+<p>Dans cette partie, nous allons présenter l'implémentation d'un réseau de neurones simple constitué uniquement de couches denses. Nous présenterons les couches utilisées dans les réseaux de neurones convolutifs (couches de convolutions et couches de pooling) dans la section <u><a href="?page=2" class="home">CNN</a></u>. Nous présenterons la mise en place des différentes méthodes de régularisation dans la section <u><a href="?page=4" class="home">Régularisations</a></u>.</p>
+
+<p>Supposons que nous voulons créer un réseau contenant 3 couches denses de taille 300, 150 et 10 respectivement. Pour rappel, la dernière couche doit avoir une taille égale au nombre de classes dans notre base d'apprentissage (ici 10, une classe pour chaque chiffre de 0 à 9). Les deux premières couches ont la fonction d'activation ReLU et la dernière couche à la fonction d'activation softmax afin de pouvoir interpréter la couche de sortie comme des probabilités. Les principales fonctions d'activation sont relu, softmax, tanh et sigmoid.</p>
+
+<p>Pour cela, nous allons tout d'abord dire que notre réseau est séquentiel: cela signifie que chaque couche prend en entrée toutes les sorties de la couche précédente. Pour la première couche, il faut définir la dimension des données en utilisant input_shape. Pour les autres couches, il ne faut pas le faire car TensorFlow déduit la taille des entrées d'une couche en prenant la taille de sortie de la couche précédente. Voici la définition de notre modèle avec TensorFlow.</p>
+
+<pre class="lang:python">
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Dense(300, input_shape=[784], activation="relu"))
+model.add(tf.keras.layers.Dense(150, activation="relu"))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+</pre>
+
+<p>Si nous n'avions pas effectué la normalisation sur base de données, les données en entrée seraient de taille \(28 \times 28\) et il aurait fallu utiliser la couche Flatten pour transformer les données en entrée en donnée de dimension 1.</p>
+
+<pre class="lang:python">
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Flatten(input_shape = [28, 28]))
+model.add(tf.keras.layers.Dense(300, activation="relu"))
+model.add(tf.keras.layers.Dense(150, activation="relu"))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+</pre>
+
+<p>La méthode summary permet d'afficher l'architecture du réseau.</p>
+
+<pre class="lang:python">
+model.summary()
+
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense (Dense)                (None, 300)               235500    
+_________________________________________________________________
+dense_1 (Dense)              (None, 150)               45150     
+_________________________________________________________________
+dense_2 (Dense)              (None, 10)                1510      
+=================================================================
+Total params: 282,160
+Trainable params: 282,160
+Non-trainable params: 0
+</pre>
+
+<br>
+
+<h4>Définition de la méthode d'apprentissage</h4>
+
+<p>Maintenant que nous avons défini l'architecture de notre réseau, il faut définir comment l'apprentissage va s'effectuer en définissant</p>
+<ul>
+	<li>la fonction d'erreur appelée loss</li>
+	<li>la méthode d'optimisation de la fonction d'erreur appelée optimizer</li>
+	<li>les métriques utilisées pour évaluer les performances du réseau appelées metrics</li>
+</ul>
+
+<pre class="lang:python">
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+</pre>
+
+<p>Dans l'exemple ci-dessus, la fonction d'erreur est sparse_categorical_crossentropy. Dans notre exemple, nous avons 10 classes possibles en sortie (les chiffres de 0 à 9). Il y a deux choix pour représenter une classe</p>
+<ul>
+	<li>attribuer un chiffre entre 0 et 9 à chaque classe</li>
+	<li>utiliser l'encodage one-hot qui attribute un vecteur à chaque classe. La dimension du vecteur est égale au nombre de classes. Par exemple, la classe 0 est représentée par le vecteur \((1, 0, 0, 0, ...)\), la classe 1 par le vecteur \((0, 1, 0, 0, , ...)\) et ainsi de suite.</li>
+</ul>
+
+<p>Dans la base de données MNIST fournie par TensorFlow, les classes sont représentées par les chiffres de 0 à 9. Pour préciser cela à la fonction d'erreur, il faut utiliser une fonction d'erreur commençant par sparse_categorical. Par défaut (pour toutes les fonctions d'erreur ne commençant pas par sparse_categorical), TensorFlow estime que les classes suivent un encodage one-hot. La fonction d'erreur sparse_categorical_crossentropy correspond à la fonction d'erreur cross-entropy pour des classes représentées par des chiffres.</p>
+
+<p>Dans notre exemple, la méthode utilisée pour minimiser la fonction d'erreur est SGD (Stochastic Gradient Descent). Cette méthode consiste à prendre les données de la base d'apprentissage une par une et à effectuer une descente de gradient pour chaque donnée séparément. Il existe un <u><a href="https://www.kaggle.com/residentmario/keras-optimizers" class="home">article Kaggle</a></u> qui présente les avantages et les désavantages des différents optimizers présents dans Keras.</p>
+
+<p>Dans notre exemple, la métrique utilisée est accuracy qui calcule le pourcentage de bonne classification.</p>
+
+<p>Nous pouvons aussi définir les paramètres de l'optimizer comme le learning rate, le decay et le momentum. Le decay permet d'avoir un learning rate qui diminue au cours de l'apprentissage. Il est souvent choisi avec la formule suivante: \(decay = \frac{lr}{epochs}\). Le learning rate est calculé à chaque itération (chaque epoch) à partir du learning rate précédent avec la formule suivante:
+$$lr = lr \cdot \frac{1}{1. + decay \cdot epoch}$$</p>
+
+<pre class="lang:python">
+sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer=sgd,
+        metrics=["accuracy"])
+</pre>
+
+<p>Pour plus de détails sur les différents paramètres possibles pour loss, optimizer et metrics, vous pouvez aller voir la documentation de Keras (<u><a href="https://keras.io/losses/" class="home">losses</a></u>, <u><a href="https://keras.io/optimizers/" class="home">optimizers</a></u> et <u><a href="https://keras.io/metrics/" class="home">metrics</a></u>).</p>
+
+<br>
+
+<h4>Apprentissage et utilisation du modèle appris</h4>
+
+<p>Maintenant que nous avons défini l'architecture de notre modèle et la méthode d'apprentissage, nous pouvons lancer l'apprentissage en utilisant la méthode fit. Cette méthode prend en entrée le nombre d'epochs utilisé pour l'apprentissage. Le nombre d'epochs correspond au nombre de fois que la base de données d'apprentissage est utilisée pendant l'apprentissage. Avec le paramètre validation_split, nous pouvons indiquer le pourcentage de la base de données à ne pas utiliser lors de l'apprentissage mais qui sera utilisé pour la validation de l'apprentissage. Cette méthode peut aussi prendre en paramètre la batch size (batch_size) qui correspond aux nombres de données à utiliser pour chaque mise à jour des gradients. Cette méthode fit retourne les valeurs de la fonction d'erreur et de la métrique au cours de l'apprentissage.</p>
+
+<pre class="lang:python">
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2)
+
+# Output
+Train on 48000 samples, validate on 12000 samples
+Epoch 1/10
+48000/48000 [==============================] - 7s 154us/sample - loss: 0.4611 - accuracy: 0.8731 - val_loss: 0.2334 - val_accuracy: 0.9358
+Epoch 2/10
+48000/48000 [==============================] - 7s 143us/sample - loss: 0.1977 - accuracy: 0.9421 - val_loss: 0.1834 - val_accuracy: 0.9486
+Epoch 3/10
+48000/48000 [==============================] - 7s 152us/sample - loss: 0.1487 - accuracy: 0.9563 - val_loss: 0.1603 - val_accuracy: 0.9553
+Epoch 4/10
+48000/48000 [==============================] - 7s 146us/sample - loss: 0.1159 - accuracy: 0.9665 - val_loss: 0.1484 - val_accuracy: 0.9596
+Epoch 5/10
+48000/48000 [==============================] - 7s 141us/sample - loss: 0.0964 - accuracy: 0.9724 - val_loss: 0.1361 - val_accuracy: 0.9623
+Epoch 6/10
+48000/48000 [==============================] - 7s 150us/sample - loss: 0.0802 - accuracy: 0.9774 - val_loss: 0.1337 - val_accuracy: 0.9635
+Epoch 7/10
+48000/48000 [==============================] - 7s 148us/sample - loss: 0.0688 - accuracy: 0.9815 - val_loss: 0.1276 - val_accuracy: 0.9642
+Epoch 8/10
+48000/48000 [==============================] - 7s 144us/sample - loss: 0.0584 - accuracy: 0.9845 - val_loss: 0.1236 - val_accuracy: 0.9657
+Epoch 9/10
+48000/48000 [==============================] - 7s 151us/sample - loss: 0.0504 - accuracy: 0.9871 - val_loss: 0.1236 - val_accuracy: 0.9656
+Epoch 10/10
+48000/48000 [==============================] - 7s 141us/sample - loss: 0.0439 - accuracy: 0.9891 - val_loss: 0.1207 - val_accuracy: 0.9667
+</pre>
+
+<p>A partir de history, nous pouvons tracer des courbes contenant l'évolution de la fonction d'erreur et l'évolution de la métrique au cours de l'apprentissage sur la base d'apprentissage et sur la base de validation. Pour cela, la librairie matplotlib peut être utilisée.</p>
+
+<pre class="lang:python">
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc_0.png")
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_0.webp" class="img-fluid" alt="loss_acc">
+</div>
+
+<p>Maintenant que le modèle est appris, nous pouvons obtenir ses performances sur la base de test en utilisant la méthode evaluate. Cette méthode retourne deux valeurs: l'erreur (ici sparse_categorical_crossentropy) et la métrique (ici accuracy) sur la base de test.</p>
+
+<pre class="lang:python">
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+# Output
+[0.12751703255316243, 0.9688]
+</pre>
+
+<p>Nous pouvons aussi prédire la classe d'un ensemble  de données avec la méthode predict.</p>
+
+<pre class="lang:python">
+classes = model.predict(images_test)
+</pre>
+
+<br>
+
+<h4>Sauvegarde et chargement d'un modèle</h4>
+
+<p>Il est souvent utile de sauver le modèle appris afin de pouvoir par la suite évaluer de nouvelles données sur ce modèle. La méthode save permet de sauver un modèle.</p>
+
+<pre class="lang:python">
+model.save("model_mnist_v4.h5")
+</pre>
+
+<p>Pour charger un modèle sauvé, la fonction load_model peut être utilisée. On peut alors utiliser la méthode evaluate pour utiliser ce modèle sur de nouvelles données.</p>
+
+<pre class="lang:python">
+model = tf.keras.models.load_model("model_mnist_v4.h5")
+</pre>
+
+<br>
+
+<h4>Récapitulatif</h4>
+
+<p>Voici l'ensemble du code présenté dans cette page.</p>
+
+<pre class="lang:python">
+"""
+Network
+[784] -> Dense(300, relu) -> Dense(150, relu) -> Dense(10, softmax)
+"""
+
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+
+# Network architecture
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Dense(300, input_shape=[784], activation="relu"))
+model.add(tf.keras.layers.Dense(150, activation="relu"))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+
+# model.summary()
+
+# Optimizer
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Learn
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2)
+
+loss_curve = history.history["loss"]
+acc_curve = history.history["accuracy"]
+loss_val_curve = history.history["val_loss"]
+acc_val_curve = history.history["val_accuracy"]
+
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc_curve.png")
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+# Output
+Train on 48000 samples, validate on 12000 samples
+Epoch 1/10
+48000/48000 [==============================] - 8s 165us/sample - loss: 0.4597 - accuracy: 0.8739 - val_loss: 0.2343 - val_accuracy: 0.9338
+Epoch 2/10
+48000/48000 [==============================] - 7s 143us/sample - loss: 0.1944 - accuracy: 0.9423 - val_loss: 0.1805 - val_accuracy: 0.9489
+Epoch 3/10
+48000/48000 [==============================] - 7s 138us/sample - loss: 0.1431 - accuracy: 0.9580 - val_loss: 0.1573 - val_accuracy: 0.9553
+Epoch 4/10
+48000/48000 [==============================] - 7s 141us/sample - loss: 0.1119 - accuracy: 0.9674 - val_loss: 0.1435 - val_accuracy: 0.9594
+Epoch 5/10
+48000/48000 [==============================] - 7s 141us/sample - loss: 0.0930 - accuracy: 0.9736 - val_loss: 0.1320 - val_accuracy: 0.9635
+Epoch 6/10
+48000/48000 [==============================] - 7s 149us/sample - loss: 0.0778 - accuracy: 0.9786 - val_loss: 0.1324 - val_accuracy: 0.9636
+Epoch 7/10
+48000/48000 [==============================] - 7s 142us/sample - loss: 0.0663 - accuracy: 0.9820 - val_loss: 0.1228 - val_accuracy: 0.9671
+Epoch 8/10
+48000/48000 [==============================] - 7s 140us/sample - loss: 0.0572 - accuracy: 0.9853 - val_loss: 0.1230 - val_accuracy: 0.9677
+Epoch 9/10
+48000/48000 [==============================] - 7s 148us/sample - loss: 0.0490 - accuracy: 0.9878 - val_loss: 0.1189 - val_accuracy: 0.9689
+Epoch 10/10
+48000/48000 [==============================] - 7s 150us/sample - loss: 0.0426 - accuracy: 0.9897 - val_loss: 0.1171 - val_accuracy: 0.9688
+[0.12525278250109403, 0.9697]
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_0.webp" class="img-fluid" alt="loss_acc">
+</div>

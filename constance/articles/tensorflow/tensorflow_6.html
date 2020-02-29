@@ -1,0 +1,64 @@
+<h1>TensorBoard</h1>
+
+<p>TensorBoard est un outil pour visualiser l'apprentissage ce qui peut faciliter l'optimisation d'un modèle.</p>
+
+<h4>Comment utiliser TensorBoard</h4>
+
+<p> Pour utiliser TensorBoard, il suffit d'utiliser le callback TensorBoard lors de l'apprentissage.</p>
+
+<pre class="lang:python">
+# TensorBoard
+from datetime import datetime
+log_dir = "logs/" + datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+callbacks = [tensorboard_callback]
+
+# Learn
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2, callbacks=callbacks)
+</pre>
+
+<p>Ce callback permet d'enregistrer des informations pendant l'apprentissage dans le fichier log_dir. Nous pouvons alors visualiser ces informations enregistrées en lançant TensorBoard.</p>
+
+<pre class="lang:bash">
+tensorboard --logdir logs
+</pre>
+
+<p>Puis il suffit d'ouvrir la page <u><a href="http://localhost:6006/" class="home">http://localhost:6006/</a></u> dans un navigateur pour avoir accès à TensorBoard.</p>
+
+<p>La première page Scalars représente l'évolution de l'accuracy et de l'erreur au cours de l'apprentissage.</p>
+
+<div class="text-center">
+<img src="../../img/tensorflow/tensorboard_scalars.webp" class="img-fluid" alt="tensorflow_scalars">
+</div>
+
+<br>
+
+<p>La deuxième page Graphs représente le réseau de neurones utilisé.</p>
+
+<div class="text-center">
+<img src="../../img/tensorflow/tensorboard_graphs.webp" class="img-fluid" alt="tensorboard_graphs">
+</div>
+
+<br>
+
+<p>La troisième page Distributions représente la distribution des biais et des poids appris.</p>
+
+<div class="text-center">
+<img src="../../img/tensorflow/tensorboard_distributions.webp" class="img-fluid" alt="tensorboard_distributions">
+</div>
+
+<br>
+
+<p>La quatrième page Histograms représente la distribution des biais et des poids appris.</p>
+
+<div class="text-center">
+<img src="../../img/tensorflow/tensorboard_histograms.webp" class="img-fluid" alt="tensorboard_histograms">
+</div>
+
+<br>
+
+<p>La dernière page Profile représente le temps passé dans chaque partie de l'apprentissage.</p>
+
+<div class="text-center">
+<img src="../../img/tensorflow/tensorboard_profile.wbep" class="img-fluid" alt="tensorboard_profile">
+</div>

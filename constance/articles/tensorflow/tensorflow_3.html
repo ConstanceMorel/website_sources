@@ -1,0 +1,430 @@
+<h1>Personnalisation de l'apprentissage</h1>
+
+<p>Dans cette page, nous allons présenter comment 
+<ul>
+	<li>définir l'évolution du learning rate au cours de l'apprentissage</li>
+	<li>définir la fonction d'erreur (loss)</li>
+	<li>définir les itérations de l'apprentissage  à l'aide du GradientTape</li>
+</ul></p>
+
+<br>
+
+<h4>Personnalisation du learning rate</h4>
+
+<p>Pour personnaliser le learning rate, nous allons utiliser le callback LearningRateScheduler. Pour rappel, un callback est un ensemble de fonctions qui seront appelées à chaque epoch pendant l'apprentissage. Le callback LearningRateScheduler prend en paramètre une méthode scheduler qui prend en entrée l'indice de l'epoch (un entier supérieur ou égal à 0) et le learning rate courant et retourne le nouveau learning rate sous la forme d'un floatant.</p>
+
+<p>Nous allons présenter deux évolutions du learning rate souvent utilisées en machine learning:
+<ul>
+	<li>la première consiste à diviser le learning rate par 2 tous les \(N\) epochs</li>
+	<li>la deuxième consiste à avoir une diminution exponentielle du learning rate</li>
+</ul></p>
+
+<br>
+
+<p><u><b>Evolution du learning rate par pas</b></u></p>
+
+<p>Nous proposons d'avoir un learning rate qui est divisé par 2 tous les 10 epochs. Pour cela, nous devons définir la méthode scheduler qui calcule le learning rate en fonction de l'indice de l'epoch.</p>
+
+<pre class="lang:python">
+def step_decay(epoch):
+   initial_lr = 0.1
+   drop = 0.5
+   epochs_drop = 10
+   lr = initial_lr * (drop ** (1 + epoch // epochs_drop)
+   return lr
+
+callbacks = [tf.keras.callbacks.LearningRateScheduler(step_decay)]
+</pre>
+
+<p>Pour utiliser ce learning rate lors de l'apprentissage, il suffit d'ajouter notre callback en paramètre de la méthode fit.</p>
+
+<br>
+
+<p><u><b>Evolution exponentielle du learning rate</b></u></p>
+
+<p>Nous proposons d'avoir un learning rate qui diminue de façon exponentielle \(lr = lr_0 \cdot exp(-k \cdot epoch)\) avec \(lr_0\) le learning rate initial, \(k\) un hyperparamètre permettant d'ajuster la vitesse de diminution du learning rate et \(epoch\) l'indice de l'epoch.</p>
+
+<pre class="lang:python">
+from math import exp
+
+def exp_decay(epoch):
+   initial_lr = 0.1
+   k = 0.1
+   lr = initial_lr * exp(-k * epoch)
+   return lr
+
+callbacks = [tf.keras.callbacks.LearningRateScheduler(exp_decay)]
+</pre>
+
+<br>
+
+<p><u><b>Utilisation de notre learning rate dans notre réseau de neurones convolutif</b></u></p>
+
+<p>Voici le code complet de l'apprentissage sur le réseau convolutif défini précédemment avec le learning rate à diminution exponentielle.</p>
+
+<pre class="lang:python">
+"""
+Network
+[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu) 
+ -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu) -> Dense(10, softmax)
+"""
+
+from math import exp
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+
+images_train = images_train.reshape(-1, 28, 28, 1).astype(float)
+images_test = images_test.reshape(-1, 28, 28, 1).astype(float)
+
+# Network architecture
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(30, (5, 5), input_shape=(28, 28, 1), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(128, activation="relu"))
+model.add(tf.keras.layers.Dense(50, activation="relu"))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+
+# Optimizer
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Learning rate schedule
+#def step_decay(epoch):
+#   initial_lr = 0.1
+#   drop = 0.5
+#   epochs_drop = 10
+#   lr = initial_lr * (drop ** (1 + epoch // epochs_drop)
+#   return lr
+
+def exp_decay(epoch):
+   initial_lr = 0.1
+   k = 0.1
+   lr = initial_lr * exp(-k * epoch)
+   return lr
+
+callbacks = [tf.keras.callbacks.LearningRateScheduler(exp_decay)]
+# Learn
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2, callbacks=callbacks)
+
+loss_curve = history.history["loss"]
+acc_curve = history.history["accuracy"]
+loss_val_curve = history.history["val_loss"]
+acc_val_curve = history.history["val_accuracy"]
+
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc_1.png")
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+# Output
+Train on 48000 samples, validate on 12000 samples
+Epoch 1/10
+48000/48000 [==============================] - 48s 996us/sample - loss: 0.2042 - accuracy: 0.9377 - val_loss: 0.0776 - val_accuracy: 0.9758
+Epoch 2/10
+48000/48000 [==============================] - 46s 953us/sample - loss: 0.0633 - accuracy: 0.9815 - val_loss: 0.0608 - val_accuracy: 0.9817
+Epoch 3/10
+48000/48000 [==============================] - 40s 832us/sample - loss: 0.0398 - accuracy: 0.9880 - val_loss: 0.0503 - val_accuracy: 0.9859
+Epoch 4/10
+48000/48000 [==============================] - 39s 814us/sample - loss: 0.0272 - accuracy: 0.9910 - val_loss: 0.0478 - val_accuracy: 0.9877
+Epoch 5/10
+48000/48000 [==============================] - 40s 830us/sample - loss: 0.0181 - accuracy: 0.9942 - val_loss: 0.0448 - val_accuracy: 0.9885
+Epoch 6/10
+48000/48000 [==============================] - 41s 853us/sample - loss: 0.0116 - accuracy: 0.9966 - val_loss: 0.0437 - val_accuracy: 0.9885
+Epoch 7/10
+48000/48000 [==============================] - 43s 904us/sample - loss: 0.0084 - accuracy: 0.9976 - val_loss: 0.0522 - val_accuracy: 0.9880
+Epoch 8/10
+48000/48000 [==============================] - 42s 885us/sample - loss: 0.0065 - accuracy: 0.9982 - val_loss: 0.0525 - val_accuracy: 0.9883
+Epoch 9/10
+48000/48000 [==============================] - 42s 877us/sample - loss: 0.0063 - accuracy: 0.9982 - val_loss: 0.0498 - val_accuracy: 0.9896
+Epoch 10/10
+48000/48000 [==============================] - 43s 889us/sample - loss: 0.0036 - accuracy: 0.9990 - val_loss: 0.0494 - val_accuracy: 0.9895
+[0.03520555324974398, 0.9903]
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_3_exp_decay.webp" class="img-fluid" alt="loss_acc">
+</div>
+
+<br>
+
+<h4>Personnalisation de la fonction d'erreur (loss)</h4>
+
+<p>Une fonction d'erreur prend en entrée deux tensors: le premier contient les targets venant de la base d'apprentissage et le deuxième contient les prédictions obtenues en utilisant le modèle sur les données de la base d'apprentissage. Cette fonction retourne un floatant indiquant à quel point les prédictions sont éloignées des vraies valeurs cibles.</p>
+
+<p>Nous proposons d'implémenter la fonction d'erreur <u><a href="https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error" class="home">SMAPE</a></u> (Symmetric Mean Absolute Percentage Error):</p>
+$$SMAPE = \frac{1}{n} \sum_{i=1}^n \frac{|target_i - prediction_i|}{(|target_i| + |prediction_i|)/2}$$
+
+<pre class="lang:python">
+# SMAPE loss
+def smape_loss(target, prediction):
+    denominators = (tf.keras.backend.abs(target) + tf.keras.backend.abs(prediction))/2
+    denominators_without_zero = tf.where(
+            tf.equal(denominators, 0),
+            tf.ones_like( denominators, dtype="float32"),
+            denominators)
+    numerators = tf.keras.backend.abs(target-prediction)
+    return tf.keras.backend.mean(tf.math.divide(numerators, denominators_without_zero))
+</pre>
+
+<p>Cette fonction d'erreur nécessite d'avoir des sorties au format one-hot encoding. Pour cela, la méthode to_categorical de Keras peut être utilisée.</p>
+
+<pre class="lang:python">
+# One hot encoding
+targets_train = tf.keras.utils.to_categorical(targets_train)
+targets_test = tf.keras.utils.to_categorical(targets_test)
+</pre>
+
+<p>Voici le code complet de l'apprentissage sur le réseau convolutif défini précédemment avec le learning rate à diminution exponentielle.</p>
+
+<pre class="lang:python">
+"""
+Network
+[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu)
+ -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu) -> Dense(10, softmax)
+"""
+
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test = scaler.transform(images_test)
+
+images_train = images_train.reshape(-1, 28, 28, 1).astype(float)
+images_test = images_test.reshape(-1, 28, 28, 1).astype(float)
+
+# One hot encoding
+targets_train = tf.keras.utils.to_categorical(targets_train)
+targets_test = tf.keras.utils.to_categorical(targets_test)
+
+# Network architecture
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(30, (5, 5), input_shape=(28, 28, 1),
+    activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(128, activation="relu"))
+model.add(tf.keras.layers.Dense(50, activation="relu"))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+
+# SMAPE loss
+def smape_loss(target, prediction):
+    denominators = (tf.keras.backend.abs(target) + tf.keras.backend.abs(prediction))/2
+    denominators_without_zero = tf.where(
+            tf.equal(denominators, 0),
+            tf.ones_like(denominators, dtype="float32"),
+            denominators)
+    numerators = tf.keras.backend.abs(target-prediction)
+    return tf.keras.backend.mean(tf.math.divide(numerators, denominators_without_zero))
+
+# Optimizer
+model.compile(
+        loss=smape_loss,
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Learn
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2)
+
+loss_curve = history.history["loss"]
+acc_curve = history.history["accuracy"]
+loss_val_curve = history.history["val_loss"]
+acc_val_curve = history.history["val_accuracy"]
+
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc_1.png")
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+# Output
+Train on 48000 samples, validate on 12000 samples
+Epoch 1/10
+48000/48000 [==============================] - 43s 887us/sample - loss: 1.9606 - accuracy: 0.1910 - val_loss: 1.9546 - val_accuracy: 0.2753
+Epoch 2/10
+48000/48000 [==============================] - 51s 1ms/sample - loss: 1.9332 - accuracy: 0.3704 - val_loss: 1.8969 - val_accuracy: 0.6234
+Epoch 3/10
+48000/48000 [==============================] - 48s 1ms/sample - loss: 1.8636 - accuracy: 0.7361 - val_loss: 1.8404 - val_accuracy: 0.8248
+Epoch 4/10
+48000/48000 [==============================] - 48s 994us/sample - loss: 1.8350 - accuracy: 0.8419 - val_loss: 1.8275 - val_accuracy: 0.8763
+Epoch 5/10
+48000/48000 [==============================] - 63s 1ms/sample - loss: 1.8257 - accuracy: 0.8809 - val_loss: 1.8215 - val_accuracy: 0.8981
+Epoch 6/10
+48000/48000 [==============================] - 53s 1ms/sample - loss: 1.8205 - accuracy: 0.9050 - val_loss: 1.8183 - val_accuracy: 0.9136
+Epoch 7/10
+48000/48000 [==============================] - 50s 1ms/sample - loss: 1.8174 - accuracy: 0.9179 - val_loss: 1.8156 - val_accuracy: 0.9265
+Epoch 8/10
+48000/48000 [==============================] - 54s 1ms/sample - loss: 1.8154 - accuracy: 0.9275 - val_loss: 1.8142 - val_accuracy: 0.9318
+Epoch 9/10
+48000/48000 [==============================] - 53s 1ms/sample - loss: 1.8138 - accuracy: 0.9343 - val_loss: 1.8129 - val_accuracy: 0.9370
+Epoch 10/10
+48000/48000 [==============================] - 55s 1ms/sample - loss: 1.8127 - accuracy: 0.9394 - val_loss: 1.8119 - val_accuracy: 0.9430
+[1.811762745475769, 0.9417]
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_3_smape_loss.webp" class="img-fluid" alt="loss_acc">
+</div>
+
+<br>
+
+<h4>Redéfinir les itérations de l'apprentissage</h4>
+
+<p>GradientTape permet d'enregistrer les opérations effectuées afin de pouvoir par la suite effectuer une différenciation automatique. Les opérations enregistrées sont uniquement les opérations qui sont exécutées à l'intérieur du GradientTape et dont l'une des entrées au moins est "watched". Lors de la définition d'un réseau, les variables à apprendre (les poids et les biais) sont automatiquement définies comme "watched".</p>
+
+<p>Nous pouvons redéfinir la méthode fit à l'aide du GradientTape.</p>
+
+<pre class="lang:python">
+## Learn
+optimizer = tf.keras.optimizers.SGD()
+
+@tf.function
+def train_step(images, targets):
+    # Save all operations
+    with tf.GradientTape() as tape:
+        # Make prediction
+        predictions = model(images)
+        # Compute loss
+        loss = tf.keras.losses.categorical_crossentropy(targets, predictions)
+    # Compute gradients
+    gradients = tape.gradient(loss, model.trainable_variables)
+    # Update model
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+
+batch_size = 32
+epochs = 10
+images_per_epoch = len(images_train) // batch_size
+for epoch in range(epochs):
+    for i in range(images_per_epoch):
+        n = i*batch_size
+        train_step(images_train[n:n+batch_size], targets_train[n:n+batch_size])
+</pre>
+
+<p>Nous pouvons maintenant utiliser cet apprentissage sur notre réseau de neurones convolutif.</p>
+
+<pre class="lang:python">
+"""
+Network
+[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu) 
+ -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu) -> Dense(10, softmax)
+"""
+
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+
+images_train = images_train.reshape(-1, 28, 28, 1).astype(float)
+images_test = images_test.reshape(-1, 28, 28, 1).astype(float)
+
+# One hot encoding
+targets_train = tf.keras.utils.to_categorical(targets_train)
+targets_test = tf.keras.utils.to_categorical(targets_test)
+
+# Network architecture
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(30, (5, 5), input_shape=(28, 28, 1), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(128, activation="relu"))
+model.add(tf.keras.layers.Dense(50, activation="relu"))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+
+## Learn
+optimizer = tf.keras.optimizers.SGD()
+
+@tf.function
+def train_step(images, targets):
+    # Save all operations
+    with tf.GradientTape() as tape:
+        # Make prediction
+        predictions = model(images)
+        # Compute loss
+        loss = tf.keras.losses.categorical_crossentropy(targets, predictions)
+    # Compute gradients
+    gradients = tape.gradient(loss, model.trainable_variables)
+    # Update model
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+
+batch_size = 32
+epochs = 10
+images_per_epoch = len(images_train) // batch_size
+for epoch in range(epochs):
+    for i in range(images_per_epoch):
+        n = i*batch_size
+        train_step(images_train[n:n+batch_size], targets_train[n:n+batch_size])
+
+# Compile must be defined to use evaluate method
+model.compile(
+        loss="categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+# Output
+[0.11422924392258865, 0.9703]
+</pre>
