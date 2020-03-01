@@ -12,7 +12,7 @@
 </url>
 <url>
   <loc>https://beguier.eu/constance/</loc>
-  <lastmod>2020-01-08T14:39:44+00:00</lastmod>
+  <lastmod>2020-03-01T14:39:44+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
@@ -43,6 +43,11 @@
 <url>
   <loc>https://beguier.eu/constance/articles/finance/finance.html</loc>
   <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/constance/articles/tensorflow/tensorflow.html</loc>
+  <lastmod>2020-03-01T14:39:44+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
