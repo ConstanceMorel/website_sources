@@ -1,0 +1,194 @@
+<h1>Eviter le surapprentissage</h1>
+
+<p>Il existe différentes méthodes pour éviter le surapprentissage (apprentissage du bruit contenu dans la base de données). Les plus connues sont l'ajout de couches de dropout, l'ajout de couches de régularisation, l'early stopping et l'ajout de données artificielles dans la base d'apprentissage. Dans cette page, nous allons voir comment mettre en place ces méthodes avec TensorFlow.</p>
+
+<br>
+
+<h4>Couches de Dropout</h4>
+
+<p>Le <b>dropout</b> consiste à désactiver aléatoirement une partie des neurones pendant la phase d'apprentissage. Au début de chaque round, certains neurones tirés aléatoirement sont supprimés du réseau. Ils ne sont ni utiliser pendant la phase de feedforward, ni utiliser pendant la phase de backpropagation. Ils ne sont donc pas mis à jour à la fin du round. Pour ajouter du dropout dans notre réseau, il suffit d'ajouter une couche de dropout.</p>
+
+<pre class="lang:python">
+model.add(tf.keras.layers.Dropout(0.2))
+</pre>
+
+<p>La couche présentée ci-dessus désactive 20% des neurones de la couche précédente. Les couches de dropout sont uniquement utilisées pendant l'apprentissage et sont inactives pendant l'inférence sur une nouvelle donnée. Un seed peut être ajouté au Dropout afin d'avoir exactement les mêmes neurones désactivés lorsque l'on relance l'apprentissage. Cela permet d'avoir un apprentissage reproductible.</p>
+
+<pre class="lang:python">
+model.add(tf.keras.layers.Dropout(0.2, seed=0))
+</pre>
+
+<p>Nous pouvons par exemple ajouter une couche de dropout au réseau convolutif de la page précédente juste avant les couches denses.</p>
+
+<pre class="lang:python">
+# Network architecture
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(30, (5, 5), input_shape=(28, 28, 1), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Dropout(0.2))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(128, activation="relu"))
+model.add(tf.keras.layers.Dense(50, activation="relu"))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+</pre>
+
+<br>
+
+<h4>Couches de régularisation</h4>
+
+<p>La régularisation est utilisée pour limiter la taille des poids appris afin de limiter le surapprentissage. Elle consiste à ajouter un terme à la fonction d'erreur. Ce terme peut être calculé à partir des poids de la couche (kernel_regularizer), des biais de la couche (bias_regularizer) ou des valeurs en sortie de la couche (activity_regularizer). Le terme ajouté à la fonction d'erreur est soit égal à la somme des valeurs absolues des valeurs à régulariser
+$$l1_{penalty} = k1 \sum_i | x_i | $$
+soit égal à la somme des carrés des valeurs à régulariser
+$$l2_{penalty} = k2 \sum_i x_i^2 $$
+Avec Tensorflow, la régularisation est définie couche par couche. Par exemple, si nous voulons ajouter une régularisation L1 avec \(k_1=0.1\) sur les poids d'une couche dense, nous utilisons la ligne suivante lors de la définition de la couche</p>
+
+<pre class="lang:python">
+model.add(tf.keras.layers.Dense(128, activation="relu", kernel_regularizer=tf.keras.regularizers.l1(l1=0.1)))
+</pre>
+
+<p>Pour une régularisation L2, il suffit de remplacer l1 par l2 dans le code précédent. Il est possible d'effectuer une régularisation L1 et L2 simultanément avec le regularizer l1_l2 qui prend en paramètre les valeurs l1 et l2).</p>
+
+<br>
+
+<h4>Early stopping</h4>
+
+<p>Le surapprentissage est causé par un apprentissage trop long. Il est assez compliqué de choisir le bon nombre d'epochs afin d'arrêter l'apprentissage au bon moment (ni sur un modèle sous-appris, ni sur un modèle sur-appris). L'<b>early stopping</b> est une méthode qui permet d'arrêter l'apprentissage lorsque les performances du modèle stagnent sur la base de validation. Par exemple, nous pouvons choisir d'arrêter l'apprentissage si la valeur de la fonction d'erreur sur la base de validation (val_loss) ne décroit pas sur 100 epochs consécutifs.</p>
+
+<pre class="lang:python">
+es = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', patience=100)
+history = model.fit(images_train, targets_train, validation_data=(images_validation, targets_validation), epochs=4000, callbacks=[es])
+</pre>
+
+<p>Dans le code ci-dessus, nous commençons par définir le callback d'early stopping. Nous voulons monitorer la fonction d'erreur sur la base de validation (monitor='val_loss'). Nous voulons arrêter l'apprentissage lorsque cette valeur arrête de diminuer (mode='min') pendant 100 epochs consécutifs (patience=100). Nous utilisons ce callback d'early stopping comme paramètre de la méthode d'apprentissage fit. L'apprentissage s'arrêtera au plus tard au bout de 4000 epochs si jamais la condition d'early stopping n'est jamais vérifiée.</p>
+
+<p>Un callback est un ensemble de fonctions qui seront appelées à chaque epoch pendant l'apprentissage. Les callbacks sont utilisés pour récupérer les états internes du modèle pendant l'apprentissage et faire des statistiques sur ces états internes. Ils sont aussi utilisés pour modifier les hyperparamètres pendant l'apprentissage (par exemple, pour définir un learning rate qui évolue au cours de l'apprentissage).</p>
+
+</p>
+
+<br>
+
+<h4>Exemple d'un apprentissage avec dropout, régularisation et early stopping</h4>
+
+<p>Nous allons réutiliser le réseau convolutif de la page précédente en y ajoutant des couches de dropout, de la régularisation l1_l2 sur les couches denses et de l'early stopping pendant l'apprentissage.</p>
+
+<pre class="lang:python">
+"""
+Network
+[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu) 
+ -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu) -> Dense(10, softmax)
+"""
+
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+
+images_train = images_train.reshape(-1, 28, 28, 1).astype(float)
+images_test = images_test.reshape(-1, 28, 28, 1).astype(float)
+
+# Create validation database from training_database
+images_train, images_validation, targets_train, targets_validation = train_test_split(images_train, targets_train, test_size=0.2, random_state=42)
+
+# Network architecture
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(30, (5, 5), input_shape=(28, 28, 1), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Dropout(0.2))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(128, activation="relu", kernel_regularizer=tf.keras.regularizers.l1_l2(l1=0.01, l2=0.01)))
+model.add(tf.keras.layers.Dense(50, activation="relu", kernel_regularizer=tf.keras.regularizers.l1_l2(l1=0.01, l2=0.01)))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+
+# Optimizer
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Early stopping
+es = tf.keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', patience=5)
+
+# Learn
+history = model.fit(images_train, targets_train, validation_data=(images_validation, targets_validation), epochs=4000, callbacks=[es])
+
+loss_curve = history.history["loss"]
+acc_curve = history.history["accuracy"]
+loss_val_curve = history.history["val_loss"]
+acc_val_curve = history.history["val_accuracy"]
+
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc_1.png")
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+#Output
+Train on 48000 samples, validate on 12000 samples
+Epoch 1/4000
+48000/48000 [==============================] - 41s 850us/sample - loss: 10.7670 - accuracy: 0.7138 - val_loss: 1.3239 - val_accuracy: 0.8138
+Epoch 2/4000
+48000/48000 [==============================] - 41s 847us/sample - loss: 1.1587 - accuracy: 0.8200 - val_loss: 1.0073 - val_accuracy: 0.8679
+Epoch 3/4000
+48000/48000 [==============================] - 44s 907us/sample - loss: 0.9322 - accuracy: 0.8714 - val_loss: 0.8480 - val_accuracy: 0.8883
+Epoch 4/4000
+48000/48000 [==============================] - 48s 996us/sample - loss: 0.8273 - accuracy: 0.8946 - val_loss: 0.6732 - val_accuracy: 0.9373
+Epoch 5/4000
+48000/48000 [==============================] - 44s 927us/sample - loss: 0.7414 - accuracy: 0.9083 - val_loss: 0.6397 - val_accuracy: 0.9364
+Epoch 6/4000
+48000/48000 [==============================] - 44s 911us/sample - loss: 0.6927 - accuracy: 0.9157 - val_loss: 0.5814 - val_accuracy: 0.9436
+Epoch 7/4000
+48000/48000 [==============================] - 44s 916us/sample - loss: 0.6510 - accuracy: 0.9207 - val_loss: 0.6219 - val_accuracy: 0.9289
+Epoch 8/4000
+48000/48000 [==============================] - 45s 936us/sample - loss: 0.6330 - accuracy: 0.9228 - val_loss: 0.5902 - val_accuracy: 0.9449
+Epoch 9/4000
+48000/48000 [==============================] - 44s 915us/sample - loss: 0.6175 - accuracy: 0.9251 - val_loss: 0.5122 - val_accuracy: 0.9532
+Epoch 10/4000
+48000/48000 [==============================] - 44s 914us/sample - loss: 0.5969 - accuracy: 0.9272 - val_loss: 0.5433 - val_accuracy: 0.9443
+Epoch 11/4000
+48000/48000 [==============================] - 44s 908us/sample - loss: 0.5857 - accuracy: 0.9279 - val_loss: 0.5577 - val_accuracy: 0.9359
+Epoch 12/4000
+48000/48000 [==============================] - 44s 911us/sample - loss: 0.5824 - accuracy: 0.9309 - val_loss: 0.5293 - val_accuracy: 0.9458
+Epoch 13/4000
+48000/48000 [==============================] - 44s 921us/sample - loss: 0.5694 - accuracy: 0.9296 - val_loss: 0.4716 - val_accuracy: 0.9582
+Epoch 14/4000
+48000/48000 [==============================] - 44s 917us/sample - loss: 0.5683 - accuracy: 0.9311 - val_loss: 0.5220 - val_accuracy: 0.9463
+Epoch 15/4000
+48000/48000 [==============================] - 44s 908us/sample - loss: 0.5517 - accuracy: 0.9344 - val_loss: 0.5151 - val_accuracy: 0.9531
+Epoch 16/4000
+48000/48000 [==============================] - 44s 908us/sample - loss: 0.5461 - accuracy: 0.9349 - val_loss: 0.4863 - val_accuracy: 0.9571
+Epoch 17/4000
+48000/48000 [==============================] - 44s 923us/sample - loss: 0.5462 - accuracy: 0.9339 - val_loss: 0.5096 - val_accuracy: 0.9462
+Epoch 18/4000
+48000/48000 [==============================] - 44s 910us/sample - loss: 0.5410 - accuracy: 0.9348 - val_loss: 0.4828 - val_accuracy: 0.9491
+[0.46632357158660886, 0.9543]
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_2.webp" class="img-fluid" alt="loss_acc">
+</div>

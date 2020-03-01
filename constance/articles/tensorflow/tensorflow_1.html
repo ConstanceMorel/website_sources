@@ -1,0 +1,164 @@
+<h1>Réseaux de neurones convolutifs</h1>
+
+<p>Dans cette section, nous allons présenter l'apprentissage d'un réseau de neurones convolutif avec TensorFlow.</p>
+
+<br>
+
+<h4>Couche de convolution</h4>
+
+<p>Il existe trois couches possibles de convolution (Conv1D, Conv2D, Conv3D) qui dépendent de la dimension des données en entrée de la couche.</p>
+
+<p>Les principaux paramètres de ces couches de convolution sont:
+<ul>
+	<li>filters: le nombre de filtres à utiliser (cela correspond à la profondeur de la couche de sortie)</li>
+	<li>kernel_size: la dimension des filtres à utiliser</li>
+	<li>strides: il définit le déplacement à effectuer sur la donnée en entrée pour passer d'une convolution à la suivante</li>
+	<li>padding: il peut prendre les valeurs suivantes</li>
+		<ul>
+			<li>valid: pas de padding (valeur par défaut)</li>
+			<li>same: pour que chaque feature map de la couche de la sortie ait la même dimension qu'une feature map de la couche d'entrée</li>
+		</ul>
+	<li>activation: fonction d'activation</li>
+	<li>use_bias: valeur booléenne indiquant si la couche utilise un vecteur de biais ou pas</li>
+</ul></p>
+
+<pre class="lang:python">
+model.add(tf.keras.layers.Conv2D(30, (5, 5), input_shape=(28, 28, 1), activation="relu", padding='same'))
+</pre>
+
+<br>
+
+<h4>Couches de pooling</h4>
+
+<p>Les principales méthodes de pooling sont le max pooling et l'average pooling qui peuvent s'appliquer sur des données en entrée de profondeur 1, 2 ou 3. Ces méthodes sont définies dans Keras par les méthodes MaxPooling1D, MaxPooling2D, MaxPooling3D, AveragePooling1D, AveragePooling2D et AveragePooling3D.</p>
+
+<p>Les principaux paramètres de ces couches de pooling sont:
+<ul>
+	<li>pool_size: la dimension de la fenêtre utilisée pour le pooling</li>
+	<li>strides: il définit le déplacement à effectuer sur la donnée en entrée pour passer d'une fenêtre de pooling à la suivante</li>
+	<li>padding: il peut prendre les valeurs suivantes</li>
+		<ul>
+			<li>valid: pas de padding (valeur par défaut)</li>
+			<li>same: pour que chaque feature map de la couche de la sortie ait la même dimension qu'une feature map de la couche d'entrée</li>
+		</ul>
+</ul></p>
+
+<pre class="lang:python">
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+</pre>
+
+<br>
+
+<h4>Réseau de neurones complet</h4>
+
+<p>Nous proposons de présenter ci-dessous le code pour l'apprentissage sur la base MNIST d'un réseau convolutif ayant l'architecture suivante
+<ul>
+	<li>Couche de convolution 2D contenant 30 filtres de dimension (5, 5) avec un padding same et de fonction d'activation relu</li>
+	<li>Couche de max pooling 2D contenant des fenêtres de dimension (2, 2) sans padding</li>
+	<li>Couche de convolution 2D contenant 15 filtres de dimension (3, 3) avec un padding same et de fonction d'activation relu</li>
+	<li>Couche de max pooling 2D contenant des fenêtres de dimension (2, 2) sans padding</li>
+	<li>Couche Flatten pour transformer la couche à trois dimensions en une couche à une dimension</li>
+	<li>Couche dense de taille de sortie 128 et de fonction d'activation relu</li>
+	<li>Couche dense de taille de sortie 50 et de fonction d'activation relu</li>
+	<li>Couche dense de taille de sortie 10 et de fonction d'activation softmax</li>
+</ul></p>
+
+<div class="text-center">
+<img src="../../img/tensorflow/nn_1.webp" class="img-fluid" alt="neural_network">
+</div>
+
+<pre class="lang:python">
+"""
+Network
+[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu) 
+ -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu) -> Dense(10, softmax)
+"""
+
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+
+images_train = images_train.reshape(-1, 28, 28, 1).astype(float)
+images_test = images_test.reshape(-1, 28, 28, 1).astype(float)
+
+# Network architecture
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(30, (5, 5), input_shape=(28, 28, 1), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(128, activation="relu"))
+model.add(tf.keras.layers.Dense(50, activation="relu"))
+model.add(tf.keras.layers.Dense(10, activation="softmax"))
+
+# Optimizer
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Learn
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2)
+
+loss_curve = history.history["loss"]
+acc_curve = history.history["accuracy"]
+loss_val_curve = history.history["val_loss"]
+acc_val_curve = history.history["val_accuracy"]
+
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc_1.png")
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+#Output
+Train on 48000 samples, validate on 12000 samples
+Epoch 1/10
+48000/48000 [==============================] - 43s 901us/sample - loss: 0.3792 - accuracy: 0.8879 - val_loss: 0.1294 - val_accuracy: 0.9613
+Epoch 2/10
+48000/48000 [==============================] - 41s 854us/sample - loss: 0.1087 - accuracy: 0.9679 - val_loss: 0.0853 - val_accuracy: 0.9748
+Epoch 3/10
+48000/48000 [==============================] - 42s 871us/sample - loss: 0.0777 - accuracy: 0.9757 - val_loss: 0.0893 - val_accuracy: 0.9734
+Epoch 4/10
+48000/48000 [==============================] - 45s 941us/sample - loss: 0.0606 - accuracy: 0.9806 - val_loss: 0.0635 - val_accuracy: 0.9809
+Epoch 5/10
+48000/48000 [==============================] - 44s 918us/sample - loss: 0.0502 - accuracy: 0.9842 - val_loss: 0.0747 - val_accuracy: 0.9784
+Epoch 6/10
+48000/48000 [==============================] - 46s 964us/sample - loss: 0.0440 - accuracy: 0.9861 - val_loss: 0.0624 - val_accuracy: 0.9838
+Epoch 7/10
+48000/48000 [==============================] - 45s 935us/sample - loss: 0.0393 - accuracy: 0.9880 - val_loss: 0.0608 - val_accuracy: 0.9815
+Epoch 8/10
+48000/48000 [==============================] - 43s 899us/sample - loss: 0.0315 - accuracy: 0.9896 - val_loss: 0.0555 - val_accuracy: 0.9839
+Epoch 9/10
+48000/48000 [==============================] - 44s 925us/sample - loss: 0.0279 - accuracy: 0.9914 - val_loss: 0.0528 - val_accuracy: 0.9847
+Epoch 10/10
+48000/48000 [==============================] - 45s 930us/sample - loss: 0.0258 - accuracy: 0.9922 - val_loss: 0.0574 - val_accuracy: 0.9840
+[0.057112141584185885, 0.9843]
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_1.webp" class="img-fluid" alt="loss_acc">
+</div>

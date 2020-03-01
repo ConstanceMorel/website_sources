@@ -1,0 +1,343 @@
+<h1>Réseau non linéaire</h1>
+
+<p>Jusqu'à présent, nous avons uniquement utilisé des réseaux linéaires (la sortie d'une couche est l'entrée de la couche suivante). Dans cette page, nous allons présenter comment créer des réseaux non linéaires.</p>
+
+<p>Pour cela, nous allons utiliser les deux réseaux suivants
+<ul>
+	<li>[28, 28, 1] -> Flatten -> Dense(300, relu) -> Dense(150, relu) -> Dense(50, relu)</li>
+	<li>[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu) -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu)</li>
+</ul></p>
+
+<p>Notre réseau non séquentiel correspond à l'utilisation de ces deux réseaux en parallèle, puis la concaténation des sorties de ces deux réseaux et enfin l'application de deux couches denses sur cette concaténation (Dense(50, relu) puis Dense(10, softmax)).</p>
+
+<p>Nous allons présenter l'implémentation de ce nouveau réseau avec deux méthodes différentes
+<ul>
+	<li>en utilisant un modèle fonctionnel</li>
+	<li>en créant un nouveau modèle héritant de la classe Model</li>
+</ul></p>
+
+<br>
+
+<h4>Définir le modèle de manière fonctionnelle</h4>
+
+<p>Nous pouvons définir notre nouveau modèle de manière fonctionnelle. Pour chaque couche, il faut indiquer qu'elle est sa couche précédente. Une fois que toutes les couches sont définies, le modèle peut être créé en indiquant la couche en entrée et la couche en sortie.</p>
+
+<pre class="lang:python">
+# Network architecture
+inputs = tf.keras.Input(shape=(28, 28, 1))
+network1_layer1 = tf.keras.layers.Conv2D(30, (5, 5), activation="relu", padding='same')(inputs)
+network1_layer2 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(network1_layer1)
+network1_layer3 = tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same')(network1_layer2)
+network1_layer4 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(network1_layer3)
+network1_layer5 = tf.keras.layers.Flatten()(network1_layer4)
+network1_layer6 = tf.keras.layers.Dense(128, activation="relu")(network1_layer5)
+network1_layer7 = tf.keras.layers.Dense(50, activation="relu")(network1_layer6)
+
+network2_layer1 = tf.keras.layers.Flatten()(inputs)
+network2_layer2 = tf.keras.layers.Dense(300, activation="relu")(network2_layer1)
+network2_layer3 = tf.keras.layers.Dense(150, activation="relu")(network2_layer2)
+network2_layer4 = tf.keras.layers.Dense(50, activation="relu")(network2_layer3)
+
+network_layer1 = tf.keras.layers.Concatenate()([network1_layer7, network2_layer4])
+network_layer2 = tf.keras.layers.Dense(50, activation="relu")(network_layer1)
+network_layer3 = tf.keras.layers.Dense(10, activation="softmax")(network_layer2)
+
+model = tf.keras.Model(inputs, network_layer3)
+</pre>
+
+<p>Puis nous pouvons apprendre sur ce nouveau modèle.</p>
+
+<pre class="lang:python">
+"""
+Network
+Concat([output(Network1), output(Network2)]) -> Dense(50, relu) -> Dense(10, softmax)
+Network1
+[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu) 
+ -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu)
+Network2
+[784] -> Dense(300, relu) -> Dense(150, relu) -> Dense(50, relu)
+"""
+
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+
+images_train = images_train.reshape(-1, 28, 28, 1).astype(float)
+images_test = images_test.reshape(-1, 28, 28, 1).astype(float)
+
+# Network architecture
+inputs = tf.keras.Input(shape=(28, 28, 1))
+network1_layer1 = tf.keras.layers.Conv2D(30, (5, 5), activation="relu", padding='same')(inputs)
+network1_layer2 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(network1_layer1)
+network1_layer3 = tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same')(network1_layer2)
+network1_layer4 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))(network1_layer3)
+network1_layer5 = tf.keras.layers.Flatten()(network1_layer4)
+network1_layer6 = tf.keras.layers.Dense(128, activation="relu")(network1_layer5)
+network1_layer7 = tf.keras.layers.Dense(50, activation="relu")(network1_layer6)
+
+network2_layer1 = tf.keras.layers.Flatten()(inputs)
+network2_layer2 = tf.keras.layers.Dense(300, activation="relu")(network2_layer1)
+network2_layer3 = tf.keras.layers.Dense(150, activation="relu")(network2_layer2)
+network2_layer4 = tf.keras.layers.Dense(50, activation="relu")(network2_layer3)
+
+network_layer1 = tf.keras.layers.Concatenate()([network1_layer7, network2_layer4])
+network_layer2 = tf.keras.layers.Dense(50, activation="relu")(network_layer1)
+network_layer3 = tf.keras.layers.Dense(10, activation="softmax")(network_layer2)
+
+model = tf.keras.Model(inputs, network_layer3)
+
+# Optimizer
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Learn
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2)
+
+loss_curve = history.history["loss"]
+acc_curve = history.history["accuracy"]
+loss_val_curve = history.history["val_loss"]
+acc_val_curve = history.history["val_accuracy"]
+
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc.png")
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+#Output
+Train on 48000 samples, validate on 12000 samples
+Epoch 1/10
+48000/48000 [==============================] - 53s 1ms/sample - loss: 0.5632 - accuracy: 0.8368 - val_loss: 0.2222 - val_accuracy: 0.9394
+Epoch 2/10
+48000/48000 [==============================] - 44s 914us/sample - loss: 0.1567 - accuracy: 0.9537 - val_loss: 0.1441 - val_accuracy: 0.9589
+Epoch 3/10
+48000/48000 [==============================] - 48s 1ms/sample - loss: 0.0944 - accuracy: 0.9709 - val_loss: 0.1087 - val_accuracy: 0.9719
+Epoch 4/10
+48000/48000 [==============================] - 48s 1ms/sample - loss: 0.0666 - accuracy: 0.9798 - val_loss: 0.1060 - val_accuracy: 0.9701
+Epoch 5/10
+48000/48000 [==============================] - 48s 1ms/sample - loss: 0.0509 - accuracy: 0.9848 - val_loss: 0.0905 - val_accuracy: 0.9765
+Epoch 6/10
+48000/48000 [==============================] - 53s 1ms/sample - loss: 0.0396 - accuracy: 0.9885 - val_loss: 0.0881 - val_accuracy: 0.9783
+Epoch 7/10
+48000/48000 [==============================] - 56s 1ms/sample - loss: 0.0317 - accuracy: 0.9909 - val_loss: 0.0825 - val_accuracy: 0.9788
+Epoch 8/10
+48000/48000 [==============================] - 47s 971us/sample - loss: 0.0263 - accuracy: 0.9923 - val_loss: 0.0860 - val_accuracy: 0.9784
+Epoch 9/10
+48000/48000 [==============================] - 47s 976us/sample - loss: 0.0216 - accuracy: 0.9941 - val_loss: 0.0855 - val_accuracy: 0.9799
+Epoch 10/10
+48000/48000 [==============================] - 48s 993us/sample - loss: 0.0200 - accuracy: 0.9951 - val_loss: 0.0916 - val_accuracy: 0.9804
+[0.09858013560449472, 0.9793]
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_5_fonctional.webp" class="img-fluid" alt="loss_acc">
+</div>
+
+<br>
+
+<h4>Créer un nouveau modèle héritant de la classe Model</h4>
+
+<p>Nous pouvons créer notre nouveau modèle en héritant de la classe Model. Il faut alors définir l'ensemble des couches que nous allons utiliser dans la méthode __init__ et il faut définir les liens entre les différentes couches dans la méthode call.</p>
+
+<pre class="lang:python">
+# Network architecture
+class NonSequentialModel(tf.keras.Model):
+
+    def __init__(self):
+        super(NonSequentialModel, self).__init__()
+        self.network1_layer1 = tf.keras.layers.Conv2D(30, (5, 5), activation="relu", padding='same')
+        self.network1_layer2 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))
+        self.network1_layer3 = tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same')
+        self.network1_layer4 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))
+        self.network1_layer5 = tf.keras.layers.Flatten()
+        self.network1_layer6 = tf.keras.layers.Dense(128, activation="relu")
+        self.network1_layer7 = tf.keras.layers.Dense(50, activation="relu")
+        
+        self.network2_layer1 = tf.keras.layers.Flatten()
+        self.network2_layer2 = tf.keras.layers.Dense(300, activation="relu")
+        self.network2_layer3 = tf.keras.layers.Dense(150, activation="relu")
+        self.network2_layer4 = tf.keras.layers.Dense(50, activation="relu")
+        
+        self.network_layer1 = tf.keras.layers.Concatenate()
+        self.network_layer2 = tf.keras.layers.Dense(50, activation="relu")
+        self.network_layer3 = tf.keras.layers.Dense(10, activation="softmax")
+
+    def call(self, x):
+        n1_l1 = self.network1_layer1(x)
+        n1_l2 = self.network1_layer2(n1_l1)
+        n1_l3 = self.network1_layer3(n1_l2)
+        n1_l4 = self.network1_layer4(n1_l3)
+        n1_l5 = self.network1_layer5(n1_l4)
+        n1_l6 = self.network1_layer6(n1_l5)
+        n1_l7 = self.network1_layer7(n1_l6)
+
+        n2_l1 = self.network2_layer1(x)
+        n2_l2 = self.network2_layer2(n2_l1)
+        n2_l3 = self.network2_layer3(n2_l2)
+        n2_l4 = self.network2_layer4(n2_l3)
+
+        n_l1 = self.network_layer1([n1_l7, n2_l4])
+        n_l2 = self.network_layer2(n_l1)
+        n_l3 = self.network_layer3(n_l2)
+        return n_l3
+
+model = NonSequentialModel()
+</pre>
+
+<p>Puis nous pouvons apprendre sur ce nouveau modèle.</p>
+
+<pre class="lang:python">
+"""
+Network
+Concat([output(Network1), output(Network2)]) -> Dense(50, relu) -> Dense(10, softmax)
+Network1
+[28, 28, 1] -> Conv2D(30, (5, 5), relu) -> MaxPooling(2, 2) -> Conv2D(15, (3, 3), relu) 
+ -> MaxPooling(2, 2) -> Flatten -> Dense(128, relu) -> Dense(50, relu)
+Network2
+[784] -> Dense(300, relu) -> Dense(150, relu) -> Dense(50, relu)
+"""
+
+import tensorflow as tf
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Load database
+(images_train, targets_train), (images_test, targets_test) = tf.keras.datasets.mnist.load_data()
+
+# Normalization
+images_train = images_train.reshape(-1, 784).astype(float)
+scaler = StandardScaler()
+images_train = scaler.fit_transform(images_train)
+images_test = images_test.reshape(-1, 784).astype(float)
+images_test =scaler.transform(images_test)
+
+images_train = images_train.reshape(-1, 28, 28, 1).astype(float)
+images_test = images_test.reshape(-1, 28, 28, 1).astype(float)
+
+# Network architecture
+class NonSequentialModel(tf.keras.Model):
+
+    def __init__(self):
+        super(NonSequentialModel, self).__init__()
+        self.network1_layer1 = tf.keras.layers.Conv2D(30, (5, 5), activation="relu", padding='same')
+        self.network1_layer2 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))
+        self.network1_layer3 = tf.keras.layers.Conv2D(15, (3, 3), activation="relu", padding='same')
+        self.network1_layer4 = tf.keras.layers.MaxPooling2D(pool_size=(2, 2))
+        self.network1_layer5 = tf.keras.layers.Flatten()
+        self.network1_layer6 = tf.keras.layers.Dense(128, activation="relu")
+        self.network1_layer7 = tf.keras.layers.Dense(50, activation="relu")
+        
+        self.network2_layer1 = tf.keras.layers.Flatten()
+        self.network2_layer2 = tf.keras.layers.Dense(300, activation="relu")
+        self.network2_layer3 = tf.keras.layers.Dense(150, activation="relu")
+        self.network2_layer4 = tf.keras.layers.Dense(50, activation="relu")
+        
+        self.network_layer1 = tf.keras.layers.Concatenate()
+        self.network_layer2 = tf.keras.layers.Dense(50, activation="relu")
+        self.network_layer3 = tf.keras.layers.Dense(10, activation="softmax")
+
+    def call(self, x):
+        n1_l1 = self.network1_layer1(x)
+        n1_l2 = self.network1_layer2(n1_l1)
+        n1_l3 = self.network1_layer3(n1_l2)
+        n1_l4 = self.network1_layer4(n1_l3)
+        n1_l5 = self.network1_layer5(n1_l4)
+        n1_l6 = self.network1_layer6(n1_l5)
+        n1_l7 = self.network1_layer7(n1_l6)
+
+        n2_l1 = self.network2_layer1(x)
+        n2_l2 = self.network2_layer2(n2_l1)
+        n2_l3 = self.network2_layer3(n2_l2)
+        n2_l4 = self.network2_layer4(n2_l3)
+
+        n_l1 = self.network_layer1([n1_l7, n2_l4])
+        n_l2 = self.network_layer2(n_l1)
+        n_l3 = self.network_layer3(n_l2)
+        return n_l3
+
+model = NonSequentialModel()
+
+# Optimizer
+model.compile(
+        loss="sparse_categorical_crossentropy",
+        optimizer="sgd",
+        metrics=["accuracy"])
+
+# Learn
+history = model.fit(images_train, targets_train, epochs=10, validation_split=0.2)
+
+loss_curve = history.history["loss"]
+acc_curve = history.history["accuracy"]
+loss_val_curve = history.history["val_loss"]
+acc_val_curve = history.history["val_accuracy"]
+
+plt.figure()
+plt.subplot(1, 2, 1)
+plt.plot(loss_curve, label="Train")
+plt.plot(loss_val_curve, label="Test")
+plt.legend()
+plt.title("Loss")
+
+plt.subplot(1, 2, 2)
+plt.plot(acc_curve, label="Train")
+plt.plot(acc_val_curve, label="Test")
+plt.legend()
+plt.title("Accuracy")
+plt.savefig("loss_acc.png")
+
+# Evaluate on the test database
+scores = model.evaluate(images_test, targets_test, verbose=0)
+print(scores)
+
+ # Output
+ Train on 48000 samples, validate on 12000 samples
+Epoch 1/10
+48000/48000 [==============================] - 44s 917us/sample - loss: 0.4892 - accuracy: 0.8631 - val_loss: 0.1830 - val_accuracy: 0.9488
+Epoch 2/10
+48000/48000 [==============================] - 43s 891us/sample - loss: 0.1381 - accuracy: 0.9591 - val_loss: 0.1076 - val_accuracy: 0.9706
+Epoch 3/10
+48000/48000 [==============================] - 46s 956us/sample - loss: 0.0862 - accuracy: 0.9740 - val_loss: 0.0864 - val_accuracy: 0.9760
+Epoch 4/10
+48000/48000 [==============================] - 47s 987us/sample - loss: 0.0609 - accuracy: 0.9813 - val_loss: 0.0828 - val_accuracy: 0.9754
+Epoch 5/10
+48000/48000 [==============================] - 47s 987us/sample - loss: 0.0480 - accuracy: 0.9855 - val_loss: 0.0761 - val_accuracy: 0.9788
+Epoch 6/10
+48000/48000 [==============================] - 46s 957us/sample - loss: 0.0385 - accuracy: 0.9886 - val_loss: 0.0738 - val_accuracy: 0.9805
+Epoch 7/10
+48000/48000 [==============================] - 45s 937us/sample - loss: 0.0316 - accuracy: 0.9911 - val_loss: 0.0655 - val_accuracy: 0.9816
+Epoch 8/10
+48000/48000 [==============================] - 44s 924us/sample - loss: 0.0256 - accuracy: 0.9925 - val_loss: 0.0617 - val_accuracy: 0.9829
+Epoch 9/10
+48000/48000 [==============================] - 45s 928us/sample - loss: 0.0224 - accuracy: 0.9935 - val_loss: 0.0634 - val_accuracy: 0.9840
+Epoch 10/10
+48000/48000 [==============================] - 44s 922us/sample - loss: 0.0180 - accuracy: 0.9951 - val_loss: 0.0643 - val_accuracy: 0.9839
+[0.06785851093553938, 0.9835]
+</pre>
+
+<div class="text-center">
+<img src="../../img/tensorflow/loss_acc_5_subclassing.webp" class="img-fluid" alt="loss_acc">
+</div>
