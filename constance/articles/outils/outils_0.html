@@ -1,0 +1,146 @@
+<h1>Git</h1>
+
+<p>Git est un logiciel libre de gestion de version. Il permet de gérer facilement l'évolution du contenu d'un projet (e.g. ensemble des fichiers de code pour la création d'un site web). Il existe d'autres logiciels de gestion de version comme SVN et Mercurial mais Git est le logiciel de gestion de version le plus répandu. <u><a href="https://github.com/" class="home">GitHub</a></u> et <u><a href="https://about.gitlab.com/" class="home">GitLab</a></u> sont deux services d'hébergement de projets informatiques utilisant git. Il existe une documentation très bien faite des différentes fonctionnalités de git sur <u><a href="https://git-scm.com/book/en/v2" class="home">cette page</a></u>.</p>
+
+<p>A n'importe quel moment, un développeur peut enregistrer l'état actuel du projet à l'aide d'un commit. Ce commit contient l'ensemble des modifications depuis le commit précédent, l'auteur du commit et un commentaire laissé par le développeur pour indiquer la description du contenu du commit. En cas de problème, il est très facile de revenir à l'état du projet lors d'un ancien commit. De plus, si plusieurs personnes travaillent sur le même projet et modifient le même fichier en même temps, il est facile de fusionner ces modifications dans un seul fichier.</p>
+
+<h4>Configurer git</h4>
+
+<p>Après l'installation de git sur votre ordinateur, il faut le configurer afin de pouvoir l'utiliser. Il faut configurer les informations sur l'utilisateur (nom et adresse mail). De plus, il est conseillé d'activer la couleur dans git.</p>
+
+<pre class="lang:bsh">
+# Set up user informations
+git config --global user.name "constance"
+git config --global user.email constance@gmail.com
+
+# Activate git color
+git config --global color.diff auto
+git config --global color.status auto
+git config --global color.branch auto
+</pre>
+
+<p>Cela peut aussi se faire en éditant directement le fichier ~/.gitconfig.</p>
+
+<pre class="lang:bsh">
+[color]
+        diff = auto
+        status = auto
+        branch = auto
+[user]
+        name = constance
+        email = constance@gmail.com
+</pre>
+
+<br>
+
+<h4>Premier projet git</h4>
+
+<p>Il est possible de cloner un projet existant. Cela signifie de récupérer sur son ordinateur tout l'historique et le code source d'un projet. Par exemple, si vous voulez récupérer <u><a href="https://github.com/ConstanceBeguier/tensorflow-examples" class="home">mon projet git</a></u> hébergé sur GitHub contenant des exemples d'utilisation de TensorFlow, il suffit de lancer la commande suivante dans un terminal.</p>
+
+
+<pre class="lang:bsh">
+git clone https://github.com/ConstanceBeguier/tensorflow-examples.git
+</pre>
+
+<p>Cette commande va créer un dossier tensorflow-examples contenant l'historique et le code source de mon projet.</p>
+
+<p>Il est possible de voir l'historique de ce projet (l'ensemble des commits de ce projet) en lançant
+<ul>
+    <li>soit la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git log </b>qui retourne pour chaque commit l'auteur et la description du commit</li>
+    <li>soit la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git log -p </b>qui retourne pour chaque commit l'auteur, la description du commit et l'ensemble des modifications de ce commit par rapport au commit précédent</li>
+</ul></p>
+
+<p>Chaque commit est identifié par son hash. Il est possible d'afficher les détails d'un commit (l'auteur, la description et l'ensemble des modifications par rapport au commit précédent) avec la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git show fa3978 </b>(pour le commit dont le hash est égal à<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> fa3978</b>).</p>
+
+<p>Il est possible d'afficher l'ensemble des modifications entre deux commits en utilisant la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git diff fa3978 506715</b>.</p>
+
+<p>Vous pouvez maintenant modifier le projet sur votre ordinateur. Cela n'affectera pas mon projet hébergé sur GitHub tant que vous ne demandez pas explicitement à git d'envoyer les modifications sur GitHub. Nous disons que toutes les modifications que vous effectuez sont des modifications locales (qui sont présentes uniquement sur votre ordinateur).</p>
+
+<p>Pour créer un projet git, il suffit de ce mettre dans le répertoire du projet (qui peut être vide ou non suivant l'avancement de ce projet) et d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git init</b>.</p>
+
+<br>
+
+<h4>Statut du projet</h4>
+
+<p>L'outils<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> tig </b>permet de facilement visualiser l'ensemble des commits du projets et les modifications locales. Afin de voir l'ensemble des modifications locales qui n'ont pas encore été mises dans un commit, la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git status </b>peut être utilisée. Si pour certains fichiers, vous voulez supprimer les modifications non encore commitées afin de revenir à la version du dernier commit,  alors vous pouvez utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git checkout file.go</b>.</p>
+
+<p>La commande stash permet de mettre de côté les modifications non encore commitées et de les récupérer facilement plus tard. Plus particulièrement, la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git stash </b>met de côté l'ensemble des modifications non encore commitées. Après cette commande, vous aurez une version similaire à celle du dernier commit présent sur votre ordinateur. Puis pour récupérer ces modifications, il suffit d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git stash pop</b>.</p>
+
+<br>
+
+<h4>Récupérer la dernière version du projet</h4>
+
+<p>Supposons que vous avez récupéré il y a quelques mois mon projet examples-Tensorflow à l'aide d'un git clone. Depuis, j'ai modifié mon projet et vous aimeriez mettre à jour la version qui est sur votre ordinateur afin d'avoir les dernières modifications. Pour cela, il suffit d'aller dans le répertoire examples-Tensorflow sur votre ordinateur et d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git pull</b>. Si jamais, vous aviez modifié le projet en local entre temps, il est possible que vous ayez des conflits (cela signifie que git a besoin d'aide pour savoir quelle version il doit garder pour certains fichiers: la version locale que vous avez créé ou la nouvelle version de mon projet). Pour résoudre ce conflit, il suffit de bien lire les instructions affichées par git et de les suivre.</p>
+
+<p>Pour éviter les conflits lors d'un pull, vous avez intérêt à mettre de côté toutes les modifications non encore commitées à l'aide d'un stash ou à les mettre dans un commit. Il est aussi conseillé d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git pull --rebase </b>. Elle met de côté l'ensemble des commits locaux non présents sur le serveur, puis elle récupère chez vous l'ensemble des commits présents sur le serveur et enfin elle applique vos commits locaux mis de côté un par un après le dernier commit du serveur. Par exemple, si vous aviez chez vous un projet avec les commits a et b et que vous aviez ajouté en local le commit c. Supposons que sur le serveur, il y a actuellement les commits a, b et c. Alors après la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git pull --rebase </b>, vous aurez chez vous les commits a, b, d et c.</p>
+
+<br>
+
+<h4>Contribuer à un projet</h4>
+
+<p>Le but d'utiliser git est de pouvoir à plusieurs contribuer à un même projet. L'ajout d'un commit sur un projet se fait en deux étapes
+<ol>
+    <li>créer le commit en local chez soi</li>
+    <li>envoyer le commit sur le serveur qui héberge le projet</li>
+</ol></p>
+
+<p>Pour créer un commit, il faut tout d'abord indiquer à git qu'elles sont les modifications que nous voulons inclure dans ce commit à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git add</b>. La commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git add . </b>indiquera à git qu'il faut ajouter tous les fichiers modifiés. La commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git add -p </b>va vous montrer toutes les modifications actuelles depuis le dernier commit et pour chaque modification vous pourrez indiquer si vous voulez l'inclure ou pas dans le prochain commit. La commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git add file.go </b>ajoute l'ensemble des modifications du fichier file.go dans le prochain commit. A tout moment, vous pouvez faire un<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git status </b>pour voir qu'elles sont les fichiers qui seront inclus dans le prochain commit et ceux qui ont été modifiés mais qui ne seront pas inclus. Si jamais vous avez inclus dans le prochain commit le fichier file.go mais que finalement vous ne voulez pas ajouter ces modifications dans le commit, vous pouvez utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git reset HEAD file.go </b>pour indiquer à git que vous ne voulez pas inclure les modifications sur le fichier  file.go dans votre prochain commit.</p>
+
+<p>Une fois que vous avez indiqué à git l'ensemble des modifications que vous voulez inclure dans le prochain commit, vous pouvez créer le commit avec la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git commit</b>. Cette commande vous ouvrira votre éditeur afin que vous puissiez indiquer la description du commit. Vous pouvez aussi mettre directement la description dans la ligne de commande en utilisant la commande suivante<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git commit -m "La description de mon commit"</b>. Si jamais vous voulez modifier la description du dernier commit, vous pouvez utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git commit --amend</b>.</p>
+
+<p>Une fois que votre commit est créé, vous pouvez l'envoyer sur le serveur du projet avec la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push</b>. Il est conseillé de faire un<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git pull --rebase </b> afin d'envoyer votre commit sur le serveur afin d'être sur d'avoir la dernière version du projet avant l'envoi. Plus précisément, la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push </b>envoie sur le dépôt distant "origin" les modifications commitées sur la branche sur laquelle vous êtes. Je reviendrai plus tard sur la notion de branches et de dépôts distants. Pour envoyer vos commits présents sur la branche toto sur le dépôt test, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push test toto</b>.</p>
+
+<br>
+
+<h4>Annuler et modifier un commit</h4>
+
+<p>Il est aussi possible d'annuler et de modifier les commits. Si vous voulez créer un commit qui supprime les modifications du commit <b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> fa3978</b>, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git revert fa3978 </b>. Si vous voulez supprimer tous les commits qui sont après le commit<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> fa3978</b>, vous pouvez utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git reset fa3978</b>. Cette commande gardera l'ensemble des modifications des commits supprimés sur votre ordinateur en tant que modifications non encore commitées. Si jamais vous vouliez supprimer définitivement ces modifications, il faut ajouter l'argument<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> --hard </b>à la comamde<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git reset </b>précédente. Toutes ces modifications sont effectuées en locale et si vous voulez les envoyer sur le dépôt distant, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push</b>. Normalement, la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push </b>permet uniquement d'ajouter des nouveaux commits sur le dépôt distant et ne permet pas de modifier les commits présents sur ce dépôt. Pour forcer l'envoi de modifications sur le dépôt distant, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push --force</b>.</p>
+
+<p>Il est aussi possible de modifier l'ordre de différents commits ou de regrouper différents commits à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git rebase</b>. Plus particulièrement, si vous voulez appliquer des modifications l'ensemble des commits après le commit<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> fa3978</b>, il suffit d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git rebase -i fa3978</b>. Avec cette commande, un éditeur va s'ouvrir avec la liste de l'ensemble des commits concernés dans l'ordre chronologique (le commit le plus vieux en premier). Pour modifier l'ordre des commits, il suffit de modifier l'ordre dans cet éditeur puis de sauvegarder la modification. Pour supprimer un commit, il suffit de remplacer le mot clé pick par le mot clé drop sur la ligne du commit (ou tout simplement de supprimer la ligne du commit. Pour regrouper différents commits, il faut utiliser les mots clés squash ou fixup. Par exemple, si nous avons les commits suivants:</p>
+
+<pre class="lang:bsh">
+pick fa3978b Add tensorboard page
+pick fea1e6c Fix learning rate step decay
+pick 506715e change: use Concatenate instead of concatenate
+</pre>
+
+<p>Si nous remplaçons le mot clé pick de la deuxième ligne par squash, alors le deuxième et le troisième commit vont être concaténés en un seul commit et la description du nouveau commit sera la concaténation des descriptions des deux commits. Si nous remplaçons le mot clé pick de la deuxième ligne par le mot clé fixup, alors le deuxième et le troisième commit vont être concaténés en un seul commit et la description du nouveau commit sera la description du troisième commit (la description du deuxième commit sera abandonnée).</p>
+
+<br>
+
+<h4>Utilisation des branches</h4>
+
+<p>Jusqu'à présent, nous avons uniquement travaillé sur la branche master qui est la branche principale d'un projet. Si vous voulez ajouter une fonctionnalité au projet sans impacter le projet pendant le développement de cette fonctionnalité, il peut être utile de créer une branche. Pour créer une branche à partir du dernier commit, il suffit d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git branch ma_branche</b>. Après cette commande, nous sommes toujours sur la branche master. Pour aller sur cette branche, il suffit d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git checkout ma_branche</b>. Puis vous pouvez commencer à développer la nouvelle fonctionnalité en créant des commits. Pour envoyer vos commits présents sur cette branche sur le dépôt distant, il suffit d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push origin ma_branche</b>. Les autres développeurs pourront continuer à développer sur la branche master sans être impactés par les commits de votre branche. De même, les nouveaux commits de la branche master ne seront pas présents sur votre branche. Les deux branches master et ma_branche vont donc rapidement diverger. Une fois que vous avez fini de développer votre fonctionnalité, il va faloir fusionner cette branche avec la branche master. Pour cela, il faut aller sur la branche master en utilisant la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git checkout master </b>puis fusionner les deux branches avec la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git merge ma_branche</b>. Git va se débrouiller tout seul pour fusionner les deux branches mais si jamais il y a des conflits, il vous demandera votre avis pour les résoudre.</p>
+
+<p>Lorsqu'on travaille sur notre branche, il est souvent utile d'appliquer les dernières modifications de la branche master sur notre branche afin d'être sur que notre développement sera compatible avec les avancées sur master. La commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git rebase master </b>lancée lorsque nous sommes sur notre branche ma_branche permet de mettre de côté les commits de notre branche, de se mettre au niveau du dernier commit de la branche master puis d'appliquer les commits de notre branche un par un à partir du dernier commit de la branche master. Nous aurons donc à la fin de l'opération une branche contenant l'ensemble des commits de la branche master et l'ensemble des commits de notre branche.</p>
+
+<p>Lorsqu'on travaille sur notre branche, nous pouvons vouloir rapatrier uniquement un commit de la branche master sur notre branche car ce commit corrige un gros bug. Pour cela, il faut tout d'abord se mettre sur notre branche puis utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git cherry-pick fa357b </b>qui appliquera le commit<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> fa357b </b>après le dernier commit de notre branche.</p>
+
+<p>La commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git branch </b>affiche l'ensemble des branches locales présentes sur notre projet et indique par une étoile la branche sur laquelle nous sommes actuellement. Pour connaitre l'ensemble des branches du dépôt distant, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git branch -r</b>. Enfin il peut être utile de supprimer une branche (et tous les commits qui appartiennent uniquement à cette branche) en utilisant la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git branch -D ma_branche</b>. La branche sera uniquement supprimé en local sur notre ordinateur et ne sera pas supprimé du dépôt distant. Pour supprimer une branche sur le dépôt distant, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push origin :ma_branche</b>.</p>
+
+<br>
+
+<h4>Utilisation des tags</h4>
+
+<p>Nous avons vu précédemment que chaque commit à un hash qui l'identifie. Mais le hash n'est pas très parlant pour un utilisateur. Il est souvent utile d'ajouter une étiquette (appelée tag) à un commit afin de l'identifier plus facilement. Par exemple, si nous développons un site web et que nous voulons mettre en production la version actuelle qu'on appellera la version v12. Il est souvent recommandé d'ajouter le tag v12 au dernier commit de notre projet afin de pouvoir par la suite savoir que la version v12 contient tous les commits du projet jusqu'au commit ayant le tag v12 inclus. Pour cela, nous pouvons utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git tag v12</b>. Ce tag est actuellement uniquement présent en local et pour l'envoyer sur le dépôt distant, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push origin v12</b>. La commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push --tags </b>envoie l'ensemble des tags locaux sur le dépôt distant. Si jamais vous avez oublié de taguer la version v11, il est possible de taguer le commit correspondant ba5d78 en utilisant la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git tag -a v11 ba5f78</b>. Pour supprimer en local le tag v13, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git tag -D v13</b>. Pour supprimer le tag v13 sur de dépôt distant, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git tag :v13</b>. Enfin si vous voulez déployer la version v12 de votre projet sur un serveur, il suffit de faire un<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git clone </b>pour récupérer le projet sur votre serveur, puis de faire un<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git checkout v12 </b>afin de mettre votre projet au niveau du tag v12 (cela permet de laisser de côté les commits qui sont arrivés après le tag v12) et enfin, il faut lancer la commande qui lance votre service sur le serveur.</p>
+
+<br>
+
+<h4>Configuration des dépôts distants</h4>
+
+<p>Lorsque nous travaillons sur un projet, nous pouvons parfois avoir différents dépôts distants. Par exemple, si vous récupérez un dépôt public sur lequel vous n'avez pas le droit de faire des modifications, il est souvent utile de créer votre propre dépôt sur lequel vous ferez les modifications qui vous intéressent. Pour ajouter un dépôt distant, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git remote add repo_name repo_url </b>avec repo_name le nom que vous voulez donner à votre nouveau dépôt distant et repo_url l'url de ce dépôt distant. Vous pouvez voir l'ensemble des dépôts distants configurés pour votre projet à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git remote -v</b>. Par défaut, la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push </b>envoie les modifications sur le dépôt nommé origin. Si vous voulez envoyer les modifications de la branche ma_branche sur le dépôt mon_depot, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git push mon_depot ma_branche</b>. Enfin si jamais vous vous êtes trompées d'url lorsque vous avez défini le dépôt mon_depot, vous pouvez modifier l'url de ce dépôt distant avec la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git remote set-url mon_depot nouvelle_url</b>. Toutes les commandes que nous avons vu précédemment contenant le mot origin peuvent être utilisé sur votre nouveau dépôt distant mon_depot en remplaçant origin par mon_depot.</p>
+
+<br>
+
+<h4>Autres fonctionnalités</h4>
+
+<p>Il existe de nombreuses autres fonctionnalités git. Je vais uniquement présenter celles que j'utilise régulièrement. Vous pouvez chercher toutes les occurences d'une chaine de caractères dans les fichiers commités de votre dépôt en utilisant la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git grep chaine</b>. Vous pouvez afficher l'architecture de votre projet en utilisant la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git tree</b>. Vous pouvez configurer une liste de fichiers ou de dossiers que vous ne voulez pas commiter dans votre projet en remplissant le fichier<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> .gitignore</b>. Vous pouvez utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git blame file.go </b> pour savoir d'où vient la dernière modification de chaque ligne du fichier file.go (cela indique l'auteur et le hash commit pour chaque ligne du fichier). Enfin si vous voulez savoir quand un bug a été introduit, vous pouvez utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git bisect start</b>. Par exemple, si vous lancez les commandes suivantes</p>
+<pre class="lang:bsh">
+git bisect start
+git bisect bad
+git bisect good af135c
+</pre>
+
+<p>Vous indiquez à git que la version actuelle du projet contient le bug (bad) et que la version du commit<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> af135c </b>ne contient pas le bug (good). Puis git va utiliser une dichotomie pour retrouver le commit qui a introduit le bug. Pour cela, il va faire un git checkout au milieu de l'intervalle des commits à étudier et il va nous demander si ce commit contient le bug ou pas. Nous pouvons tester la version actuelle et ensuite il faut répondre par<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git bisect bad </b>si le commit contient le bug et<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git bisect good </b>si le commit ne contient pas le bug. Plus rarement, nous pouvons répondre<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git bisect skip </b>si nous n'arrivons pas à déterminer si le commit contient le bug ou pas. A la fin de cette dichotomie, nous obtenons le commit qui a introduit le bug. On peut alors quitter ce mode de dichotomie en utilisant la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git bisect reset</b>.</p>
+
+<p>J'aime beaucoup le plugin <u><a href="https://www.vim.org/scripts/script.php?script_id=2975" class="home">Vim Fugitive</a></u> qui permet d'utiliser de nombreuses commandes git directement dans vim. Par exemple, vous pouvez directement afficher la sortie de<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> git blame </b>dans votre git en utilisant la commande vim<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> :Gblame</b>.</p>

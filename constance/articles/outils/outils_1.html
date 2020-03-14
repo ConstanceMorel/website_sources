@@ -1,0 +1,147 @@
+<h1>Docker</h1>
+
+<p>Docker est un logiciel permettant de créer et de gérer des conteneurs logiciels. Le but est de mettre une application et ses dépendances dans un conteneur afin de pouvoir facilement déployer l'application sur n'importe quel serveur. Contrairement aux machines virtuelles, le conteneur ne contient pas de système d'exploitation mais s'appuie sur certaines parties de la machine hôte pour son fonctionnement. Cela permet aux conteneurs d'être beaucoup plus légers et beaucoup plus fiables que les machines virtuelles. Une des princiaples fonctionnalités de docker est l'isolation des ressources (processeur, mémoire, entrées/sorties, connexion) ce qui permet d'isoler différents services (un service par docker) tout en hébergeant les services sur la même machine hôte.</p>
+
+<br>
+
+<h4>Un peu de vocabulaire</h4>
+
+<p>Avec Docker, il existe deux grandes notions à ne pa confondre : les images et les conteneurs. Une <b>image</b> Docker contient tout ce que vous avez installé dessus, c'est un système de fichiers inerte. Un <b>conteneur</b> est l'exécution d'une image: il contient une copie de tous les fichiers de l'image et il peut lancer des processus. Les scripts et les services sont donc lancés dans un conteneur.</p>
+
+<br>
+
+<h4>Installation</h4>
+
+<p>Pour installer docker sur Ubuntu, il suffit de lancer la commande suivante</p>
+
+<pre class="lang:bsh">
+sudo apt-get install docker.io
+</pre>
+
+<br>
+
+<h4>Gestion des images</h4>
+
+<p>Il existe une base de données avec de nombreuses images Docker prêtes à l'emploi: c'est le Docker Hub. Pour chercher une image Docker, il suffit d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker search keyword</b>. Par exemple, la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker search tensorflow </b>envoie un ensemble d'images contenant TensorFlow.</p>
+
+<pre class="lang:bsh">
+$ docker search tensorflow
+NAME                                       DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+tensorflow/tensorflow                      Official Docker images for the machine learn…   1636                                    
+jupyter/tensorflow-notebook                Jupyter Notebook Scientific Python Stack w/ …   201                                     
+tensorflow/serving                         Official images for TensorFlow Serving (http…   77                                      
+xblaster/tensorflow-jupyter                Dockerized Jupyter with tensorflow              52                                      [OK]
+rocm/tensorflow                            Tensorflow with ROCm backend support            40                                      
+floydhub/tensorflow                        tensorflow                                      24                                      [OK]
+bitnami/tensorflow-serving                 Bitnami Docker Image for TensorFlow Serving     14                                      [OK]
+opensciencegrid/tensorflow-gpu             TensorFlow GPU set up for OSG                   10                                      
+ibmcom/tensorflow-ppc64le                  Community supported ppc64le docker images fo…   5                                       
+tensorflow/tf_grpc_test_server             Testing server for GRPC-based distributed ru…   4                                       
+bitnami/tensorflow-inception               Bitnami Docker Image for TensorFlow Inception   3                                       [OK]
+openkbs/tensorflow-python3-jupyter         tensorflow-python3-jupyter                      2                                       [OK]
+abhishek404/tensorflow-gpu                 Tensorflow GPU image                            1                                       
+spellrun/tensorflow-cpu                                                                    1                                       
+mpioperator/tensorflow-benchmarks          TensorFlow benchmarks using MPI.                1                                       [OK]
+missinglinkai/tensorflow                                                                   1                                       
+tokunagaken/tensorflow-keras-jupyter-py3   TensorFlow-gpu 1.13.1 Keras 2.2.4 python 3.5…   0                                       
+kuberlab/tensorflow                                                                        0                                       
+opensciencegrid/tensorflow                 TensorFlow image with some OSG additions        0                                       
+ankur310794/tensorflow                     Latest Tensorflow Docker !                      0                                       
+spellrun/tensorflow                                                                        0                                       
+spellrun/tensorflow-cpu-jupyter                                                            0                                       
+mediadesignpractices/tensorflow            Tensorflow w/ CUDA (GPU) + extras               0                                       [OK]
+nielsbohr/tensorflow-notebook                                                              0                                       
+bitnami/tensorflow-resnet                  Bitnami Docker Image for TensorFlow ResNet      0                                       [OK]
+</pre>
+
+<p>Pour télécharger l'image docker tensorflow/tensorflow, il suffit d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker pull tensorflow/tensorflow</b>. Il existe différente version de chaque image docker. Par défaut, nous téléchargeons la "latest" qui est la dernière version stable disponible. Pour télécharger la version 2.1.0 de l'image docker ensorflow/tensorflow, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker pull tensorflow/tensorflow:2.1.0</b>. Pour afficher l'ensemble des images présentes sur votre ordinateur, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker images</b>.</p>
+
+<pre class="lang:bsh">
+$ docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+tensorflow/tensorflow   latest              9bf93bf90865        2 months ago        2.47GB
+</pre>
+
+<p>Il est possible de renommer une image en utilisant la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker tag</b>. Par exemple, la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker tag 9bf93bf90865 test:v12</b> renomme l'image dont l'id est 9bf93bf90865 en test:v12.</p>
+
+<pre class="lang:bsh">
+$ docker tag 9bf93bf90865 test:v12
+$ docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+test                    v12                 9bf93bf90865        2 months ago        2.47GB
+tensorflow/tensorflow   latest              9bf93bf90865        2 months ago        2.47GB
+</pre>
+
+<p>On remarque que nos deux images ont le même ID. En réalité, la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker tag </b>a créé un alias de l'image tensorflow/tensorflow:latest.</p>
+
+<p>Il est possible de sauver une image Docker dans un fichier tar. La commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker save test:v12 test_v12.tar </b>fait une sauvegarde l'image Docker test:v12 dans le fichier test_v12.tar. Ce fichier pourra être chargé sur un serveur afin de recréer notre image à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker load test_v12.tar</b>.</p>
+
+<p>Pour supprimer de votre ordinateur l'image Docker test:v12, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker rmi test:v12</b>. Il est aussi possible de remplacer test:v12 par l'ID de l'image dans la commande précédente.</p>
+
+<br>
+
+<h4>Gestion des conteneurs</h4>
+
+<p>Nous allons maintenant voir comment gérer les conteneurs. Pour lancer notre conteneur tensorflow/tensorflow:latest en mode interactif, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker run -it tensorflow/tensorflow:latest /bin/bash</b>. Nous nous trouvons maintenant à l'intérieur de notre conteneur et nous pouvons effectuer l'ensemble des opérations que nous voulons faire (par exemple, lancer un apprentissage sur une base de données). Pour quitter le Docker, il suffit d'utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> exit</b>.</p>
+
+<p>La commande run a de nombreux arguments. Les plus utilisées sont
+<ul>
+    <li><b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> -p port_container:port_host </b>pour forwarder un port du conteneur vers la machine hote</li>
+    <li><b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> -v path_host:path_container[:ro] </b>pour partage un répertoire de la machine hôte avec le conteneur</li>
+    <li><b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> -w $PWD </b>pour définir le dossier courant du conteneur</li>
+    <li><b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> -d </b>pour lancer le conteneur en arrière plan</li>
+    <li><b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> --rm </b>pour supprimer automatiquement le conteneur lorsqu'on le quitte</li>
+</ul></p>
+
+<p>Un conteneur n'est pas toujours lancé en mode interactif (avec l'option -i). Il est souvent utile de lancer juste un script dans un conteneur. Pour cela, il faut utiliser la commande suivante<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker run -t repository:tag path_script_in_container</b>. Si jamais le script à lancer contient des arguments, il faut lancer la commande suivante<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker run -t --entrypoint path_script_in_container repository:tag script_args</b>.</p>
+
+<p>Pour afficher l'ensemble des conteneurs, il faut utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker ps </b>. La commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker ps -a </b>affiche uniquement les conteneurs actifs (running).</p>
+
+<p>Pour supprimer un contenur, il faut d'abord l'arrêter si jamais il est actif à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker stop 9bf93bf90865 </b>où 9bf93bf90865 est l'ID du conteneur. Puis il peut être supprimé avec la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker rm 9bf93bf90865</b>. Si vous avez des difficultés à arrêter un docker, il est aussi possible de le tuer (de tuer l'ensemble de ces processus) à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker kill 9bf93bf90865</b>.</p>
+
+<p>Il est possible de sauvegarder l'état d'un conteneur dans une image à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker commit 9bf93bf90865 </b>où 9bf93bf90865 est l'ID du conteneur à sauvegarder. Il est souvent utile ensuite de renommer l'image à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker tag</b>.</p>
+
+<br>
+
+<h4>Les Dockerfiles</h4>
+
+<p>Les Dockerfiles sont des fichiers qui permettent de définir l'ensemble des étapes à effectuer pour créer une image Docker. Cela permet de créer une image Docker qui est adaptée à notre besoin. Il existe différents mots clés pouvant être utilisés dans un Dockerfile. Les plus utilisés sont FROM, RUN, ADD, WORKDIR, CMD.</p>
+
+<p>La commande CMD permet de définir de quelle image Docker notre nouvelle image hérite. C'est la première chose à mettre dans un Dockerfile. Par exemple, si nous voulons que notre image Docker hérite de l'image tensorflow/tensorflow:latest, alors la première ligne de notre Dockerfile doit être<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> FROM tensorflow/tensorflow:latest</b>.</p>
+
+<p>Ensuite nous pouvons lancer des commandes dans notre image comme si nous étions dans un shell linux à l'aide de la commande RUN. Par exemple, si nous voulons installer le package matplotlib, nous pouvons utiliser la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> RUN apt-get update && apt-get install -y curl</b>.</p>
+
+<p>Ensuite nous pouvons ajouter des fichiers locaux à l'intérieur de notre image. Pour cela, nous commençons par créer le dossier training dans notre image à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> RUN mkdir training</b>. Puis nous modifions le répertoire courant de l'image par le nouveau dossier training à l'aide de la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> WORKDIR training</b>. La commande WORKDIR est équivalente à une commande cd dans un shell Linux. Enfin nous copions notre script de configurationconfig.sh sur notre image à l'aide de la commande <b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> ADD config.sh .</b>.</p>
+
+<p>Enfin si nous voulons lancer notre script d'apprentissage dans l'image, nous pouvons lancer la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> RUN bash config.sh</b>.</p>
+
+<p>La dernière instruction d'un Dockerfile est la commande CMD. Elle permet d'indiquer au conteneur qu'elle est l'instruction que nous voulons lancer à son démarrage.</p>
+
+<p>Voici notre Dockerfile</p>
+
+<pre class="lang:bsh">
+# Source image
+FROM tensorflow/tensorflow:latest
+# Install curl package
+RUN apt-get update && apt-get install -y curl
+# Create training directory
+RUN mkdir training
+# Update working directory
+WORKDIR training
+# Add config.sh file
+ADD config.sh .
+# Run config.sh file
+RUN bash config.sh
+# Define command to launch when starting the container
+CMD /bin/bash
+</pre>
+
+<p>Pour exécuter ce fichier Dockerfile et créer notre image test_image, il faut lancer la commande<b style='font-family: SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;'> docker build -t test_image .</b>.</p>
+
+<br>
+
+<h4>Utiliser Docker Compose</h4>
+
+<p>Docker Compose permet d'orchestrer un ensemble de conteneurs.</p>
+
+TODO
