@@ -10,6 +10,27 @@ function GenerateHTMLDropdownElement(e_type, e_className, e_key, e_textContent) 
   return element.outerHTML;
 }
 
+function GenerateHTMLCollapseElement(meals, key) {
+  var textArea = document.createElement("div");
+  textArea.setAttribute("data-toggle", "collapse");
+  textArea.setAttribute("href", "#collapse" + key);
+  textArea.setAttribute("role", "button");
+  textArea.setAttribute("aria-expanded", "false");
+  textArea.setAttribute("aria-controls", "collapse" + key);
+  textArea.innerHTML = "<b>" + meals[key]["name"] + "</b>  x" + basketCRUD.get(key);
+
+  var collapse = document.createElement("div");
+  collapse.className = "collapse";
+  collapse.id = "collapse" + key;
+  var full_formula = "";
+  for (var i in meals[key]["formula"]) {
+    full_formula += i + ". " + meals[key]["formula"][i] + "<br><br>";
+  }
+  collapse.innerHTML = GenerateHTMLElement("div", "card card-body", "", full_formula);
+
+  return GenerateHTMLElement("div", "", "", textArea.outerHTML + collapse.outerHTML);
+}
+
 function GenerateHTMLElement(e_type, e_className, e_textContent, e_innerHTML) {
   var element = document.createElement(e_type);
   element.className = e_className;
@@ -48,7 +69,7 @@ function DrawListing() {
   var meals = Object.assign(lunchs, dinners);
   var ListHTML = "";
   for (var key in basketCRUD.getAll()) {
-    ListHTML += GenerateHTMLElement("div", "", meals[key]["name"] + "  x" + basketCRUD.get(key));
+    ListHTML += GenerateHTMLCollapseElement(meals, key);
   }
   document.getElementById("listing").innerHTML = ListHTML;
 }
@@ -59,7 +80,7 @@ function DrawRecipe() {
     if (full_recipe[key]["unit"] != null) {
       full_recipe[key]["value"] += full_recipe[key]["unit"];
     }
-    RecipeHTML += GenerateHTMLElement("div", "", key + "  " + full_recipe[key]["value"]);
+    RecipeHTML += GenerateHTMLElement("div", "", "", "<b>" + key + "</b>  " + full_recipe[key]["value"]);
   }
   document.getElementById("recipe").innerHTML = RecipeHTML;
 }
@@ -173,6 +194,7 @@ function ListLunch() {
         "Crème fraîche": "50g",
         Parmesan: "100g",
       },
+      formula: ["TODO"],
     },
     "poulet-moutarde": {
       name: "Poulet moutarde",
@@ -181,6 +203,12 @@ function ListLunch() {
         "Escalope de poulet": 4,
         "Crème fraîche": "5cL",
       },
+      formula: [
+        "Faire cuire à feu moyen les escalopes de poulet dans une poêle avec une noisette de beurre",
+        "Dans un bol, mélangez la crème fraîche, la moutarde et le poivre",
+        "Dans une petite casserole, faite chauffer queslques instants la sauce à feu doux",
+        "Nappez les escalopes de poulet de sauce.",
+      ],
     },
     "chili-con-carne": {
       name: "Chili con carne",
@@ -193,6 +221,7 @@ function ListLunch() {
         Tomates: 2.5,
         Maïs: "400g",
       },
+      formula: ["todo"],
     },
     lasagnes: {
       name: "Lasagnes",
@@ -206,6 +235,7 @@ function ListLunch() {
         Beurre: "50g",
         Lait: "50cL",
       },
+      formula: ["todo"],
     },
   };
 }
@@ -221,6 +251,7 @@ function ListDinner() {
         Oignon: 1,
         Pâtes: "250g",
       },
+      formula: ["todo"],
     },
     pizza: {
       name: "Pizza",
@@ -232,6 +263,7 @@ function ListDinner() {
         Jambon: 2,
         Gruyère: "50g",
       },
+      formula: ["todo"],
     },
     "tarte-tomate": {
       name: "Tarte à la tomate",
@@ -241,6 +273,7 @@ function ListDinner() {
         Tomate: 5,
         Gruyère: "50g",
       },
+      formula: ["todo"],
     },
     quiche: {
       name: "Quiche",
@@ -252,6 +285,7 @@ function ListDinner() {
         "Crème fraîche": "20cL",
         Lait: "20cL",
       },
+      formula: ["todo"],
     },
     "tarte-poireaux": {
       name: "Tarte aux poireaux",
@@ -263,6 +297,7 @@ function ListDinner() {
         "Crème fraîche": "5cL",
         Oeuf: 1,
       },
+      formula: ["todo"],
     },
     "tarte-flambee": {
       name: "Tarte flambée",
@@ -276,6 +311,7 @@ function ListDinner() {
         "Crème fraîche": "10cL",
         Gruyère: "50g",
       },
+      formula: ["todo"],
     },
     "cake-jambon-olive": {
       name: "Cake Jambon Olive",
@@ -289,6 +325,7 @@ function ListDinner() {
         Lait: "10cL",
         "Levure chimique": 1,
       },
+      formula: ["todo"],
     },
     "cake-menthe-feta": {
       name: "Cake Menthe Féta",
@@ -303,6 +340,7 @@ function ListDinner() {
         "Levure chimique": 1,
         Concombre: 1,
       },
+      formula: ["todo"],
     },
   };
 }
