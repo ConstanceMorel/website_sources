@@ -1,0 +1,76 @@
+<html xmlns:og="http://ogp.me/ns#">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Génération de liste de courses">
+    <meta name="author" content="Beguier Constance and Nicolas">
+    <meta name="keywords" content="beguier experiment cuisine courses">
+    <meta property="og:title" content="Génération de liste de courses"/>
+    <meta property="og:image" content="https://beguier.eu/favicon_vignette.png"/>
+    <meta property="og:description" content="Génération de liste de courses."/>
+    <meta property="og:url" content="https://beguier.eu/experiment/cuisine.html"/>
+    <meta property="og:type" content="article" />
+
+    <title>Génération de liste de courses</title>
+    <!-- Auto redirect to HTTPs-->
+    <script src="../js/redirect.min.js" type="text/javascript" async></script>
+    <link href="../css/pub/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pub/ionicons.css" rel="stylesheet" async>
+    <link href="../css/cuisine.css" rel="stylesheet" async>
+    <link rel="icon" href="../favicon.png">
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Liste de course</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Repas midi
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="lunch">
+              </div>
+            </div>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Repas soir
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dinner">
+              </div>
+              <button class="btn btn-danger" type="button" onclick="Dropall()">
+                Drop
+              </button>
+            </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+<div class="row">
+<div class="col-6" id="listing">
+</div>
+<div class="col-6" id="recipe">
+</div>
+</div>
+
+</div>
+    <script src="../js/pub/jquery.min.js"></script>
+    <script src="../js/pub/bootstrap.min.js"></script>
+    <script src="../js/cuisine.js"></script>
+    <script>
+        DrawDropDownLunch();
+        DrawDropDownDinner();
+        DrawListing();
+        DrawRecipe();
+    </script>
+</body>
+
+</html>
