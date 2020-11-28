@@ -59,6 +59,20 @@ function ListLunch() {
       },
       formula: ["todo"],
     },
+    crepes: {
+      name: "Crêpes",
+      nb_person: 2,
+      recipe: {
+        Farine: "250g",
+        Oeuf: 4,
+        Lait: "25cL",
+        Bière: "25cL",
+      },
+      formula: [
+	  	"Mélanger énergiquement tout sauf la bière",
+		"Ajouter la bière et mélanger doucement",
+	  ],
+    },
   };
 }
 function ListDinner() {
