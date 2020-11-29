@@ -1,7 +1,13 @@
 body {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .formula {
-    font-size:14px;
+  font-size: 14px;
+}
+
+.drop-one {
+  margin-left: 15px;
+  margin-right: 5px;
+  color: #dc3545;
 }

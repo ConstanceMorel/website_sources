@@ -12,7 +12,7 @@ function GenerateHTMLDropdownElement(e_type, e_className, e_key, e_textContent) 
 
 function GenerateHTMLCollapseElement(meals, key) {
   var drop = document.createElement("div");
-  drop.innerHTML = '<i class="fas fa-trash ml-2 mr-1" id=' + key + ' onclick="DropOne(this)"></i> ';
+  drop.innerHTML = '<i class="fas fa-trash drop-one" id=' + key + ' onclick="DropOne(this)"></i> ';
 
   var textArea = document.createElement("div");
   textArea.setAttribute("data-toggle", "collapse");
