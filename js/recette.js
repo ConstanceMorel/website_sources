@@ -52,7 +52,13 @@ function ListLunch() {
         Tomates: 2.5,
         Maïs: "400g",
       },
-      formula: ["todo"],
+      formula: [
+        "Faire revenir l'oignon avec l'huile d'olive dans une marmite",
+        "Ajouter la viande hachée et le piment",
+        "Quand la viande est à moitié cuite y ajouter les haricots rouges, les tomates et le maïs après les avoir égoutté",
+        "Laisser mijoter",
+        "Ajouter du piment en poudre selon le goût",
+      ],
     },
     lasagnes: {
       name: "Lasagnes",
@@ -66,7 +72,20 @@ function ListLunch() {
         Beurre: "50g",
         Lait: "50cL",
       },
-      formula: ["todo"],
+      formula: [
+        "Épluchez l’oignon et l’ail",
+        "Mettez-les dans le robot muni du couteau hachoir Ultrablade. Mixez-les en vitesse 11 pendant 10 secondes",
+        "Remplacez le couteau par le mélangeur et ajoutez l’huile. Lancez le programme mijoté P1 à 130°C pendant 5 minutes",
+        "Ajoutez la viande, les tomates et l’origan. Salez et poivrez. Lancez le programme mijoté P2 à 90°C pendant 35 minutes",
+        "Réservez la sauce et lavez le robot",
+        "Préchauffez le four à 180°C (th. 6)",
+        "Dans le robot muni du batteur, mettez la farine, le lait et la muscade. Salez et poivrez. Mixez en vitesse 7 pendant 1 minute",
+        "Ajoutez le beurre et lancez le robot à 90°C en vitesse 4 pendant 8 minutes",
+        "Huilez un plat à gratin et versez un peu de sauce tomate",
+        "Couvrez de lasagnes, ajoutez de la sauce tomate, de la béchamel et du gruyère",
+        "Renouvelez l’opération jusqu’à épuisement, en finissant par le gruyère",
+        "Enfournez pendant 25 à 30 minutes",
+      ],
     },
     crepes: {
       name: "Crêpes",
@@ -105,7 +124,7 @@ function ListDinner() {
         Jambon: 2,
         Gruyère: "50g",
       },
-      formula: ["todo"],
+      formula: ["Four à 200°C, pendant 15 minutes"],
     },
     "tarte-tomate": {
       name: "Tarte à la tomate",
@@ -153,7 +172,13 @@ function ListDinner() {
         "Crème fraîche": "10cL",
         Gruyère: "50g",
       },
-      formula: ["todo"],
+      formula: [
+        "Préparez la pâte à l'aide d'un robot ou à la main. Mélangez la farine, ½ c. à café de sel, l'huile et progressivement 15 cl d'eau tiède",
+        "Travaillez quelques minutes pour obtenir une pâte bien élastique, puis laissez reposer 1 heure à couvert",
+        "Préchauffez votre four à 280°C. Émincez les oignons en fines lanières et faites-les fondre à feu doux pendant 5 min dans une noix de beurre, sans les colorer",
+        "Faites rissoler rapidement les lardons",
+        "Mélangez le fromage blanc et la crème, assaisonnez de sel, de poivre et de noix muscade",
+      ],
     },
     "cake-jambon-olive": {
       name: "Cake Jambon Olive",
@@ -182,7 +207,15 @@ function ListDinner() {
         "Levure chimique": 1,
         Concombre: 1,
       },
-      formula: ["todo"],
+      formula: [
+        "Retirer les grains du concombre, le découper en cubes et laisser dégorger dans une passoire avec un peu de sel pendant 30 minutes",
+        "Mélanger les oeufs, la farine et la levure",
+        "Y ajouter la crème, l'huile puis la menthe",
+        "Préchauffer le four à 180°C et laisser reposer la pâte 30 minutes au frigo",
+        "Couper la féta en cubes, puis étaler les concombre sur du papier absorbant",
+        "Mélanger la pâte, les concombres et la féta",
+        "Faire cuire 45 minutes au four dans un moule à cake",
+      ],
     },
   };
 }
