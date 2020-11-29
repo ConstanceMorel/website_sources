@@ -25,7 +25,8 @@ function GenerateHTMLCollapseElement(meals, key) {
   collapse.id = "collapse" + key;
   var full_formula = "";
   for (var i in meals[key]["formula"]) {
-    full_formula += i + ". " + meals[key]["formula"][i] + "<br><br>";
+    index = parseInt(i) + 1;
+    full_formula += index + ". " + meals[key]["formula"][i] + "<br><br>";
   }
   collapse.innerHTML = GenerateHTMLElement("div", "card card-body formula", "", full_formula);
 
