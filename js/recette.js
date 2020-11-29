@@ -38,7 +38,7 @@ function ListLunch() {
         "Faire cuire à feu moyen les escalopes de poulet dans une poêle avec une noisette de beurre",
         "Dans un bol, mélangez la crème fraîche, la moutarde et le poivre",
         "Dans une petite casserole, faite chauffer queslques instants la sauce à feu doux",
-        "Nappez les escalopes de poulet de sauce.",
+        "Nappez les escalopes de poulet de sauce",
       ],
     },
     "chili-con-carne": {
@@ -170,7 +170,7 @@ function ListDinner() {
       formula: ["todo"],
     },
     "cake-menthe-feta": {
-      name: "Cake Menthe Féta",
+      name: "Cake Concombre Menthe Féta",
       nb_person: 4,
       recipe: {
         Farine: "150g",

@@ -28,7 +28,13 @@ function GenerateHTMLCollapseElement(meals, key) {
     index = parseInt(i) + 1;
     full_formula += index + ". " + meals[key]["formula"][i] + "<br><br>";
   }
-  collapse.innerHTML = GenerateHTMLElement("div", "card card-body formula", "", full_formula);
+  var recipe = '<p class="m-0">';
+  recipe += "Nombre de personnes: " + meals[key]["nb_person"] + "<br><br>";
+  for (var ingredient in meals[key]["recipe"]) {
+    recipe += "<b>" + ingredient + "</b> " + meals[key]["recipe"][ingredient] + ", ";
+  }
+  recipe += "</p>";
+  collapse.innerHTML = GenerateHTMLElement("div", "card card-body formula-ingredient", "", recipe) + GenerateHTMLElement("div", "card card-body formula", "", full_formula);
 
   return GenerateHTMLElement("div", "", "", textArea.outerHTML + collapse.outerHTML);
 }
