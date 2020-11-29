@@ -7,7 +7,7 @@ function ListLunch() {
       recipe: {
         "Cube de bouillon": 2,
         Oignon: 1,
-        Echalotte: 1,
+        Echalote: 1,
         Beurre: "40g",
         "Riz Risotto": "320g",
         "Vin blanc": "100mL",
@@ -16,7 +16,16 @@ function ListLunch() {
         "Crème fraîche": "50g",
         Parmesan: "100g",
       },
-      formula: ["TODO"],
+      formula: [
+        "Préparer le bouillon et couper les légumes",
+        "Cuire le fenouil dans un fait-tout avec fond d'huile et compléter en eau régulièrement",
+        "Mettre le beurre dans la casserole et quand il est fini tu mets le riz",
+        "Quand le riz est translucide, déglacer avec le vin blanc",
+        "Mettre oignon, échalote et du bouillon doucement, quand il a disparu il faut en remettre",
+        "À moitié du bouillon, mettre les champignons",
+        "À la fin, mettre à feu très doux et ajouter crème, fenouil",
+        "Quand il est sorti de la plaque, mettre le parmesan",
+      ],
     },
     "poulet-moutarde": {
       name: "Poulet moutarde",
@@ -68,10 +77,7 @@ function ListLunch() {
         Lait: "25cL",
         Bière: "25cL",
       },
-      formula: [
-	  	"Mélanger énergiquement tout sauf la bière",
-		"Ajouter la bière et mélanger doucement",
-	  ],
+      formula: ["Mélanger énergiquement tout sauf la bière", "Ajouter la bière et mélanger doucement"],
     },
   };
 }

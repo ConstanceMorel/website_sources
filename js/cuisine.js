@@ -17,6 +17,7 @@ function GenerateHTMLCollapseElement(meals, key) {
   textArea.setAttribute("role", "button");
   textArea.setAttribute("aria-expanded", "false");
   textArea.setAttribute("aria-controls", "collapse" + key);
+  textArea.setAttribute("onclick", "UpdateColListing(this)");
   textArea.innerHTML = "<b>" + meals[key]["name"] + "</b>  x" + basketCRUD.get(key);
 
   var collapse = document.createElement("div");
@@ -26,7 +27,7 @@ function GenerateHTMLCollapseElement(meals, key) {
   for (var i in meals[key]["formula"]) {
     full_formula += i + ". " + meals[key]["formula"][i] + "<br><br>";
   }
-  collapse.innerHTML = GenerateHTMLElement("div", "card card-body", "", full_formula);
+  collapse.innerHTML = GenerateHTMLElement("div", "card card-body formula", "", full_formula);
 
   return GenerateHTMLElement("div", "", "", textArea.outerHTML + collapse.outerHTML);
 }
@@ -96,6 +97,14 @@ function Dropall() {
   basketCRUD.deleteAll();
   DrawListing();
   DrawRecipe();
+}
+
+function UpdateColListing(origin) {
+  if (origin.getAttribute("aria-expanded") == "true") {
+    document.getElementById("listing").className = "col-6";
+  } else {
+    document.getElementById("listing").className = "col-12";
+  }
 }
 
 /// CRUD
