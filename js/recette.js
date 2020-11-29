@@ -49,7 +49,7 @@ function ListLunch() {
         "Viande hachée": "400g",
         "Haricots rouges": "400g",
         "Tomates pelées": "400g",
-        Tomates: 2.5,
+        Tomate: 3,
         Maïs: "400g",
       },
       formula: [

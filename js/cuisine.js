@@ -86,12 +86,14 @@ function DrawListing() {
 }
 function DrawRecipe() {
   var full_recipe = GetFullRecipe();
+  var sortedIngredients = SortIngredients(full_recipe);
   var RecipeHTML = "";
-  for (var key in full_recipe) {
-    if (full_recipe[key]["unit"] != null) {
-      full_recipe[key]["value"] += full_recipe[key]["unit"];
+  for (var i in sortedIngredients) {
+    var ingredient = sortedIngredients[i];
+    if (full_recipe[ingredient]["unit"] != null) {
+      full_recipe[ingredient]["value"] += full_recipe[ingredient]["unit"];
     }
-    RecipeHTML += GenerateHTMLElement("div", "", "", "<b>" + key + "</b>  " + full_recipe[key]["value"]);
+    RecipeHTML += GenerateHTMLElement("div", "", "", "<b>" + ingredient + "</b>  " + full_recipe[ingredient]["value"]);
   }
   document.getElementById("recipe").innerHTML = RecipeHTML;
 }
@@ -163,6 +165,15 @@ var basketCRUD = {
     return true;
   },
 };
+
+function SortIngredients(recipe) {
+  list_ingredients = [];
+  for (var ingredient in recipe) {
+    list_ingredients.push(ingredient);
+  }
+  list_ingredients.sort();
+  return list_ingredients;
+}
 
 function GetFullRecipe() {
   var lunchs = ListLunch();
