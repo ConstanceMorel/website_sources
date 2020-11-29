@@ -11,6 +11,9 @@ function GenerateHTMLDropdownElement(e_type, e_className, e_key, e_textContent) 
 }
 
 function GenerateHTMLCollapseElement(meals, key) {
+  var drop = document.createElement("div");
+  drop.innerHTML = '<i class="fas fa-trash ml-2 mr-1" id=' + key + ' onclick="DropOne(this)"></i> ';
+
   var textArea = document.createElement("div");
   textArea.setAttribute("data-toggle", "collapse");
   textArea.setAttribute("href", "#collapse" + key);
@@ -36,7 +39,7 @@ function GenerateHTMLCollapseElement(meals, key) {
   recipe += "</p>";
   collapse.innerHTML = GenerateHTMLElement("div", "card card-body formula-ingredient", "", recipe) + GenerateHTMLElement("div", "card card-body formula", "", full_formula);
 
-  return GenerateHTMLElement("div", "", "", textArea.outerHTML + collapse.outerHTML);
+  return GenerateHTMLElement("div", "row", "", drop.outerHTML + textArea.outerHTML + collapse.outerHTML);
 }
 
 function GenerateHTMLElement(e_type, e_className, e_textContent, e_innerHTML) {
@@ -102,6 +105,12 @@ function LunchDropDownUpdate(origin) {
 
 function Dropall() {
   basketCRUD.deleteAll();
+  DrawListing();
+  DrawRecipe();
+}
+
+function DropOne(origin) {
+  basketCRUD.delete(origin.id);
   DrawListing();
   DrawRecipe();
 }
