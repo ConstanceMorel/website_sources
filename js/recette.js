@@ -404,3 +404,33 @@ function ListDinner() {
     },
   };
 }
+function ListDessert() {
+  return {
+    example: {
+      name: "Exemple",
+      nb_person: 4,
+      recipe: {
+        "Cube de bouillon": 2,
+        Oignon: 1,
+        Echalote: 1,
+        Beurre: "40g",
+        "Riz Risotto": "320g",
+        "Vin blanc": "100mL",
+        Fenouil: 1,
+        Champignons: "100g",
+        "Crème fraîche": "50g",
+        Parmesan: "100g",
+      },
+      formula: [
+        "Préparer le bouillon et couper les légumes",
+        "Cuire le fenouil dans un fait-tout avec fond d'huile et compléter en eau régulièrement",
+        "Mettre le beurre dans la casserole et quand il est fini tu mets le riz",
+        "Quand le riz est translucide, déglacer avec le vin blanc",
+        "Mettre oignon, échalote et du bouillon doucement, quand il a disparu il faut en remettre",
+        "À moitié du bouillon, mettre les champignons",
+        "À la fin, mettre à feu très doux et ajouter crème, fenouil",
+        "Quand il est sorti de la plaque, mettre le parmesan",
+      ],
+    },
+  };
+}
