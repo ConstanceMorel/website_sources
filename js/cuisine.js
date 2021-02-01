@@ -73,11 +73,20 @@ function DrawDropDownDinner() {
   }
   document.getElementById("dinner").innerHTML = dropdownHTML;
 }
+function DrawDropDownDessert() {
+  var lunchs = ListDessert();
+  var dropdownHTML = "";
+  for (var key in lunchs) {
+    dropdownHTML += DrawMeal(lunchs[key], key);
+  }
+  document.getElementById("dessert").innerHTML = dropdownHTML;
+}
 
 function DrawListing() {
   var lunchs = ListLunch();
   var dinners = ListDinner();
-  var meals = Object.assign(lunchs, dinners);
+  var desserts = ListDessert();
+  var meals = Object.assign(lunchs, dinners, desserts);
   var ListHTML = "";
   for (var key in basketCRUD.getAll()) {
     ListHTML += GenerateHTMLCollapseElement(meals, key);
@@ -178,7 +187,8 @@ function SortIngredients(recipe) {
 function GetFullRecipe() {
   var lunchs = ListLunch();
   var dinners = ListDinner();
-  var meals = Object.assign(lunchs, dinners);
+  var desserts = ListDessert();
+  var meals = Object.assign(lunchs, dinners, desserts);
   var fullRecipe = {};
   for (var key in basketCRUD.getAll()) {
     for (var ingredient in meals[key]["recipe"]) {
