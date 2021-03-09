@@ -1,0 +1,222 @@
+<html xmlns:og="http://ogp.me/ns#">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="In this short security post-it, I explain how to extract visuals from a process memory dump with Volatility and Gimp." />
+    <meta name="author" content="Nicolas Béguier" />
+    <meta name="keywords" content="beguier cyber security post-it blog volatility process visuals gimp forensic ctf" />
+    <meta property="og:title" content="Security Post-it #2 - Volatility x Gimp" />
+    <meta property="og:image" content="https://beguier.eu/nicolas/images/logo_secu-postit2.webp" />
+    <meta property="og:description" content="In this short security post-it, I explain how to extract visuals from a process memory dump with Volatility and Gimp." />
+    <meta property="og:url" content="https://beguier.eu/nicolas/articles/security-tips-2-volatility-gimp.html" />
+    <meta property="og:type" content="article" />
+    <title>Security Post-it #2 - Volatility x Gimp</title>
+    <script src="../../js/redirect.min.js" type="text/javascript" async></script>
+    <link href="../../css/pub/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../css/nicolas-main.min.css" rel="stylesheet" />
+    <link href="../../css/nicolas-article.min.css" rel="stylesheet" />
+    <link href="../../css/pub/ionicons.css" rel="stylesheet" async />
+    <link rel="icon" href="../../favicon.png" />
+  </head>
+
+  <body>
+    <section class="menu cid-beaver" once="menu" id="menu1-7v" data-rv-view="8334">
+      <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm bg-color transparent">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></button>
+        <div class="menu-logo">
+          <div class="navbar-brand">
+            <span class="navbar-caption-wrap">
+              <a class="navbar-caption text-white display-4" href="../">
+                <b>Return HOME</b>
+              </a>
+            </span>
+          </div>
+        </div>
+      </nav>
+    </section>
+    <section class="mbr-section content5 cid-mickey mbr-parallax-background banner-logo" id="content5-7w" data-rv-view="8336">
+      <div class="mbr-overlay banner-overlay"></div>
+      <div class="container">
+        <div class="media-container-row">
+          <div class="title col-12 col-md-8">
+            <h1 class="align-center mbr-bold mbr-white pb-3 mbr-fonts-style display-1">Security Post-it #2</h1>
+            <h3 class="mbr-section-subtitle align-center mbr-light mbr-white pb-3 mbr-fonts-style display-5">Volatility x Gimp</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mbr-section content4 cid-dog" id="content4-7x" data-rv-view="8339">
+      <div class="container">
+        <div class="media-container-row">
+          <div class="title col-12 col-md-8">
+            <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-7">
+              <em> By Nicolas Béguier - March 08, 2021</em>
+            </h3>
+            <br />
+            <br />
+            <br />
+            <h2 class="align-center pb-3 mbr-fonts-style display-5">How to extract visuals from a process memory dump with Volatility and Gimp</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mbr-section article content1 cid-kitty" id="content1-7y" data-rv-view="8341">
+      <div class="container">
+        <div class="media-container-row">
+          <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+            Volatility is a tool supported by the <a href="https://www.volatilityfoundation.org/" onclick="window.open(this.href); return false;"><b>Volatility Foundation</b></a> and aims to assist the forensic investigator when analyzing a
+            computer memory dump.<br />
+            In this article, I'll be focusing on Volatility2, but it's possible to do things in a similar way with Volatility3, I'm just less comfortable with this tool. I will surely update this article to outline the steps of Volatility3
+            when I find out.<br />
+            <br />
+
+            This security post-it is about exploring the visuals in a process memory dump, which cannot be done with raw memory dump. I'll walk you through how to extract a process memory dump and how to use Gimp to visualize it.<br />
+            <br />
+            This can be done easily on a Windows or MacOS memory dump, tooling on a Linux dump is not that straightforward. Probably in a future update I'll explain how to do it.<br />
+            <br />
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mbr-section content4 cid-turtle" id="content4-81" data-rv-view="8345">
+      <div class="container">
+        <div class="media-container-row">
+          <div class="title col-12 col-md-8">
+            <h2 class="align-center pb-3 mbr-fonts-style display-5">Dump process memory</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mbr-section article content1 cid-kitty" id="content1-7y" data-rv-view="8341">
+      <div class="container">
+        <div class="media-container-row">
+          <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+            Here, volatility is an alias for my <a href="https://github.com/volatilityfoundation/volatility" onclick="window.open(this.href); return false;"><b>volatility2</b></a> python path.<br><br>
+
+            Prepare the directory to dump the process memory dump:<br>
+            <p class="code-github color-purple">$ </p><p class="code-github color-red">mkdir</p><p class="code-github"> /tmp/memdump/</p>
+            <br><br>
+
+            For a <b>Windows</b> profile, with the process PID <p class="code-github">1234</p>:<br><br>
+            <p class="code-github color-purple">$ </p><p class="code-github color-red">volatility </p><p class="code-github">-f dump.raw </p><p class="code-github">--profile=MyWinProfile </p><p class="code-github color-purple">memdump </p><p class="code-github">--pid 1234 </p><p class="code-github">--dump-dir /tmp/memdump/</p><br><br>
+
+            For a <b>MacOS</b> profile, with the process PID <p class="code-github">1234</p>:<br><br>
+            <p class="code-github color-purple">$ </p><p class="code-github color-red">volatility </p><p class="code-github">-f dump.raw </p><p class="code-github">--profile=MyMacProfile </p><p class="code-github color-purple">mac_memdump </p><p class="code-github">--pid 1234 </p><p class="code-github">--dump-dir /tmp/memdump/</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mbr-section content4 cid-turtle" id="content4-81" data-rv-view="8345">
+      <div class="container">
+        <div class="media-container-row">
+          <div class="title col-12 col-md-8">
+            <h2 class="align-center pb-3 mbr-fonts-style display-5">Edit with GIMP and start digging</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mbr-section article content1 cid-kitty" id="content1-7y" data-rv-view="8341">
+      <div class="container">
+        <div class="media-container-row">
+          <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+            Now you have your process memory dump in <p class="code-github">/tmp/memdump/</p>, you can rename the file with the extension <p class="code-github color-red">.data</p>, which Gimp will automatically understand as a raw input.<br><br>
+
+            Then, open it with gimp in command line:<br>
+            <p class="code-github color-purple">$ </p><p class="code-github color-red">gimp</p><p class="code-github"> /tmp/memdump/1234.data</p><br><br>
+
+
+            First of all, set the <p class="code-github">Image type</p> to <p class="code-github color-red">RGB Alpha</p>, <p class="code-github">width</p> to <p class="code-github color-green">1024</p> and <p class="code-github">height</p> to <p class="code-github color-green">733</p>, which represent a classic low computer resolution.
+
+            <section class="cid-imagick" id="image1-80" data-rv-view="8343">
+                <figure class="mbr-figure container">
+                    <div class="image-block"> <img src="../images/gimp1.webp" width="1900" alt="Default GIMP configuration" title="" media-simple="true"> </div>
+                </figure>
+            </section>
+
+            You can now adjust the <p class="code-github color-blue">displacement</p> to observe the memory and find something interesting.<br>
+
+            For instance, a large striped white screen can be found at <p class="code-github color-red">93004251</p>.
+
+            <section class="cid-imagick" id="image1-80" data-rv-view="8343">
+                <figure class="mbr-figure container">
+                    <div class="image-block"> <img src="../images/gimp2.webp" width="1900" alt="GIMP white observable" title="" media-simple="true"> </div>
+                </figure>
+            </section>
+
+            We need to tune the width to display the original image, here at <p class="code-github color-red">944</p>.
+
+            <section class="cid-imagick" id="image1-80" data-rv-view="8343">
+                <figure class="mbr-figure container">
+                    <div class="image-block"> <img src="../images/gimp3.webp" width="1900" alt="GIMP login" title="" media-simple="true"> </div>
+                </figure>
+            </section>
+
+            Great, we've found one image from the process memory dump, way more can be found in it.
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mbr-section article content1 cid-kitty" id="content1-7y" data-rv-view="8341">
+      <div class="container">
+        <div class="media-container-row">
+          <div class="mbr-text col-12 col-md-8 mbr-fonts-style display-7">
+
+            Here is my personal bash function to abstract all those command lines and directly observe the process memory dump.
+
+            <script src="https://gist.github.com/nbeguier/81e727385a3d69b7aa9d897bb2205963.js"></script>
+
+            <br>
+            <strong>If you enjoyed this story, please recommend and share to help others find it! Feel free to contact me if you have any questions.</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer class="bg-191 color-ash pt-50 pb-20 text-left center-sm-text">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-1"></div>
+          <div class="col-md-4 col-lg-6 mb-30">
+            <div class="card h-100">
+              <div class="dplay-tbl">
+                <div class="dplay-tbl-cell">
+                  <li>
+                    <img src="../images/me.webp" class="img-fluid rounded-circle mx-w-30percent" />
+                  </li>
+                  <p class="color-ash mt-10">
+                    Nicolas Béguier <br />
+                    Copyright &copy;
+                    <script type="text/javascript">
+                      document.write(new Date().getFullYear());
+                    </script>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-2 mb-30 text-left"></div>
+          <div class="col-md-4 col-lg-2 mb-30 text-center">
+            <div class="card h-100">
+              <div class="dplay-tbl">
+                <div class="dplay-tbl-cell">
+                  <ul class="list-a-plr-10">
+                    <li>
+                      <a href="https://github.com/nbeguier/" onclick="window.open(this.href); return false;"><i class="ion-social-github badge-color-github"></i></a>
+                    </li>
+                    <li>
+                      <a href="https://www.linkedin.com/in/nicolasbeguier/" onclick="window.open(this.href); return false;"><i class="ion-social-linkedin badge-color-linkedin"></i></a>
+                    </li>
+                    <li>
+                      <a href="mailto:nicolas_beguier@hotmail.com"><i class="ion-email badge-color-mail"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="../../js/pub/bootstrap.min.js"></script>
+  </body>
+</html>

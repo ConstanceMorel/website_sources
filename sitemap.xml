@@ -17,7 +17,7 @@
 </url>
 <url>
   <loc>https://beguier.eu/nicolas/</loc>
-  <lastmod>2021-02-01T15:49:44+00:00</lastmod>
+  <lastmod>2021-03-08T14:35:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
@@ -58,6 +58,11 @@
 <url>
   <loc>https://beguier.eu/nicolas/articles/a1f951ed127f9232f101c4e81e0e01a463d86f26.html</loc>
   <lastmod>2020-01-05T14:39:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beguier.eu/nicolas/articles/security-tips-2-volatility-gimp.html</loc>
+  <lastmod>2021-03-08T14:35:00+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 </urlset>
